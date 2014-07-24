@@ -1,0 +1,342 @@
+{
+    "types": [
+        {
+            "name": "Prism",
+            "icon": "Prism.png",
+            "description": "Regular and right prism",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [{
+              "name": "n",
+              "description": "number of edges of the base",
+              "min": 3,
+              "max": 999,
+              "value": 4
+            }],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Cube",
+            "icon": "Cube.png",
+            "description": "Regular hexahedron",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Pyramid",
+            "icon": "Pyramid.png",
+            "description": "Right pyramid with regular polygon base",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [{
+              "name": "n",
+              "description": "number of edges of the base",
+              "min": 3,
+              "max": 999,
+              "value": 4
+            }],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "PyramidalFrustum",
+            "icon": "PyramidalFrustum.png",
+            "description": "Section of a right pyramid with regular polygon base",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [{
+              "name": "n",
+              "description": "number of edges of the base",
+              "min": 3,
+              "max": 999,
+              "value": 4
+            }],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Cylinder",
+            "icon": "Cylinder.png",
+            "description": "Right circular cylinder",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Cone",
+            "icon": "Cone.png",
+            "description": "Right circular cone",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "ConicalFrustum",
+            "icon": "ConicalFrustum.png",
+            "description": "Section of a right circular cone",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Sphere",
+            "icon": "Sphere.png",
+            "description": "The set of points in space that are at a fixed distance from a central point",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "SphericalCap",
+            "icon": "SphericalCap.png",
+            "description": "The portion of a sphere cut off by a plane",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "SphericalSector",
+            "icon": "SphericalSector.png",
+            "description": "The portion of a sphere defined by a conical boundary with apex at the center of the sphere",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Hemisphere",
+            "icon": "Hemisphere.png",
+            "description": "The half sphere",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "SphericalSegment",
+            "icon": "SphericalSegment.png",
+            "description": "The portion of a sphere cut off by a pair of parallel planes",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Barrel",
+            "icon": "Barrel.png",
+            "description": "Two spherical sectors with the same height and greater diameter, joined base-to-base",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Bipyramid",
+            "icon": "Bipyramid.png",
+            "description": "Two right pyramids with the same regular polygon base and height, joined base-to-base",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [{
+              "name": "n",
+              "description": "number of edges of the base",
+              "min": 3,
+              "max": 999,
+              "value": 4
+            }],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Tetrahedron",
+            "icon": "Tetrahedron.png",
+            "description": "Polyhedron composed of 4 flat triangular faces",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Dodecahedron",
+            "icon": "Dodecahedron.png",
+            "description": "Regular polyhedron with 12 flat faces",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Icosahedron",
+            "icon": "Icosahedron.png",
+            "description": "Regular polyhedron with 20 flat faces",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "EquilateralTriangle",
+            "icon": "EquilateralTriangle.png",
+            "description": "A  polygon with 3 equal sides",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "IsoscelesTriangle",
+            "icon": "IsoscelesTriangle.png",
+            "description": "A polygon with 3 sides, 2 of which are equal",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "RightTriangle",
+            "icon": "RightTriangle.png",
+            "description": "A polygon with 3 sides, with one of its interior angles being right",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Square",
+            "icon": "Square.png",
+            "description": "The regular quadrilateral",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Rectangle",
+            "icon": "Rectangle.png",
+            "description": "A parallelogram with 4 angles of equal size",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Rhombus",
+            "icon": "Rhombus.png",
+            "description": "A parallelogram with four sides of equal length.",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Polygon",
+            "icon": "Polygon.png",
+            "description": "Regular, simple polygon with more than 4 edges",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [{
+              "name": "n",
+              "description": "number of edges",
+              "min": 3,
+              "max": 999,
+              "value": 4
+            }],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Trapezoid",
+            "icon": "Trapezoid.png",
+            "description": "Quadrilateral with one pair of parallel sides and two adjacent right angles",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Circle",
+            "icon": "Circle.png",
+            "description": "The set of points in the plave that are at a fixed distance from a central point",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "CircularSector",
+            "icon": "CircularSector.png",
+            "description": "The portion of a disk enclosed by two radii and an arc",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        },
+        {
+            "name": "Annulus",
+            "icon": "Annulus.png",
+            "description": "A region bounded by two concentric circles",
+            "category": "option",
+            "instantiable": true,
+            "integerOptions": [],
+            "stringOptions": [],
+            "allowAddtionalIntegerOptions": false,
+            "allowAddtionalStringOptions": false
+        }
+    ]
+}

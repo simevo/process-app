@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="451.75" height="135" viewBox="-20 -20 451.75 135" >
+  <defs>
+    <path id="arrow" stroke-width="0" d="M 0 0 L 0 12 L 16 6 Z" />
+  </defs>
+  <rect fill="#ffffff" stroke="none" x="-20" y="-20" width="451.75" height="135" />
+  <a xlink:href="44.html" id="a0">
+    <path id="a0" fill="none" stroke="blue" stroke-width="2" d="M 0 20 L 160.25 20 " />
+    <use xlink:href="#arrow" transform="translate(144.25 14)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="80.125" y="35">ANIN</text>
+  </a>
+  <a xlink:href="48.html" id="a1">
+    <path id="a1" fill="none" stroke="blue" stroke-width="2" d="M 0 45 L 134.25 45 L 134.25 60 L 160.25 60 " />
+    <use xlink:href="#arrow" transform="translate(144.25 54)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="80.125" y="60">CATIN</text>
+  </a>
+  <a xlink:href="46.html" id="a2">
+    <path id="a2" fill="none" stroke="blue" stroke-width="2" d="M 240.25 20 L 411.75 20 " />
+    <use xlink:href="#arrow" transform="translate(395.75 14)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="326" y="35">ANOUT</text>
+  </a>
+  <a xlink:href="50.html" id="a3">
+    <path id="a3" fill="none" stroke="blue" stroke-width="2" d="M 240.25 60 L 266.25 60 L 266.25 45 L 411.75 45 " />
+    <use xlink:href="#arrow" transform="translate(395.75 39)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="326" y="60">CATOUT</text>
+  </a>
+  <a xlink:href="43.html" id="a4">
+    <rect id="a4" stroke="black" stroke-width="0.5" fill="none" x="160.25" y="0" width="80" height="80" />
+    <image x="160.25" y="0" width="80" height="80" xlink:href="FuelCell.svg" />
+    <text text-anchor="middle" fill="black" font-size="15" x="200.25" y="95">FC</text>
+  </a>
+</svg>

@@ -1,0 +1,431 @@
+{
+  "inputs": [
+    {
+      "fulltag": "FC.SEP_vf",
+      "value": 0.8,
+      "units": "",
+      "description": "SEP vapor fraction",
+      "dbid": 0
+    },
+    {
+      "fulltag": "FC.stacks",
+      "value": 757,
+      "units": "",
+      "description": "number of 300 cell stacks",
+      "dbid": 1
+    },
+    {
+      "fulltag": "FC:BLOWER.P",
+      "value": 105000,
+      "units": "Pa",
+      "description": "Pressure",
+      "dbid": 2
+    },
+    {
+      "fulltag": "FC:BLOWER.T",
+      "value": 863.859,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 3
+    },
+    {
+      "fulltag": "FC:BLOWER.V",
+      "value": 380,
+      "units": "V",
+      "description": "Voltage",
+      "dbid": 4
+    },
+    {
+      "fulltag": "FC:BLOWER.We",
+      "value": 7788890,
+      "units": "W",
+      "description": "Electrical power",
+      "dbid": 5
+    },
+    {
+      "fulltag": "FC:BLOWER.cosphi",
+      "value": 0.9,
+      "units": "",
+      "description": "cosine of phi",
+      "dbid": 6
+    },
+    {
+      "fulltag": "FC:BLOWER.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "dbid": 7
+    },
+    {
+      "fulltag": "FC:BLOWER.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "dbid": 8
+    },
+    {
+      "fulltag": "FC:BLOWER.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "dbid": 9
+    },
+    {
+      "fulltag": "FC:COND.A",
+      "value": 1320,
+      "units": "m2",
+      "description": "Heat transfer area",
+      "dbid": 10
+    },
+    {
+      "fulltag": "FC:COOLER.T",
+      "value": 853.15,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 11
+    },
+    {
+      "fulltag": "FC:COOLER.deltaP",
+      "value": 2000,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "dbid": 12
+    },
+    {
+      "fulltag": "FC:MM.A",
+      "value": 207500,
+      "units": "m2",
+      "description": "Total area",
+      "dbid": 13
+    },
+    {
+      "fulltag": "FC:MM.P",
+      "value": 265800,
+      "units": "Pa",
+      "description": "High pressure level",
+      "dbid": 14
+    },
+    {
+      "fulltag": "FC:MM.areaRatio",
+      "value": 0.282,
+      "units": "",
+      "description": "Ratio of GMB.A by GMA.A",
+      "dbid": 15
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.T",
+      "value": 452.156,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 16
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "dbid": 17
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "dbid": 18
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "dbid": 19
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.T",
+      "value": 427.931,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 20
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "dbid": 21
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "dbid": 22
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "dbid": 23
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.T",
+      "value": 323.15,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 24
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "dbid": 25
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "dbid": 26
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "dbid": 27
+    },
+    {
+      "fulltag": "FC:MM:COOLA.T",
+      "value": 333.15,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 28
+    },
+    {
+      "fulltag": "FC:MM:COOLA.deltaP",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "dbid": 29
+    },
+    {
+      "fulltag": "FC:MM:COOLB.T",
+      "value": 323.15,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 30
+    },
+    {
+      "fulltag": "FC:MM:COOLB.deltaP",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "dbid": 31
+    },
+    {
+      "fulltag": "FC:MM:GMA.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "dbid": 32
+    },
+    {
+      "fulltag": "FC:MM:GMA.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "dbid": 33
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "dbid": 34
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "dbid": 35
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "dbid": 36
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "dbid": 37
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "dbid": 38
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "dbid": 39
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "dbid": 40
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "dbid": 41
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "dbid": 42
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "dbid": 43
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "dbid": 44
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "dbid": 45
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "dbid": 46
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "dbid": 47
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "dbid": 48
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "dbid": 49
+    },
+    {
+      "fulltag": "S02:Tphase.ndot",
+      "value": 2.2768,
+      "units": "kmol/s",
+      "description": "Mole flow",
+      "dbid": 306
+    },
+    {
+      "fulltag": "S02:Tphase.x[0]",
+      "value": 0.999693,
+      "units": "",
+      "description": "Mole fraction H2O",
+      "dbid": 307
+    },
+    {
+      "fulltag": "S02:Tphase.x[6]",
+      "value": 0.000307,
+      "units": "",
+      "description": "Mole fraction CO2",
+      "dbid": 308
+    },
+    {
+      "fulltag": "S02:Vphase.fraction",
+      "value": 1,
+      "units": "",
+      "description": "phase fraction",
+      "dbid": 309
+    },
+    {
+      "fulltag": "S09.P",
+      "value": 105028,
+      "units": "Pa",
+      "description": "Pressure",
+      "dbid": 310
+    },
+    {
+      "fulltag": "S09.T",
+      "value": 863.15,
+      "units": "K",
+      "description": "Temperature",
+      "dbid": 311
+    },
+    {
+      "fulltag": "S09:Tphase.ndot",
+      "value": 41.6732,
+      "units": "kmol/s",
+      "description": "Mole flow",
+      "dbid": 312
+    },
+    {
+      "fulltag": "S09:Tphase.x[0]",
+      "value": 0.0942,
+      "units": "",
+      "description": "Mole fraction H2O",
+      "dbid": 313
+    },
+    {
+      "fulltag": "S09:Tphase.x[1]",
+      "value": 0.757141,
+      "units": "",
+      "description": "Mole fraction N2",
+      "dbid": 314
+    },
+    {
+      "fulltag": "S09:Tphase.x[2]",
+      "value": 0.104963,
+      "units": "",
+      "description": "Mole fraction O2",
+      "dbid": 315
+    },
+    {
+      "fulltag": "S09:Tphase.x[6]",
+      "value": 0.043696,
+      "units": "",
+      "description": "Mole fraction CO2",
+      "dbid": 316
+    }
+  ]
+}

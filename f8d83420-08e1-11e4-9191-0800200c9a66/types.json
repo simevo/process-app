@@ -1,0 +1,57 @@
+{
+  "types": [
+    {
+      "name": "Biogas1000",
+      "description": "Biogas plant from anaerobic digestion, 1 MW Internal Combustion Engine",
+      "icon": "Biogas1000.png",
+      "category": "flowsheet",
+      "instantiable": true,
+      "integerOptions": [],
+      "stringOptions": [ {
+        "enumerator": "FeedStock",
+        "name": "feedStock",
+        "description": "chooses a predefined composition for the feedstock",
+        "value": "HTST15"
+      } ],              
+      "allowAddtionalIntegerOptions": false,
+      "allowAddtionalStringOptions": false
+    },
+    {
+      "name": "Biogas100",
+      "description": "Biogas plant from anaerobic digestion, 100 kW Internal Combustion Engine",
+      "icon": "Biogas100.png",
+      "category": "flowsheet",
+      "instantiable": true,
+      "integerOptions": [],
+      "stringOptions": [ {
+        "enumerator": "FeedStock",
+        "name": "feedStock",
+        "description": "chooses a predefined composition for the feedstock",
+        "value": "HTST15"
+      } ],              
+      "allowAddtionalIntegerOptions": false,
+      "allowAddtionalStringOptions": false
+    },
+    {
+      "name": "Biogas",
+      "description": "Biogas plant from anaerobic digestion, Internal Combustion Engine, parameterized power",
+      "icon": "Biogas.png",
+      "category": "flowsheet",
+      "instantiable": true,
+      "integerOptions": [],
+      "stringOptions": [ {
+        "enumerator": "FeedStock",
+        "name": "feedStock",
+        "description": "chooses a predefined composition for the feedstock",
+        "value": "HTST15"
+      }, {
+        "enumerator": "PlantSize",
+        "name": "plantSize",
+        "description": "sets the plant size in terms of net electical energy power output",
+        "value": "chocolateIceCream"
+      } ],              
+      "allowAddtionalIntegerOptions": false,
+      "allowAddtionalStringOptions": false
+    }
+  ]
+}

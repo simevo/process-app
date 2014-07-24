@@ -1,0 +1,94 @@
+{
+  "children": [
+      {
+      "tag": "E101",
+      "description": "Product preheat",
+      "type": "Exchanger",
+      "id": 1
+    },
+    {
+      "tag": "E102",
+      "description": "Product cool down",
+      "type": "Exchanger",
+      "id": 2
+    },
+    {
+      "tag": "F202",
+      "description": "Phase separator",
+      "type": "FlashSplitter",
+      "id": 3
+    },
+    {
+      "tag": "R100",
+      "description": "First reactor",
+      "type": "FlashDrum",
+      "id": 4
+    },
+    {
+      "tag": "R200",
+      "description": "Second reactor",
+      "type": "FlashDrum",
+      "id": 5
+    },
+    {
+      "tag": "R300",
+      "description": "Third reactor",
+      "type": "FlashDrum",
+      "id": 6
+    },
+    {
+      "tag": "C101",
+      "description": "Main compressor",
+      "type": "MultiCompressor3",
+      "id": 7
+    },
+    {
+      "tag": "C102",
+      "description": "Booster",
+      "type": "MultiCompressor3",
+      "id": 8
+    },
+    {
+      "tag": "HX1",
+      "description": "Heat recovery from product",
+      "type": "Exchanger",
+      "id": 9
+    },
+    {
+      "tag": "S01",
+      "description": "bbbb",
+      "type": "StreamSimpleLiquid",
+      "id": 10
+    },
+    {
+      "tag": "S02",
+      "description": "bbbb",
+      "type": "StreamSimpleLiquid",
+      "id": 11
+    },
+    {
+      "tag": "S03",
+      "description": "bbbb",
+      "type": "StreamSimpleLiquidSolidVapor",
+      "id": 12
+    },
+    {
+      "tag": "S04",
+      "description": "bbbb",
+      "type": "StreamSimpleLiquidSolidVapor",
+      "id": 13
+    },
+    {
+      "tag": "S05",
+      "description": "bbbb",
+      "type": "StreamSimpleLiquidSolid",
+      "id": 14
+    },
+    {
+      "tag": "S06",
+      "description": "bbbb",
+      "type": "StreamSimpleLiquidSolid",
+      "id": 15
+    }
+  ]
+}

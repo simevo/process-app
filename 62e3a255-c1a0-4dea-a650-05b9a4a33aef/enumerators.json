@@ -1,0 +1,58 @@
+{
+  "enumerators": [
+    {
+      "name": "processType",
+      "description": "Process type - sets predefined temperature and holding time for the process",
+      "options": [
+        {
+          "name": "HTST25",
+          "description": "High Temperature Short Time - highT = 353.15 K holdTime = 25.0 s"
+        },
+        {
+          "name": "HTST15",
+          "description": "High Temperature Short Time - highT = 356.15 K holdTime = 15.0 s"
+        },
+        {
+          "name": "HHST3",
+          "description": "Higher Heat Shorter Time - highT = 363.15 K holdTime = 3.0 s"
+        },
+        {
+          "name": "HHST1",
+          "description": "Higher Heat Shorter Time - highT = 363.15 K holdTime = 1.0 s"
+        },
+        {
+          "name": "user",
+          "description": "user specified - initial values highT = 363.15 K holdTime=1.0 s, user adjustable",
+          "default": true          
+        }
+      ]
+    },
+    {
+      "name": "feedType",
+      "description": "Feed type - sets the composition of the fluid to be processed to certain predefined values",
+      "options": [
+        {
+          "name": "milkWhole",
+          "description": "Milk, whole, 3.25% milkfat, with added vitamin D"
+        },
+        {
+          "name": "chocolateIceCream",
+          "description": "Ice cream, soft serve, chocolate"
+        },
+        {
+          "name": "eggWhole",
+          "description": "Egg, whole, raw, fresh"
+        },
+        {
+          "name": "vanillaFatFreeIceCream",
+          "description": "Ice creams, BREYERS, 98% Fat Free Vanilla"
+        },
+        {
+          "name": "user",
+          "description": "user specified - initial composition set to pure water, user adjustable",
+          "default": true
+        }
+      ]
+    }
+  ]
+}

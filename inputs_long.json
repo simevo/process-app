@@ -1,0 +1,2223 @@
+{
+  "inputs": [
+    {
+      "fulltag": "FC.SEP_vf",
+      "value": 0.8,
+      "units": "",
+      "description": "SEP vapor fraction",
+      "id": 0
+    },
+    {
+      "fulltag": "FC.stacks",
+      "value": 757,
+      "units": "",
+      "description": "number of 300 cell stacks",
+      "id": 1
+    },
+    {
+      "fulltag": "FC:BLOWER.P",
+      "value": 105000,
+      "units": "Pa",
+      "description": "Pressure",
+      "id": 2
+    },
+    {
+      "fulltag": "FC:BLOWER.T",
+      "value": 863.859,
+      "units": "K",
+      "description": "Temperature",
+      "id": 3
+    },
+    {
+      "fulltag": "FC:BLOWER.V",
+      "value": 380,
+      "units": "V",
+      "description": "Voltage",
+      "id": 4
+    },
+    {
+      "fulltag": "FC:BLOWER.We",
+      "value": 7788890,
+      "units": "W",
+      "description": "Electrical power",
+      "id": 5
+    },
+    {
+      "fulltag": "FC:BLOWER.cosphi",
+      "value": 0.9,
+      "units": "",
+      "description": "cosine of phi",
+      "id": 6
+    },
+    {
+      "fulltag": "FC:BLOWER.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "id": 7
+    },
+    {
+      "fulltag": "FC:BLOWER.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "id": 8
+    },
+    {
+      "fulltag": "FC:BLOWER.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "id": 9
+    },
+    {
+      "fulltag": "FC:COND.A",
+      "value": 1320,
+      "units": "m2",
+      "description": "Heat transfer area",
+      "id": 10
+    },
+    {
+      "fulltag": "FC:COOLER.T",
+      "value": 853.15,
+      "units": "K",
+      "description": "Temperature",
+      "id": 11
+    },
+    {
+      "fulltag": "FC:COOLER.deltaP",
+      "value": 2000,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "id": 12
+    },
+    {
+      "fulltag": "FC:MM.A",
+      "value": 207500,
+      "units": "m2",
+      "description": "Total area",
+      "id": 13
+    },
+    {
+      "fulltag": "FC:MM.P",
+      "value": 265800,
+      "units": "Pa",
+      "description": "High pressure level",
+      "id": 14
+    },
+    {
+      "fulltag": "FC:MM.areaRatio",
+      "value": 0.282,
+      "units": "",
+      "description": "Ratio of GMB.A by GMA.A",
+      "id": 15
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.T",
+      "value": 452.156,
+      "units": "K",
+      "description": "Temperature",
+      "id": 16
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "id": 17
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "id": 18
+    },
+    {
+      "fulltag": "FC:MM:COMPRA.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "id": 19
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.T",
+      "value": 427.931,
+      "units": "K",
+      "description": "Temperature",
+      "id": 20
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "id": 21
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "id": 22
+    },
+    {
+      "fulltag": "FC:MM:COMPRB.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "id": 23
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.T",
+      "value": 323.15,
+      "units": "K",
+      "description": "Temperature",
+      "id": 24
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.etaE",
+      "value": 1,
+      "units": "",
+      "description": "Electrical efficiency",
+      "id": 25
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.etaM",
+      "value": 0.9,
+      "units": "",
+      "description": "Mechanical efficiency",
+      "id": 26
+    },
+    {
+      "fulltag": "FC:MM:COMPRC.theta",
+      "value": 0.8,
+      "units": "",
+      "description": "Isentropic yield",
+      "id": 27
+    },
+    {
+      "fulltag": "FC:MM:COOLA.T",
+      "value": 333.15,
+      "units": "K",
+      "description": "Temperature",
+      "id": 28
+    },
+    {
+      "fulltag": "FC:MM:COOLA.deltaP",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "id": 29
+    },
+    {
+      "fulltag": "FC:MM:COOLB.T",
+      "value": 323.15,
+      "units": "K",
+      "description": "Temperature",
+      "id": 30
+    },
+    {
+      "fulltag": "FC:MM:COOLB.deltaP",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "id": 31
+    },
+    {
+      "fulltag": "FC:MM:GMA.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 32
+    },
+    {
+      "fulltag": "FC:MM:GMA.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 33
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 34
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 35
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 36
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 37
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 38
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 39
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 40
+    },
+    {
+      "fulltag": "FC:MM:GMA.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 41
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 42
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 43
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 44
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 45
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 46
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 47
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 48
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 49
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 50
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 51
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM1.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 52
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 53
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 54
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 55
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 56
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 57
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 58
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 59
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 60
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 61
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 62
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM10.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 63
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 64
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 65
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 66
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 67
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 68
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 69
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 70
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 71
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 72
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 73
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM2.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 74
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 75
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 76
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 77
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 78
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 79
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 80
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 81
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 82
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 83
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 84
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM3.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 85
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 86
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 87
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 88
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 89
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 90
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 91
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 92
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 93
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 94
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 95
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM4.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 96
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 97
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 98
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 99
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 100
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 101
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 102
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 103
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 104
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 105
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 106
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM5.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 107
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 108
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 109
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 110
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 111
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 112
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 113
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 114
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 115
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 116
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 117
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM6.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 118
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 119
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 120
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 121
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 122
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 123
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 124
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 125
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 126
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 127
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 128
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM7.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 129
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 130
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 131
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 132
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 133
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 134
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 135
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 136
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 137
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 138
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 139
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM8.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 140
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.A",
+      "value": 16185.6,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 141
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 142
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 143
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 144
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 145
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 146
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 147
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 148
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 149
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 150
+    },
+    {
+      "fulltag": "FC:MM:GMA:GM9.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 151
+    },
+    {
+      "fulltag": "FC:MM:GMB.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 152
+    },
+    {
+      "fulltag": "FC:MM:GMB.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 153
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 154
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 155
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 156
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 157
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 158
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 159
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 160
+    },
+    {
+      "fulltag": "FC:MM:GMB.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 161
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 162
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 163
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 164
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 165
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 166
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 167
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 168
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 169
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 170
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 171
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM1.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 172
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 173
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 174
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 175
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 176
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 177
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 178
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 179
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 180
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 181
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 182
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM10.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 183
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 184
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 185
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 186
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 187
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 188
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 189
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 190
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 191
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 192
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 193
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM2.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 194
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 195
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 196
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 197
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 198
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 199
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 200
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 201
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 202
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 203
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 204
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM3.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 205
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 206
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 207
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 208
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 209
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 210
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 211
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 212
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 213
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 214
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 215
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM4.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 216
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 217
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 218
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 219
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 220
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 221
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 222
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 223
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 224
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 225
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 226
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM5.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 227
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 228
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 229
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 230
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 231
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 232
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 233
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 234
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 235
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 236
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 237
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM6.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 238
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 239
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 240
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 241
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 242
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 243
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 244
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 245
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 246
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 247
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 248
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM7.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 249
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 250
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 251
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 252
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 253
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 254
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 255
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 256
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 257
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 258
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 259
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM8.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 260
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.A",
+      "value": 4564.35,
+      "units": "m2",
+      "description": "Membrane area",
+      "id": 261
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.Ppermeate",
+      "value": 100000,
+      "units": "Pa",
+      "description": "Pressure of permeate compartment",
+      "id": 262
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.deltaPretentate",
+      "value": 0,
+      "units": "Pa",
+      "description": "Retentate pressure drop",
+      "id": 263
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[0]",
+      "value": 1.674e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2O",
+      "id": 264
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[1]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component N2",
+      "id": 265
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[2]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component O2",
+      "id": 266
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[3]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CH4",
+      "id": 267
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[4]",
+      "value": 1.674e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component C2H6",
+      "id": 268
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[5]",
+      "value": 6.696e-12,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO",
+      "id": 269
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[6]",
+      "value": 3.348e-10,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component CO2",
+      "id": 270
+    },
+    {
+      "fulltag": "FC:MM:GMB:GM9.permeance[7]",
+      "value": 3.348e-11,
+      "units": "kmol/kg/m",
+      "description": "Permeance for each component H2",
+      "id": 271
+    },
+    {
+      "fulltag": "FC:REFORMER.T",
+      "value": 1008.51,
+      "units": "K",
+      "description": "Temperature",
+      "id": 272
+    },
+    {
+      "fulltag": "FC:REFORMER.deltaP",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "id": 273
+    },
+    {
+      "fulltag": "FC:REFORMER:reactions[0].z",
+      "value": 1,
+      "units": "",
+      "description": "Fractional conversion in terms of key component",
+      "id": 274
+    },
+    {
+      "fulltag": "FC:REFORMER:reactions[1].deltaT",
+      "value": -33.1199,
+      "units": "K",
+      "description": "Temperature approach to equilibrium",
+      "id": 275
+    },
+    {
+      "fulltag": "FC:REFORMER:reactions[1].z",
+      "value": 0.985457,
+      "units": "",
+      "description": "Fractional conversion in terms of key component",
+      "id": 276
+    },
+    {
+      "fulltag": "FC:REFORMER:reactions[2].deltaT",
+      "value": -33.1199,
+      "units": "K",
+      "description": "Temperature approach to equilibrium",
+      "id": 277
+    },
+    {
+      "fulltag": "FC:REGHEX.U",
+      "value": 100,
+      "units": "W/(m2*K)",
+      "description": "Overall heat transfer coefficient in terms of dutyhot",
+      "id": 278
+    },
+    {
+      "fulltag": "FC:REGHEX.deltaPcold",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure difference for cold stream",
+      "id": 279
+    },
+    {
+      "fulltag": "FC:REGHEX.deltaPhot",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure difference for hot stream",
+      "id": 280
+    },
+    {
+      "fulltag": "FC:REGHEX.hotT",
+      "value": 873.15,
+      "units": "K",
+      "description": "Temperature of hot outlet stream",
+      "id": 281
+    },
+    {
+      "fulltag": "FC:SEP.deltaP",
+      "value": 4000,
+      "units": "Pa",
+      "description": "Pressure drop",
+      "id": 282
+    },
+    {
+      "fulltag": "FC:SPLIT1.outSplit[0]",
+      "value": 0.956431,
+      "units": "",
+      "description": "Split fraction to outlets 0",
+      "id": 283
+    },
+    {
+      "fulltag": "FC:SPLIT2.outSplit[0]",
+      "value": 0.332,
+      "units": "",
+      "description": "Split fraction to outlets 0",
+      "id": 284
+    },
+    {
+      "fulltag": "FC:STACKS.H",
+      "value": 0.595,
+      "units": "m",
+      "description": "Cell height along x axis and inlet of oxidant",
+      "id": 285
+    },
+    {
+      "fulltag": "FC:STACKS.Jset",
+      "value": 1500,
+      "units": "A/m2",
+      "description": "Required average areic current used if J fcoption",
+      "id": 286
+    },
+    {
+      "fulltag": "FC:STACKS.Voffset",
+      "value": 0,
+      "units": "V",
+      "description": "Correction to cell voltage to account for the effect of the microscale",
+      "id": 287
+    },
+    {
+      "fulltag": "FC:STACKS.W",
+      "value": 1.195,
+      "units": "m",
+      "description": "Cell width along y axis and inlet of fuel",
+      "id": 288
+    },
+    {
+      "fulltag": "FC:STACKS.deltaPanode",
+      "value": 406.843,
+      "units": "Pa",
+      "description": "Pressure drop anode side",
+      "id": 289
+    },
+    {
+      "fulltag": "FC:STACKS.deltaPcathode",
+      "value": 2094.67,
+      "units": "Pa",
+      "description": "Pressure drop cathode side",
+      "id": 290
+    },
+    {
+      "fulltag": "FC:STACKS.netDuty",
+      "value": 0,
+      "units": "W",
+      "description": "Heat losses",
+      "id": 291
+    },
+    {
+      "fulltag": "FC:STACKS:S[0][0]:multiReactions[0].z",
+      "value": 0.197026,
+      "units": "",
+      "description": "Set fractional conversion in terms of key component",
+      "id": 292
+    },
+    {
+      "fulltag": "FC:STACKS:S[0][1]:multiReactions[0].z",
+      "value": 0.285187,
+      "units": "",
+      "description": "Set fractional conversion in terms of key component",
+      "id": 293
+    },
+    {
+      "fulltag": "FC:STACKS:S[1][0]:multiReactions[0].z",
+      "value": 0.240401,
+      "units": "",
+      "description": "Set fractional conversion in terms of key component",
+      "id": 294
+    },
+    {
+      "fulltag": "FC:STACKS:S[1][1]:multiReactions[0].z",
+      "value": 0.34236,
+      "units": "",
+      "description": "Set fractional conversion in terms of key component",
+      "id": 295
+    },
+    {
+      "fulltag": "FC:STACKS:S[2][0]:multiReactions[0].z",
+      "value": 0.29469,
+      "units": "",
+      "description": "Set fractional conversion in terms of key component",
+      "id": 296
+    },
+    {
+      "fulltag": "FC:STACKS:S[2][1]:multiReactions[0].z",
+      "value": 0.42086,
+      "units": "",
+      "description": "Set fractional conversion in terms of key component",
+      "id": 297
+    },
+    {
+      "fulltag": "S01.P",
+      "value": 106391,
+      "units": "Pa",
+      "description": "Pressure",
+      "id": 298
+    },
+    {
+      "fulltag": "S01.T",
+      "value": 288.15,
+      "units": "K",
+      "description": "Temperature",
+      "id": 299
+    },
+    {
+      "fulltag": "S01:Tphase.ndot",
+      "value": 0.336667,
+      "units": "kmol/s",
+      "description": "Mole flow",
+      "id": 300
+    },
+    {
+      "fulltag": "S01:Tphase.x[1]",
+      "value": 0.0360745,
+      "units": "",
+      "description": "Mole fraction N2",
+      "id": 301
+    },
+    {
+      "fulltag": "S01:Tphase.x[3]",
+      "value": 0.886279,
+      "units": "",
+      "description": "Mole fraction CH4",
+      "id": 302
+    },
+    {
+      "fulltag": "S01:Tphase.x[4]",
+      "value": 0.0733814,
+      "units": "",
+      "description": "Mole fraction C2H6",
+      "id": 303
+    },
+    {
+      "fulltag": "S01:Tphase.x[6]",
+      "value": 0.00426477,
+      "units": "",
+      "description": "Mole fraction CO2",
+      "id": 304
+    },
+    {
+      "fulltag": "S02.P",
+      "value": 2000000,
+      "units": "Pa",
+      "description": "Pressure",
+      "id": 305
+    },
+    {
+      "fulltag": "S02:Tphase.ndot",
+      "value": 2.2768,
+      "units": "kmol/s",
+      "description": "Mole flow",
+      "id": 306
+    },
+    {
+      "fulltag": "S02:Tphase.x[0]",
+      "value": 0.999693,
+      "units": "",
+      "description": "Mole fraction H2O",
+      "id": 307
+    },
+    {
+      "fulltag": "S02:Tphase.x[6]",
+      "value": 0.000307,
+      "units": "",
+      "description": "Mole fraction CO2",
+      "id": 308
+    },
+    {
+      "fulltag": "S02:Vphase.fraction",
+      "value": 1,
+      "units": "",
+      "description": "phase fraction",
+      "id": 309
+    },
+    {
+      "fulltag": "S09.P",
+      "value": 105028,
+      "units": "Pa",
+      "description": "Pressure",
+      "id": 310
+    },
+    {
+      "fulltag": "S09.T",
+      "value": 863.15,
+      "units": "K",
+      "description": "Temperature",
+      "id": 311
+    },
+    {
+      "fulltag": "S09:Tphase.ndot",
+      "value": 41.6732,
+      "units": "kmol/s",
+      "description": "Mole flow",
+      "id": 312
+    },
+    {
+      "fulltag": "S09:Tphase.x[0]",
+      "value": 0.0942,
+      "units": "",
+      "description": "Mole fraction H2O",
+      "id": 313
+    },
+    {
+      "fulltag": "S09:Tphase.x[1]",
+      "value": 0.757141,
+      "units": "",
+      "description": "Mole fraction N2",
+      "id": 314
+    },
+    {
+      "fulltag": "S09:Tphase.x[2]",
+      "value": 0.104963,
+      "units": "",
+      "description": "Mole fraction O2",
+      "id": 315
+    },
+    {
+      "fulltag": "S09:Tphase.x[6]",
+      "value": 0.043696,
+      "units": "",
+      "description": "Mole fraction CO2",
+      "id": 316
+    }
+  ]
+}

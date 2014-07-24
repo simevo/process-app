@@ -1,0 +1,574 @@
+{
+  "outputs": [
+    {
+      "fulltag": "cduty",
+      "value": 0,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "cmdot",
+      "value": 0,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC.I",
+      "value": 1066.54,
+      "units": "A",
+      "description": "Fuel cell stacks current "
+    },
+    {
+      "fulltag": "FC.J",
+      "value": 1500,
+      "units": "A/m2",
+      "description": "Stack current density"
+    },
+    {
+      "fulltag": "FC.SEP_duty",
+      "value": 165398000,
+      "units": "W",
+      "description": "Condenser duty"
+    },
+    {
+      "fulltag": "FC.STACK_conv",
+      "value": 0.562911,
+      "units": "",
+      "description": "Stack CO and H2 conversion"
+    },
+    {
+      "fulltag": "FC.STC",
+      "value": 2.61051,
+      "units": "",
+      "description": "Equivalent steam to carbon ratio"
+    },
+    {
+      "fulltag": "FC.STC0102",
+      "value": 6.50453,
+      "units": "",
+      "description": "STC for S01 and S02 combined"
+    },
+    {
+      "fulltag": "FC.STC03",
+      "value": 0.890789,
+      "units": "",
+      "description": "STC for S03"
+    },
+    {
+      "fulltag": "FC.Tmax",
+      "value": 951.912,
+      "units": "K",
+      "description": "Maximum stack temperature"
+    },
+    {
+      "fulltag": "FC.cduty",
+      "value": 305665000,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC.cmdot",
+      "value": -5.23472e-7,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC.etaEl",
+      "value": 0.337156,
+      "units": "",
+      "description": "Overall electric efficiency"
+    },
+    {
+      "fulltag": "FC.powerEl",
+      "value": 92643800,
+      "units": "W",
+      "description": "Total net electric output"
+    },
+    {
+      "fulltag": "FC.powerIn",
+      "value": 274780000,
+      "units": "W",
+      "description": "Lower Heating Value input to Fuel Cell Subsystem"
+    },
+    {
+      "fulltag": "FC.powerMM",
+      "value": 33609000,
+      "units": "W",
+      "description": "Energy consumption for unit MM"
+    },
+    {
+      "fulltag": "FC.purity_CO2",
+      "value": 0.956066,
+      "units": "",
+      "description": "CO2 purity on dry basis"
+    },
+    {
+      "fulltag": "FC.recovery_CO2",
+      "value": 0.689292,
+      "units": "",
+      "description": "System CO2 recovery"
+    },
+    {
+      "fulltag": "FC.system_conv",
+      "value": 0.950669,
+      "units": "",
+      "description": "System CO and H2 conversion"
+    },
+    {
+      "fulltag": "FC:BLOWER.P",
+      "value": 105000,
+      "units": "Pa",
+      "description": "Pressure"
+    },
+    {
+      "fulltag": "FC:BLOWER.T",
+      "value": 863.859,
+      "units": "K",
+      "description": "Temperature"
+    },
+    {
+      "fulltag": "FC:BLOWER.Tis",
+      "value": 861.719,
+      "units": "K",
+      "description": "Isentropic outlet temperature"
+    },
+    {
+      "fulltag": "FC:BLOWER.We",
+      "value": 7788890,
+      "units": "W",
+      "description": "Electrical power"
+    },
+    {
+      "fulltag": "FC:BLOWER.Wf",
+      "value": 7010000,
+      "units": "W",
+      "description": "Fluid power"
+    },
+    {
+      "fulltag": "FC:BLOWER.Wfis",
+      "value": 5608000,
+      "units": "W",
+      "description": "Isentropic fluid power"
+    },
+    {
+      "fulltag": "FC:BLOWER.Wm",
+      "value": 7788890,
+      "units": "W",
+      "description": "Shaft power"
+    },
+    {
+      "fulltag": "FC:BLOWER.cduty",
+      "value": -7010000,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:BLOWER.cmdot",
+      "value": 0,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:BLOWER.cr",
+      "value": 1.04058,
+      "units": "",
+      "description": "Compression ratio"
+    },
+    {
+      "fulltag": "FC:BLOWER.deltaP",
+      "value": -4094.67,
+      "units": "Pa",
+      "description": "Pressure drop"
+    },
+    {
+      "fulltag": "FC:BLOWER.duty",
+      "value": -7010000,
+      "units": "W",
+      "description": "Duty inlet - outlet"
+    },
+    {
+      "fulltag": "FC:BLOWER.i",
+      "value": 13148.9,
+      "units": "A",
+      "description": "Current"
+    },
+    {
+      "fulltag": "FC:COND.A",
+      "value": 1320,
+      "units": "m2",
+      "description": "Heat transfer area"
+    },
+    {
+      "fulltag": "FC:COND.cduty",
+      "value": -0.00000309944,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:COND.cmdot",
+      "value": 0,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:COND.coldP",
+      "value": 265800,
+      "units": "Pa",
+      "description": "Pressure of cold outlet stream"
+    },
+    {
+      "fulltag": "FC:COND.coldT",
+      "value": 829.492,
+      "units": "K",
+      "description": "Temperature of cold outlet stream"
+    },
+    {
+      "fulltag": "FC:COND.coldapproach",
+      "value": 100.56,
+      "units": "K",
+      "description": "Temperature approach for cold stream"
+    },
+    {
+      "fulltag": "FC:COND.coldflowcoefficient",
+      "value": 0,
+      "units": "kg/m7",
+      "description": "Flow coefficient cold side"
+    },
+    {
+      "fulltag": "FC:COND.deltaPcold",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure difference for cold stream"
+    },
+    {
+      "fulltag": "FC:COND.deltaPhot",
+      "value": 0,
+      "units": "Pa",
+      "description": "Pressure difference for hot stream"
+    },
+    {
+      "fulltag": "FC:COND.deltaTcold",
+      "value": 498.63,
+      "units": "K",
+      "description": "Temperature difference for cold stream"
+    },
+    {
+      "fulltag": "FC:COND.deltaThot",
+      "value": -119.985,
+      "units": "K",
+      "description": "Temperature difference for hot stream"
+    },
+    {
+      "fulltag": "FC:COND.dutyhot",
+      "value": 32011000,
+      "units": "W",
+      "description": "Hot side duty absolute value"
+    },
+    {
+      "fulltag": "FC:COND.heat_losses",
+      "value": 0,
+      "units": "W",
+      "description": "Heat losses to environment dutyhot minus dutycold"
+    },
+    {
+      "fulltag": "FC:COND.hotP",
+      "value": 105984,
+      "units": "Pa",
+      "description": "Pressure of hot outlet stream"
+    },
+    {
+      "fulltag": "FC:COND.hotT",
+      "value": 810.067,
+      "units": "K",
+      "description": "Temperature of hot outlet stream"
+    },
+    {
+      "fulltag": "FC:COND.hotapproach",
+      "value": 479.204,
+      "units": "K",
+      "description": "Temperature approach for hot stream"
+    },
+    {
+      "fulltag": "FC:COND.hotflowcoefficient",
+      "value": 0,
+      "units": "kg/m7",
+      "description": "Flow coefficient hot side"
+    },
+    {
+      "fulltag": "FC:COOLER.P",
+      "value": 100905,
+      "units": "Pa",
+      "description": "Pressure"
+    },
+    {
+      "fulltag": "FC:COOLER.T",
+      "value": 853.15,
+      "units": "K",
+      "description": "Temperature"
+    },
+    {
+      "fulltag": "FC:COOLER.alfa",
+      "value": 1,
+      "units": "",
+      "description": "Molar vapor fraction"
+    },
+    {
+      "fulltag": "FC:COOLER.cduty",
+      "value": 61778800,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:COOLER.cmdot",
+      "value": 0,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:COOLER.deltaP",
+      "value": 2000,
+      "units": "Pa",
+      "description": "Pressure drop"
+    },
+    {
+      "fulltag": "FC:COOLER.deltas",
+      "value": 65472.3,
+      "units": "W/K",
+      "description": "Entropy power"
+    },
+    {
+      "fulltag": "FC:COOLER.duty",
+      "value": 61778800,
+      "units": "W",
+      "description": "Duty inlet - outlet"
+    },
+    {
+      "fulltag": "FC:COOLER.flowcoefficient",
+      "value": 0.00087408,
+      "units": "kg/m7",
+      "description": "Flow coefficient"
+    },
+    {
+      "fulltag": "FC:MIX1.cduty",
+      "value": -0.0000025034,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MIX1.cmdot",
+      "value": -1.42109e-14,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MIX2.cduty",
+      "value": 3.57628e-7,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MIX2.cmdot",
+      "value": 1.42109e-14,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MIX3.cduty",
+      "value": -0.0000119209,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MIX3.cmdot",
+      "value": 0,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MM.cduty",
+      "value": 67531500,
+      "units": "W",
+      "description": "Cumulative enthalpy flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MM.cmdot",
+      "value": -1.42109e-13,
+      "units": "kg/s",
+      "description": "Cumulative mass flow inlet minus outlet"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][0]",
+      "value": 0.057646,
+      "units": "",
+      "description": "Split to outIDs[0] H2O"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][1]",
+      "value": 0.994945,
+      "units": "",
+      "description": "Split to outIDs[0] N2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][2]",
+      "value": 0,
+      "units": "",
+      "description": "Split to outIDs[0] O2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][3]",
+      "value": 0.969186,
+      "units": "",
+      "description": "Split to outIDs[0] CH4"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][4]",
+      "value": 0,
+      "units": "",
+      "description": "Split to outIDs[0] C2H6"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][5]",
+      "value": 0.994941,
+      "units": "",
+      "description": "Split to outIDs[0] CO"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][6]",
+      "value": 0.265111,
+      "units": "",
+      "description": "Split to outIDs[0] CO2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[0][7]",
+      "value": 0.902874,
+      "units": "",
+      "description": "Split to outIDs[0] H2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][0]",
+      "value": 0.0423789,
+      "units": "",
+      "description": "Split to outIDs[1] H2O"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][1]",
+      "value": 0.00504761,
+      "units": "",
+      "description": "Split to outIDs[1] N2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][2]",
+      "value": 0,
+      "units": "",
+      "description": "Split to outIDs[1] O2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][3]",
+      "value": 0.0288609,
+      "units": "",
+      "description": "Split to outIDs[1] CH4"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][4]",
+      "value": 0,
+      "units": "",
+      "description": "Split to outIDs[1] C2H6"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][5]",
+      "value": 0.00504758,
+      "units": "",
+      "description": "Split to outIDs[1] CO"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][6]",
+      "value": 0.734543,
+      "units": "",
+      "description": "Split to outIDs[1] CO2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[1][7]",
+      "value": 0.0971133,
+      "units": "",
+      "description": "Split to outIDs[1] H2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][0]",
+      "value": 0.899975,
+      "units": "",
+      "description": "Split to outIDs[2] H2O"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][1]",
+      "value": 0.00000748435,
+      "units": "",
+      "description": "Split to outIDs[2] N2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][2]",
+      "value": 0,
+      "units": "",
+      "description": "Split to outIDs[2] O2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][3]",
+      "value": 0.00195297,
+      "units": "",
+      "description": "Split to outIDs[2] CH4"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][4]",
+      "value": 0,
+      "units": "",
+      "description": "Split to outIDs[2] C2H6"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][5]",
+      "value": 0.0000117611,
+      "units": "",
+      "description": "Split to outIDs[2] CO"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][6]",
+      "value": 0.000346284,
+      "units": "",
+      "description": "Split to outIDs[2] CO2"
+    },
+    {
+      "fulltag": "FC:MM.outSplit[2][7]",
+      "value": 0.0000127431,
+      "units": "",
+      "description": "Split to outIDs[2] H2"
+    },
+    {
+      "fulltag": "FC:MM.power",
+      "value": 33609000,
+      "units": "W",
+      "description": "Energy consumption"
+    },
+    {
+      "fulltag": "FC:MM.purityCO2dry",
+      "value": 0.956066,
+      "units": "",
+      "description": "purity of CO2 in permeate on dry basis"
+    },
+    {
+      "fulltag": "FC:MM.purity[0]",
+      "value": 0.0416613,
+      "units": "",
+      "description": "Purity of permeate H2O"
+    },
+    {
+      "fulltag": "FC:MM.purity[1]",
+      "value": 0.000740686,
+      "units": "",
+      "description": "Purity of permeate N2"
+    },
+    {
+      "fulltag": "FC:MM.purity[2]",
+      "value": 0,
+      "units": "",
+      "description": "Purity of permeate O2"
+    }
+   ]
+}
