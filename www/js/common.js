@@ -68,13 +68,6 @@ function init() {
   var configurePage = document.getElementById('configure-page');
   configurePage.style.display = 'none';
 
-  xmlhttp.open("GET", "b14d48e0-1285-11e4-9191-0800200c9a66/0.svg", false);
-  xmlhttp.send();
-  var svg = xmlhttp.responseText;
-  document.getElementById('svg-container').innerHTML = svg;
-
-  overrideXlinks();
-
   // former initMain stuff
 
   // sqlite database connection
@@ -187,6 +180,15 @@ function init() {
 
   // point to the node with database N.ID == 0 and load all data
   change_node(0);
+}
+
+function change_svg(id) {
+  var file_svg = "b14d48e0-1285-11e4-9191-0800200c9a66/" + id + ".svg";
+  xmlhttp.open("GET", file_svg, false);
+  xmlhttp.send();
+  var svg = xmlhttp.responseText;
+  document.getElementById('svg-container').innerHTML = svg;
+  overrideXlinks();
 }
 
 function clear_field(control_id) {
@@ -625,7 +627,7 @@ function showOutputContainer() {
 function hideInputContainer() {
   hide('input-container', 'input-open');
   var ib = document.getElementById('input-box');
-   if (ib.parentNode.tagName.toUpperCase() == 'LI') {
+  if (ib.parentNode.tagName.toUpperCase() == 'LI') {
     var v = ib.parentNode.id;
     close(document.getElementById(v));
   }
@@ -641,9 +643,12 @@ function showInputContainer() {
 }
 
 function hideChildren() {
+  var gd = document.getElementById('gl-children');
   var t = document.getElementById('children');
   t.style.display = 'none';
   document.getElementById('svg-container').style.zIndex = 1;
+  gd.className = "glyphicon glyphicon-chevron-down";
+
 }
 
 function toggleChildren() {
@@ -660,9 +665,7 @@ function toggleChildren() {
     document.getElementById('svg-container').style.zIndex = 0;
   } else {
     // Altrimenti lo nascondo
-    e.style.display = 'none';
-    gd.className = "glyphicon glyphicon-chevron-down";
-    document.getElementById('svg-container').style.zIndex = 1;
+		hideChildren();
   }
 }
 
@@ -682,8 +685,6 @@ function toggleInfoContainer() {
     hideInputContainer();
     hideChildren();
     e.style.display = 'block';
-    var gd = document.getElementById('gl-children');
-    gd.className = "glyphicon glyphicon-chevron-down";
     document.getElementById('svg-container').style.zIndex = 0;
   }
   // Altrimenti lo nascondo
@@ -1071,6 +1072,8 @@ function change_node(targetid) {
           ko.mapping.fromJS({
             "hasChildren" : false
           }, {}, viewModelChildrenToggle);
+          //TODO rimuovere patch
+          hideChildren();
         }
         children = {
           "children" : childArray
@@ -1162,6 +1165,7 @@ function change_node(targetid) {
     ko.mapping.fromJS(tag, {}, viewModelToggleButtons);
   }
 
+  change_svg(targetid);
 }// change_node
 
 function openChild() {
@@ -1239,7 +1243,7 @@ function overrideXlinks() {
     if (as[a].hasAttribute('xlink:href')) {
       as[a].onclick = function() {
         var target_id = this.getAttribute("xlink:href").slice(-30, -5);
-        alert('open_child(' + target_id + ')');
+        change_node(target_id);
         return false;
       }
     }

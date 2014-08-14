@@ -65,17 +65,15 @@ You should have received a copy of the GNU General Public License along with thi
 
   [http://en.wikipedia.org/wiki/File:Icosahedron.svg](http://en.wikipedia.org/wiki/File:Icosahedron.svg)
 
+- Following the edges of the icosidodecahedron by fdecomite
+
+  [https://www.flickr.com/photos/fdecomite/5267221562](https://www.flickr.com/photos/fdecomite/5267221562)
+
 - Penrose LI classes by Levochik
 
   Creative Commons Attribution-Share Alike 3.0 Unported
 
   [http://commons.wikimedia.org/wiki/File:Penrose_LI_classes.svg](http://commons.wikimedia.org/wiki/File:Penrose_LI_classes.svg)
-
-- Polyhedron models by fdecomite
-
-  Creative Commons Attribution 2.0 Generic (CC BY 2.0)
-
-  [https://www.flickr.com/photos/fdecomite/3274471079](https://www.flickr.com/photos/fdecomite/3274471079)
 
 - P8140170 by Philip Sheldrake
 
@@ -99,13 +97,9 @@ You should have received a copy of the GNU General Public License along with thi
 
 ##ASAP:
 
-1. conversione dei file .png in .svg (per il momento solo per l'immagine nel main) con possibilità di cambiare l'immagine in base alla posizione nella quale mi trovo (utilizzare funzione change_node)
-
 1. inserire file di phonegap nel repository, nel caso di index prendere la parte di codice che attiva phonegap e inserirla nel nostro codice
 
 1. andare a modificare config.xml (creato da phonegap la prima volta) coi valori da noi interessati
-
-1. quando l'utente chiude l'input-container, se l'input-box è ancora aperto, lo chiude e attua la modifica
 
 1. fare le traduzioni
 
@@ -130,6 +124,10 @@ HARD
 1. Solo per android non ci deve essere la toolbar in basso e i bottoni vanno in alto a dx nella navigation ed eventualmente raggruppati in un unico pulsante
 
 ##MaybeDO:
+
+1. Unificare tutti e 7 i viewModel della mainPage e rimuovere la patch
+
+1. Una volta unificati i 7 viewModel, rimuovere la patch
 
 1. Quando ci sono input/output-container e clicco sullo sfondo si deve poter chiudere
 

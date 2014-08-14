@@ -1,0 +1,6 @@
+.directory
+*~
+platforms
+plugins
+hooks
+.cordova
