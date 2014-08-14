@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
+<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1012.25" height="183.469" viewBox="-20 -20 1012.25 183.469" >
+  <defs>
+    <path id="arrow" stroke-width="0" d="M 0 0 L 0 12 L 16 6 Z" />
+  </defs>
+  <rect fill="transparent" stroke="none" x="-20" y="-20" width="1012.25" height="183.469" />
+  <a xlink:href="75.html" id="a0">
+    <path id="a0" fill="none" stroke="blue" stroke-width="2" d="M 0 32.6165 L 137.75 32.6165 " />
+    <use xlink:href="#arrow" transform="translate(121.75 26.6165)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="68.875" y="47.6165">S01</text>
+  </a>
+  <a xlink:href="78.html" id="a1">
+    <path id="a1" fill="none" stroke="blue" stroke-width="2" d="M 210.75 53.4759 L 348.5 53.4759 " />
+    <use xlink:href="#arrow" transform="translate(332.5 47.4759)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="279.625" y="68.4759">S02</text>
+  </a>
+  <a xlink:href="90.html" id="a2">
+    <path id="a2" fill="none" stroke="blue" stroke-width="2" d="M 137.75 74.3353 L 111.75 74.3353 L 111.75 128.469 L 725.5 128.469 L 725.5 0 L 860.5 0 L 860.5 72.6016 L 834.5 72.6016 " />
+    <use xlink:href="#arrow" transform="translate(121.75 68.3353)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="279.625" y="143.469">S06</text>
+  </a>
+  <a xlink:href="81.html" id="a3">
+    <path id="a3" fill="none" stroke="blue" stroke-width="2" d="M 408.5 53.4759 L 550 53.4759 " />
+    <use xlink:href="#arrow" transform="translate(534 47.4759)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="477.375" y="68.4759">S03</text>
+  </a>
+  <a xlink:href="87.html" id="a4">
+    <path id="a4" fill="none" stroke="blue" stroke-width="2" d="M 610 28.4795 L 735.5 28.4795 L 735.5 51.7344 L 761.5 51.7344 " />
+    <use xlink:href="#arrow" transform="translate(745.5 45.7344)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="682.625" y="43.4795">S05</text>
+  </a>
+  <a xlink:href="84.html" id="a5">
+    <path id="a5" fill="none" stroke="blue" stroke-width="2" d="M 610 78.4723 L 639.75 78.4723 L 639.75 118.469 L 972.25 118.469 " />
+    <use xlink:href="#arrow" transform="translate(956.25 112.469)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="903.375" y="133.469">S04</text>
+  </a>
+  <a xlink:href="93.html" id="a6">
+    <path id="a6" fill="none" stroke="blue" stroke-width="2" d="M 834.5 30.8672 L 972.25 30.8672 " />
+    <use xlink:href="#arrow" transform="translate(956.25 24.8672)" />
+    <text text-anchor="middle" fill="black" font-size="15" x="903.375" y="45.8672">S07</text>
+  </a>
+  <a xlink:href="69.html" id="a7">
+    <rect id="a7" stroke="black" stroke-width="0.5" fill="none" x="137.75" y="11.7572" width="73" height="83.4375" />
+    <image x="137.75" y="11.7572" width="73" height="83.4375" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" />
+    <text text-anchor="middle" fill="black" font-size="15" x="174.25" y="110.195">MIX</text>
+  </a>
+  <a xlink:href="70.html" id="a8">
+    <rect id="a8" stroke="black" stroke-width="0.5" fill="none" x="348.5" y="3.48305" width="60" height="99.9857" />
+    <image x="348.5" y="3.48305" width="60" height="99.9857" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FlashDrum.svg" />
+    <text text-anchor="middle" fill="black" font-size="15" x="378.5" y="118.469">RX</text>
+  </a>
+  <a xlink:href="73.html" id="a9">
+    <rect id="a9" stroke="black" stroke-width="0.5" fill="none" x="550" y="3.48305" width="60" height="99.9857" />
+    <image x="550" y="3.48305" width="60" height="99.9857" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Separator.svg" />
+    <text text-anchor="middle" fill="black" font-size="15" x="580" y="118.469">FILTER</text>
+  </a>
+  <a xlink:href="74.html" id="a10">
+    <rect id="a10" stroke="black" stroke-width="0.5" fill="none" x="761.5" y="10" width="73" height="83.4688" />
+    <image x="761.5" y="10" width="73" height="83.4688" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" />
+    <text text-anchor="middle" fill="black" font-size="15" x="798" y="108.469">SPL</text>
+  </a>
+</svg>

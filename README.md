@@ -99,21 +99,25 @@ You should have received a copy of the GNU General Public License along with thi
 
 ##ASAP:
 
-1. Quando l'utente chiude l'input-container, se l'input-box è ancora aperto, lo chiude e attua la modifica
+1. conversione dei file .png in .svg (per il momento solo per l'immagine nel main) con possibilità di cambiare l'immagine in base alla posizione nella quale mi trovo (utilizzare funzione change_node)
+
+1. inserire file di phonegap nel repository, nel caso di index prendere la parte di codice che attiva phonegap e inserirla nel nostro codice
+
+1. andare a modificare config.xml (creato da phonegap la prima volta) coi valori da noi interessati
+
+1. quando l'utente chiude l'input-container, se l'input-box è ancora aperto, lo chiude e attua la modifica
+
+1. fare le traduzioni
+
+1. http://validator.w3.org/check
+
+HARD
 
 1. Gestione tasto back
 
 1. rendere l'undo stack persistente: se io inizio a modificare delle variabili poi chiudo l'app, alla riapertura non posso più annullare le modfiche fatte nella sessione precedente; questo oltre ad essere limitante è un problema grave nel momento in cui quando l'utente richiede un calcolo, devo iniviare al server le modifiche fatte !
 
 1. aggiungere la possibilità di fornire un valore di difetto per una specfica opzione stringa, diversa dal valore di difetto per l'enumeratore corrispondente; in questo caso la prima prenderà il soppravvento
-
-1. adesso che fa da sfondo ovunque, rinominare background-landing a background-server o solo background
-
-1. fare le traduzioni
-
-1. conversione dei file .png in .svg
-
-1. http://validator.w3.org/check
 
 ##Fase post freelancer:
 
@@ -134,6 +138,8 @@ You should have received a copy of the GNU General Public License along with thi
 1. Android Materia Design (mettere le ombre)
 
 1. Windows Phone scorrimento orizzontale anzichè la tab-list
+
+1. Rendere cliccabile l'immagine .svg
 
 ##Open questions:
 
