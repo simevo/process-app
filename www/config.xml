@@ -87,10 +87,15 @@
   <!-- http://phonegap.com/blog/2014/04/11/phonegap-build-adds-some-new-features/ -->
   <!-- http://docs.phonegap.com/en/3.5.0/config_ref_images.md.html -->
   <!-- http://devgirl.org/2013/09/12/phonegap-icons-and-splash-screens-help/ -->
-  <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="res/screen/android/screen-ldpi-portrait.png" />
-  <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="res/screen/android/screen-mdpi-portrait.png" />
-  <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png" />
-  <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.png" />
+  <gap:splash src="splash.png" />
+  <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="res/screen/android/screen-ldpi-portrait.9.png" />
+  <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="res/screen/android/screen-mdpi-portrait.vpng" />
+  <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.9.png" />
+  <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.9.png" />
+  <gap:splash gap:platform="android" gap:qualifier="land-ldpi" src="res/screen/android/screen-ldpi-landscape.9.png" />
+  <gap:splash gap:platform="android" gap:qualifier="land-mdpi" src="res/screen/android/screen-mdpi-landscape.9.png" />
+  <gap:splash gap:platform="android" gap:qualifier="land-hdpi" src="res/screen/android/screen-hdpi-landscape.9.png" />
+  <gap:splash gap:platform="android" gap:qualifier="land-xhdpi" src="res/screen/android/screen-xhdpi-landscape.9.png" />
   <gap:splash gap:platform="blackberry" src="res/screen/blackberry/screen-225.png" />
   <gap:splash gap:platform="ios" height="480" src="res/screen/ios/screen-iphone-portrait.png" width="320" />
   <gap:splash gap:platform="ios" height="960" src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
