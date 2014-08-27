@@ -1,28 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
-<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="454.25" height="154.986" viewBox="-20 -20 454.25 154.986" >
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="154.99" width="454.25" version="1.1" viewBox="-20 -20 454.25 154.986">
   <defs>
-    <path id="arrow" stroke-width="0" d="M 0 0 L 0 12 L 16 6 Z" />
+    <path id="arrow" stroke-width="0" d="m0 0v12l16-6z"/>
   </defs>
-  <rect fill="transparent" stroke="none" x="-20" y="-20" width="454.25" height="154.986" />
-  <a xlink:href="14.html" id="a0">
-    <path id="a0" fill="none" stroke="blue" stroke-width="2" d="M 0 49.9928 L 149 49.9928 " />
-    <use xlink:href="#arrow" transform="translate(133 43.9928)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="74.5" y="64.9928">FEED</text>
+  <rect y="-20" width="454.25" fill="transparent" x="-20" height="154.99"/>
+  <a id="a0" xlink:href="4.html">
+    <path id="a0" stroke="blue" stroke-width="2" fill="none" d="m0 49.993h149"/>
+    <use xlink:href="#arrow" transform="translate(133 43.993)"/>
+    <text y="64.9928" x="74.5" font-size="15" text-anchor="middle" fill="black">FEED</text>
   </a>
-  <a xlink:href="16.html" id="a1">
-    <path id="a1" fill="none" stroke="blue" stroke-width="2" d="M 209 24.9964 L 414.25 24.9964 " />
-    <use xlink:href="#arrow" transform="translate(398.25 18.9964)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="311.625" y="39.9964">PERMEATE</text>
+  <a id="a1" xlink:href="6.html">
+    <path id="a1" stroke="blue" stroke-width="2" fill="none" d="m209 24.996h205.25"/>
+    <use xlink:href="#arrow" transform="translate(398.25 18.996)"/>
+    <text y="39.9964" x="311.625" font-size="15" text-anchor="middle" fill="black">PERMEATE</text>
   </a>
-  <a xlink:href="18.html" id="a2">
-    <path id="a2" fill="none" stroke="blue" stroke-width="2" d="M 209 74.9893 L 235 74.9893 L 235 49.9964 L 414.25 49.9964 " />
-    <use xlink:href="#arrow" transform="translate(398.25 43.9964)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="311.625" y="64.9964">RETENTATE</text>
+  <a id="a2" xlink:href="5.html">
+    <path id="a2" stroke="blue" stroke-width="2" fill="none" d="m209 74.989h26v-24.993h179.25"/>
+    <use xlink:href="#arrow" transform="translate(398.25 43.996)"/>
+    <text y="64.9964" x="311.625" font-size="15" text-anchor="middle" fill="black">RETENTATE</text>
   </a>
-  <a xlink:href="13.html" id="a3">
-    <rect id="a3" stroke="black" stroke-width="0.5" fill="none" x="149" y="0" width="60" height="99.9857" />
-    <image x="149" y="0" width="60" height="99.9857" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Separator.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="179" y="114.986">GM</text>
+  <a id="a3" xlink:href="3.html">
+    <rect id="a3" height="99.986" width="60" stroke="#000" y="0" x="149" stroke-width=".5" fill="none"/>
+    <image y="0" x="149" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Separator.svg" width="60" height="99.986"/>
+    <text y="114.986" x="179" font-size="15" text-anchor="middle" fill="black">GM</text>
   </a>
 </svg>

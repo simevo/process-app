@@ -1,33 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
-<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="451.75" height="135" viewBox="-20 -20 451.75 135" >
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="135" width="451.75" version="1.1" viewBox="-20 -20 451.75 135">
   <defs>
-    <path id="arrow" stroke-width="0" d="M 0 0 L 0 12 L 16 6 Z" />
+    <path id="arrow" stroke-width="0" d="m0 0v12l16-6z"/>
   </defs>
-  <rect fill="transparent" stroke="none" x="-20" y="-20" width="451.75" height="135" />
-  <a xlink:href="84.html" id="a0">
-    <path id="a0" fill="none" stroke="blue" stroke-width="2" d="M 0 20 L 160.25 20 " />
-    <use xlink:href="#arrow" transform="translate(144.25 14)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="80.125" y="35">ANIN</text>
+  <rect y="-20" width="451.75" fill="transparent" x="-20" height="135"/>
+  <a id="a0" xlink:href="4.html">
+    <path id="a0" stroke="blue" stroke-width="2" fill="none" d="m0 20h160.25"/>
+    <use xlink:href="#arrow" transform="translate(144.25 14)"/>
+    <text y="35" x="80.125" font-size="15" text-anchor="middle" fill="black">ANIN</text>
   </a>
-  <a xlink:href="88.html" id="a1">
-    <path id="a1" fill="none" stroke="blue" stroke-width="2" d="M 0 45 L 134.25 45 L 134.25 60 L 160.25 60 " />
-    <use xlink:href="#arrow" transform="translate(144.25 54)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="80.125" y="60">CATIN</text>
+  <a id="a1" xlink:href="5.html">
+    <path id="a1" stroke="blue" stroke-width="2" fill="none" d="m0 45h134.25v15h26"/>
+    <use xlink:href="#arrow" transform="translate(144.25 54)"/>
+    <text y="60" x="80.125" font-size="15" text-anchor="middle" fill="black">CATIN</text>
   </a>
-  <a xlink:href="86.html" id="a2">
-    <path id="a2" fill="none" stroke="blue" stroke-width="2" d="M 240.25 20 L 411.75 20 " />
-    <use xlink:href="#arrow" transform="translate(395.75 14)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="326" y="35">ANOUT</text>
+  <a id="a2" xlink:href="6.html">
+    <path id="a2" stroke="blue" stroke-width="2" fill="none" d="m240.25 20h171.5"/>
+    <use xlink:href="#arrow" transform="translate(395.75 14)"/>
+    <text y="35" x="326" font-size="15" text-anchor="middle" fill="black">ANOUT</text>
   </a>
-  <a xlink:href="90.html" id="a3">
-    <path id="a3" fill="none" stroke="blue" stroke-width="2" d="M 240.25 60 L 266.25 60 L 266.25 45 L 411.75 45 " />
-    <use xlink:href="#arrow" transform="translate(395.75 39)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="326" y="60">CATOUT</text>
+  <a id="a3" xlink:href="0.html">
+    <path id="a3" stroke="blue" stroke-width="2" fill="none" d="m240.25 60h26v-15h145.5"/>
+    <use xlink:href="#arrow" transform="translate(395.75 39)"/>
+    <text y="60" x="326" font-size="15" text-anchor="middle" fill="black">CATOUT</text>
   </a>
-  <a xlink:href="55.html" id="a4">
-    <rect id="a4" stroke="black" stroke-width="0.5" fill="none" x="160.25" y="0" width="80" height="80" />
-    <image x="160.25" y="0" width="80" height="80" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FuelCell.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="200.25" y="95">FC</text>
+  <a id="a4" xlink:href="5.html">
+    <rect id="a4" height="80" width="80" stroke="#000" y="0" x="160.25" stroke-width=".5" fill="none"/>
+    <image y="0" x="160.25" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FuelCell.svg" width="80" height="80"/>
+    <text y="95" x="200.25" font-size="15" text-anchor="middle" fill="black">FC</text>
   </a>
 </svg>

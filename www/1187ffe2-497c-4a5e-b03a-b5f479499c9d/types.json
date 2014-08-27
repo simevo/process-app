@@ -2,6 +2,7 @@
     "types": [
         {
             "name": "FruitSalad",
+            "icon": "pyro.svg",
             "description": "Fruit salad recipe",
             "category": "unit",
             "instantiable": true,

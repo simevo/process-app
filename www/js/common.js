@@ -2,7 +2,13 @@
 // jshint trick:
 // var window, document, console, ko, localStorage, UndoManager;
 
-function init() {
+function init()	{
+	document.addEventListener("deviceready", onDeviceReady, false);
+	
+	function onDeviceReady()	{
+		alert('prova qwerty123456789' + device.platform);
+		// Now safe to use device APIs
+	}
   // define a knockout binding handler to get the selectedIndex property of the select element
   // i.e. to find out the index of the currently selected option
   // http://stackoverflow.com/questions/16136552/get-the-id-of-the-selected-value-in-combobox-with-knockout
@@ -33,8 +39,8 @@ function init() {
     }
   };
 
-  // refresh servers, types and recent lists
-  updateServers(false);
+  // refresh services, types and recent lists
+  updateServices(false);
   updateEnumerators(false);
   updateTypes(false);
   updateRecent(false);
@@ -88,7 +94,7 @@ function init() {
   // initialize configure master view model and view
   viewModelConfigure = {
     configure : ko.observable(null),
-    server_uuid : ko.observable(viewModel.servers.activeServer().uuid())
+    service_uuid : ko.observable(viewModel.services.activeService().uuid())
   };
   ko.applyBindings(viewModelConfigure, configurePage);
 
@@ -265,13 +271,13 @@ function set_type_used(type_name, value) {
 var db;
 //  one view model with child view models
 var viewModel = {
-  servers : [],
+  services : [],
   recent : [],
   types : [],
   enumerators : [],
 };
 var viewModelConfigure;
-var servers;
+var services;
 var types;
 var enumerators;
 var type_lookup = {};
@@ -342,7 +348,7 @@ function updateTypes(update) {
   // parse JSON to javascript object
   types_used = JSON.parse(types_used_json);
 
-  xmlhttp.open("GET", viewModel.servers.activeServer().uuid() + "/types.json", false);
+  xmlhttp.open("GET", viewModel.services.activeService().uuid() + "/types.json", false);
   xmlhttp.send();
   types = JSON.parse(xmlhttp.responseText);
   var types_instantiatable = {
@@ -354,9 +360,9 @@ function updateTypes(update) {
       types_instantiatable.types.push(t);
     }
     if (t.icon) {
-      t.icon = viewModel.servers.activeServer().uuid() + "/" + t.icon;
+      t.icon = viewModel.services.activeService().uuid() + "/" + t.icon;
     } else {
-      t.icon = "images/" + t.category + ".png";
+      t.icon = "images/" + t.category + ".svg";
     }
   }
   // console.log("types = " + JSON.stringify(types.types));
@@ -390,7 +396,7 @@ var MyEnumeratorModel = function(data) {
   }, this);
 };
 function updateEnumerators(update) {
-  xmlhttp.open("GET", viewModel.servers.activeServer().uuid() + "/enumerators.json", false);
+  xmlhttp.open("GET", viewModel.services.activeService().uuid() + "/enumerators.json", false);
   xmlhttp.send();
   enumerators = JSON.parse(xmlhttp.responseText);
   // alert(JSON.stringify(enumerators.enumerators));
@@ -450,7 +456,7 @@ var mappingRecent = {
 var MyRecentModel = function(data) {
   ko.mapping.fromJS(data, {}, this);
   this.icon = ko.computed(function() {
-    return type_property(this.type(), "icon", "images/unit.png");
+    return type_property(this.type(), "icon", "images/unit.svg");
   }, this);
   this.type_description = ko.computed(function() {
     return type_property(this.type(), "description", "");
@@ -460,7 +466,7 @@ var sortFunction = function(left, right) {
   return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
 };
 function updateRecent(update) {
-  var recent_key = viewModel.servers.activeServer().uuid() + ".recent.json";
+  var recent_key = viewModel.services.activeService().uuid() + ".recent.json";
   if (localStorage.getItem(recent_key) === null) {
     // store initial empty recent list in local storage
     try {
@@ -483,10 +489,10 @@ function updateRecent(update) {
 }// updateRecent
 
 // http://stackoverflow.com/questions/8673928/adding-properties-to-the-view-model-created-by-using-the-knockout-js-mapping-plu
-var mappingServers = {
+var mappingServices = {
   // customize at the root level.
   create : function(options) {
-    // console.log("creating servers with data = " + options.data);
+    // console.log("creating services with data = " + options.data);
     // first map the vm like normal
     var vm = ko.mapping.fromJS(options.data);
 
@@ -494,8 +500,8 @@ var mappingServers = {
 
     // from http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
     // identify the first matching item by name
-    vm.activeServer = ko.computed(function() {
-      return ko.utils.arrayFirst(vm.servers(), function(item) {
+    vm.activeService = ko.computed(function() {
+      return ko.utils.arrayFirst(vm.services(), function(item) {
         return item.active();
       });
     });
@@ -505,44 +511,44 @@ var mappingServers = {
   }
 };
 
-function updateServers(update) {
-  var servers_key = "servers.json";
-  if (localStorage.getItem(servers_key) === null) {
-    // store initial server list in local storage
+function updateServices(update) {
+  var services_key = "services.json";
+  if (localStorage.getItem(services_key) === null) {
+    // store initial service list in local storage
     try {
-      var initial_servers = {
-        "servers" : [{
+      var initial_services = {
+        "services" : [{
           "name" : "Pasteurize",
           "active" : true,
           "last_used" : 1,
           "description" : "Process modeling of continuous pasteurization processes",
-          "server" : "https://pasteurize.it",
+          "service" : "https://pasteurize.it",
           "uuid" : "62e3a255-c1a0-4dea-a650-05b9a4a33aef"
         }, {
           "name" : "Geometry",
           "active" : false,
           "last_used" : 0,
           "description" : "Surface, volume and partial filling volume of solids",
-          "server" : "https://libpf.com/geometry_demo",
+          "service" : "https://libpf.com/geometry_demo",
           "uuid" : "e912989f-9b8f-4d4a-9bd6-f0c351fd770a"
         }, {
           "name" : "Gasify",
           "active" : false,
           "last_used" : 0,
           "description" : "Process modeling of small-scale biomass gasification plants",
-          "server" : "https://jasper.com",
+          "service" : "https://jasper.com",
           "uuid" : "1187ffe2-497c-4a5e-b03a-b5f479499c9d"
         }, {
-          "name" : "Digest",
+          "name" : "Biogas",
           "active" : false,
           "last_used" : 0,
           "description" : "Process modeling of biogas plant from anaerobic digestion",
-          "server" : "https://shite.com",
+          "service" : "https://shite.com",
           "uuid" : "f8d83420-08e1-11e4-9191-0800200c9a66"
         }]
       };
-      var initial_servers_json = JSON.stringify(initial_servers);
-      localStorage.setItem(servers_key, initial_servers_json);
+      var initial_services_json = JSON.stringify(initial_services);
+      localStorage.setItem(services_key, initial_services_json);
     } catch (e) {
       if (e == QUOTA_EXCEEDED_ERR) {
         console.log('Web Storage quota exceeded');
@@ -550,44 +556,44 @@ function updateServers(update) {
     }
   }
   // load value from local storage
-  var servers_json = localStorage.getItem(servers_key);
+  var services_json = localStorage.getItem(services_key);
   // parse JSON to javascript object
-  var servers = JSON.parse(servers_json);
+  var services = JSON.parse(services_json);
   if (update)
-    ko.mapping.fromJS(servers, mappingRecent, viewModel.servers);
+    ko.mapping.fromJS(services, mappingRecent, viewModel.services);
   else
-    viewModel.servers = ko.mapping.fromJS(servers, mappingServers);
-  viewModel.servers.servers().sort(function(left, right) {
+    viewModel.services = ko.mapping.fromJS(services, mappingServices);
+  viewModel.services.services().sort(function(left, right) {
     return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
   });
   var background = document.getElementById('background');
-  var s1 = viewModel.servers;
-  var a1 = s1.activeServer();
+  var s1 = viewModel.services;
+  var a1 = s1.activeService();
   var uuid = a1.uuid();
   console.log('UUID = ' + a1.uuid());
-  background.style.backgroundImage = 'url(' + uuid + '/background-server.jpg)';
-}// updateServers
+  background.style.backgroundImage = 'url(' + uuid + '/background.jpg)';
+}// updateServices
 
-function openServer(uuid) {
-  var servers_key = "servers.json";
+function openService(uuid) {
+  var services_key = "services.json";
   // load value from local storage
-  var servers_json = localStorage.getItem(servers_key);
+  var services_json = localStorage.getItem(services_key);
   // parse JSON to javascript object
-  var servers = JSON.parse(servers_json);
-  for (var i = 0, len = servers.servers.length; i < len; i++) {
-    var server = servers.servers[i];
-    if (server.uuid == uuid) {
-      server.active = true;
-      server.last_used = Math.round(Date.now() / 1000);
+  var services = JSON.parse(services_json);
+  for (var i = 0, len = services.services.length; i < len; i++) {
+    var service = services.services[i];
+    if (service.uuid == uuid) {
+      service.active = true;
+      service.last_used = Math.round(Date.now() / 1000);
     } else {
-      server.active = false;
+      service.active = false;
     }
   }
-  servers_json = JSON.stringify(servers);
-  localStorage.setItem(servers_key, servers_json);
+  services_json = JSON.stringify(services);
+  localStorage.setItem(services_key, services_json);
   // trick
-  viewModelConfigure.server_uuid(uuid);
-}// openServer
+  viewModelConfigure.service_uuid(uuid);
+}// openService
 
 // main-specific code
 function hide(thing, thing1) {
@@ -787,7 +793,7 @@ function dummy(e) {
 // index-specific code
 function reset_local_storage() {
   localStorage.clear();
-  updateServers(true);
+  updateServices(true);
   updateEnumerators(true);
   updateTypes(true);
   updateRecent(true);
@@ -795,8 +801,8 @@ function reset_local_storage() {
 }// reset
 
 function show_local_storage() {
-  alert(localStorage.getItem('servers.json'));
-  var recent_key = viewModel.servers.activeServer().uuid() + ".recent.json";
+  alert(localStorage.getItem('services.json'));
+  var recent_key = viewModel.services.activeService().uuid() + ".recent.json";
   alert(localStorage.getItem(recent_key));
   var types_used_key = "types_used.json";
   alert(localStorage.getItem(types_used_key));
@@ -807,6 +813,10 @@ function openMainPageFromLanding() {
   landing.style.display = 'none';
   var main = document.getElementById('main-page');
   main.style.display = 'block';
+  hideChildren();
+  hideInputContainer();
+  hideOutputContainer();
+  hideInfoContainer();
 }
 
 function openLandingPageFromMain() {
@@ -857,16 +867,16 @@ function toggleTab() {
   }
 }// toggleTab
 
-function switchServer(data, event) {
-  var current = viewModel.servers.activeServer();
+function switchService(data, event) {
+  var current = viewModel.services.activeService();
   var uuid = event.currentTarget.id;
   console.log("uuid = " + uuid);
-  openServer(uuid);
-  updateServers(true);
+  openService(uuid);
+  updateServices(true);
   updateEnumerators(true);
   updateTypes(true);
   updateRecent(true);
-}// switchServer
+}// switchService
 
 // configure-specific code
 
@@ -981,7 +991,7 @@ var viewModelOpenMain;
 var myChildrenModel = function(data) {
   ko.mapping.fromJS(data, {}, this);
   this.icon = ko.computed(function() {
-    return type_property(this.type(), "icon", "images/unit.png");
+    return type_property(this.type(), "icon", "images/unit.svg");
   }, this);
   this.type_description = ko.computed(function() {
     return type_property(this.type(), "description", "");
@@ -1175,7 +1185,7 @@ function openChild() {
 
 // funzioni configure.html
 function addRecent(tag, last_used, description, type, handle) {
-  var recent_key = viewModel.servers.activeServer().uuid() + ".recent.json";
+  var recent_key = viewModel.services.activeService().uuid() + ".recent.json";
   if (localStorage.getItem(recent_key) === null) {
     // store initial empty recent list in local storage
     try {
@@ -1223,7 +1233,7 @@ function openMainPageFromConfigure() {
     data.integerOptions[integerOptions[j].name()] = integerOptions[j].value();
   }
 
-  // TODO: connect to server, create case there and get handle
+  // TODO: connect to service, create case there and get handle
   alert('will connect to address http://localhost:8080/cases with with verb POST and this JSON in the response: ' + JSON.stringify(data));
 
   var handle = "550e8400-e29b-41d4-a716-446655440000";

@@ -2,7 +2,7 @@
     "types": [
         {
             "name": "Prism",
-            "icon": "Prism.png",
+            "icon": "Prism.svg",
             "description": "Regular and right prism",
             "category": "option",
             "instantiable": true,
@@ -19,7 +19,7 @@
         },
         {
             "name": "Cube",
-            "icon": "Cube.png",
+            "icon": "Cube.svg",
             "description": "Regular hexahedron",
             "category": "option",
             "instantiable": true,
@@ -30,7 +30,7 @@
         },
         {
             "name": "Pyramid",
-            "icon": "Pyramid.png",
+            "icon": "Pyramid.svg",
             "description": "Right pyramid with regular polygon base",
             "category": "option",
             "instantiable": true,
@@ -47,7 +47,7 @@
         },
         {
             "name": "PyramidalFrustum",
-            "icon": "PyramidalFrustum.png",
+            "icon": "PyramidalFrustum.svg",
             "description": "Section of a right pyramid with regular polygon base",
             "category": "option",
             "instantiable": true,
@@ -64,7 +64,7 @@
         },
         {
             "name": "Cylinder",
-            "icon": "Cylinder.png",
+            "icon": "Cylinder.svg",
             "description": "Right circular cylinder",
             "category": "option",
             "instantiable": true,
@@ -75,7 +75,7 @@
         },
         {
             "name": "Cone",
-            "icon": "Cone.png",
+            "icon": "Cone.svg",
             "description": "Right circular cone",
             "category": "option",
             "instantiable": true,
@@ -86,7 +86,7 @@
         },
         {
             "name": "ConicalFrustum",
-            "icon": "ConicalFrustum.png",
+            "icon": "ConicalFrustum.svg",
             "description": "Section of a right circular cone",
             "category": "option",
             "instantiable": true,
@@ -97,7 +97,7 @@
         },
         {
             "name": "Sphere",
-            "icon": "Sphere.png",
+            "icon": "Sphere.svg",
             "description": "The set of points in space that are at a fixed distance from a central point",
             "category": "option",
             "instantiable": true,
@@ -108,7 +108,7 @@
         },
         {
             "name": "SphericalCap",
-            "icon": "SphericalCap.png",
+            "icon": "SphericalCap.svg",
             "description": "The portion of a sphere cut off by a plane",
             "category": "option",
             "instantiable": true,
@@ -119,7 +119,7 @@
         },
         {
             "name": "SphericalSector",
-            "icon": "SphericalSector.png",
+            "icon": "SphericalSector.svg",
             "description": "The portion of a sphere defined by a conical boundary with apex at the center of the sphere",
             "category": "option",
             "instantiable": true,
@@ -130,7 +130,7 @@
         },
         {
             "name": "Hemisphere",
-            "icon": "Hemisphere.png",
+            "icon": "Hemisphere.svg",
             "description": "The half sphere",
             "category": "option",
             "instantiable": true,
@@ -141,7 +141,7 @@
         },
         {
             "name": "SphericalSegment",
-            "icon": "SphericalSegment.png",
+            "icon": "SphericalSegment.svg",
             "description": "The portion of a sphere cut off by a pair of parallel planes",
             "category": "option",
             "instantiable": true,
@@ -152,7 +152,7 @@
         },
         {
             "name": "Barrel",
-            "icon": "Barrel.png",
+            "icon": "Barrel.svg",
             "description": "Two spherical sectors with the same height and greater diameter, joined base-to-base",
             "category": "option",
             "instantiable": true,
@@ -163,7 +163,7 @@
         },
         {
             "name": "Bipyramid",
-            "icon": "Bipyramid.png",
+            "icon": "Bipyramid.svg",
             "description": "Two right pyramids with the same regular polygon base and height, joined base-to-base",
             "category": "option",
             "instantiable": true,
@@ -180,7 +180,7 @@
         },
         {
             "name": "Tetrahedron",
-            "icon": "Tetrahedron.png",
+            "icon": "Tetrahedron.svg",
             "description": "Polyhedron composed of 4 flat triangular faces",
             "category": "option",
             "instantiable": true,
@@ -191,7 +191,7 @@
         },
         {
             "name": "Dodecahedron",
-            "icon": "Dodecahedron.png",
+            "icon": "Dodecahedron.svg",
             "description": "Regular polyhedron with 12 flat faces",
             "category": "option",
             "instantiable": true,
@@ -202,7 +202,7 @@
         },
         {
             "name": "Icosahedron",
-            "icon": "Icosahedron.png",
+            "icon": "Icosahedron.svg",
             "description": "Regular polyhedron with 20 flat faces",
             "category": "option",
             "instantiable": true,
@@ -213,7 +213,7 @@
         },
         {
             "name": "EquilateralTriangle",
-            "icon": "EquilateralTriangle.png",
+            "icon": "EquilateralTriangle.svg",
             "description": "A  polygon with 3 equal sides",
             "category": "option",
             "instantiable": true,
@@ -224,7 +224,7 @@
         },
         {
             "name": "IsoscelesTriangle",
-            "icon": "IsoscelesTriangle.png",
+            "icon": "IsoscelesTriangle.svg",
             "description": "A polygon with 3 sides, 2 of which are equal",
             "category": "option",
             "instantiable": true,
@@ -235,7 +235,7 @@
         },
         {
             "name": "RightTriangle",
-            "icon": "RightTriangle.png",
+            "icon": "RightTriangle.svg",
             "description": "A polygon with 3 sides, with one of its interior angles being right",
             "category": "option",
             "instantiable": true,
@@ -246,7 +246,7 @@
         },
         {
             "name": "Square",
-            "icon": "Square.png",
+            "icon": "Square.svg",
             "description": "The regular quadrilateral",
             "category": "option",
             "instantiable": true,
@@ -257,7 +257,7 @@
         },
         {
             "name": "Rectangle",
-            "icon": "Rectangle.png",
+            "icon": "Rectangle.svg",
             "description": "A parallelogram with 4 angles of equal size",
             "category": "option",
             "instantiable": true,
@@ -268,7 +268,7 @@
         },
         {
             "name": "Rhombus",
-            "icon": "Rhombus.png",
+            "icon": "Rhombus.svg",
             "description": "A parallelogram with four sides of equal length.",
             "category": "option",
             "instantiable": true,
@@ -279,7 +279,7 @@
         },
         {
             "name": "Polygon",
-            "icon": "Polygon.png",
+            "icon": "Polygon.svg",
             "description": "Regular, simple polygon with more than 4 edges",
             "category": "option",
             "instantiable": true,
@@ -296,7 +296,7 @@
         },
         {
             "name": "Trapezoid",
-            "icon": "Trapezoid.png",
+            "icon": "Trapezoid.svg",
             "description": "Quadrilateral with one pair of parallel sides and two adjacent right angles",
             "category": "option",
             "instantiable": true,
@@ -307,7 +307,7 @@
         },
         {
             "name": "Circle",
-            "icon": "Circle.png",
+            "icon": "Circle.svg",
             "description": "The set of points in the plave that are at a fixed distance from a central point",
             "category": "option",
             "instantiable": true,
@@ -318,7 +318,7 @@
         },
         {
             "name": "CircularSector",
-            "icon": "CircularSector.png",
+            "icon": "CircularSector.svg",
             "description": "The portion of a disk enclosed by two radii and an arc",
             "category": "option",
             "instantiable": true,
@@ -329,7 +329,7 @@
         },
         {
             "name": "Annulus",
-            "icon": "Annulus.png",
+            "icon": "Annulus.svg",
             "description": "A region bounded by two concentric circles",
             "category": "option",
             "instantiable": true,

@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <?xml version="1.0" encoding="UTF-8"?>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
 
@@ -28,6 +27,11 @@
 
   </head>
   <body>
+    <script type="text/javascript" src="phonegap.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript">
+      app.initialize();
+    </script>
     <div id="background">
       <div id="landing-page">
 
@@ -44,14 +48,14 @@
 
         <div id="tab-container">
           <ul class="nav nav-tabs">
-            <li class="active">
-              <a id="recent-open" class="tab">Recent</a>
+            <li>
+              <a id="recent-open" class="tab"><strong>Recent</strong></a>
             </li>
             <li>
-              <a id="new-open" class="tab">New</a>
+              <a id="new-open" class="tab"><strong>New</strong></a>
             </li>
-            <li>
-              <a id="server-open" class="tab">Servers</a>
+            <li  class="active">
+              <a id="service-open" class="tab"><strong>Services</strong></a>
             </li>
           </ul>
           <!-- navigation -->
@@ -106,31 +110,31 @@
           </div>
           <!-- new-container -->
 
-          <div id="server-container" class="rns-container">
+          <div id="service-container" class="rns-container">
 
-            <ul data-bind="foreach: servers.servers" id="server-list" class="yscroll list">
+            <ul data-bind="foreach: services.services" id="service-list" class="yscroll list">
 
               <li data-bind="if: active">
                 <div class="thumb">
-                  <img alt="server thumbnail" data-bind="attr: { src: uuid()+'/icon.png' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="server-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="server-item list-item">
+                <div class="service-item list-item">
                   <strong><span data-bind="text: name"></span></strong>
                   <br />
                   <p>
                     <span data-bind='text: description'></span>
                   </p>
                   <p>
-                    <span data-bind='text: server'></span>
+                    <span data-bind='text: service'></span>
                   </p>
                 </div>
               </li>
 
-              <li data-bind="ifnot: active, attr: { id: uuid }, event: { click: switchServer }">
+              <li data-bind="ifnot: active, attr: { id: uuid }, event: { click: switchService }">
                 <div class="thumb">
-                  <img alt="server thumbnail" data-bind="attr: { src: uuid()+'/icon.png' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="server-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="server-item list-item" data-bind="attr: { style: 'background-image: url('+uuid()+'/background-server.jpg)'}">
+                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+uuid()+'/background.jpg)'}">
                   <strong><span data-bind="text: name"></span></strong>
                   <br />
                   <p>
@@ -143,10 +147,10 @@
               </li>
 
             </ul>
-            <!-- server-list -->
+            <!-- service-list -->
 
           </div>
-          <!-- server-container -->
+          <!-- service-container -->
 
         </div>
         <!-- tab-container -->
@@ -154,7 +158,7 @@
       <!-- landing -->
 
       <div id="main-page">
-        <div class="box" data-bind="attr: { style: 'background-image: url('+servers.activeServer().uuid()+'/background-server.jpg)'}">
+        <div class="box" data-bind="attr: { style: 'background-image: url('+services.activeService().uuid()+'/background.jpg)'}">
           <div id="input-open" class="lid-retracted vcenter lefty" onclick="showInputContainer();">
             <span class="glyphicon glyphicon-pencil vcenter"></span>
           </div>
@@ -377,16 +381,16 @@
           <div class=" center col-xs-2 col-sm-2 no-padding"></div>
         </div>
         <!-- navigation-configure -->
-
-        <div id="configure-container" class="form-horizontal yscroll" data-bind="">
+			<div id="configure-veiling" class="yscroll">
+        <div id="configure-container" class="form-horizontal" data-bind="">
 
           <div class="box1">
 
             <form id="configure-form" class="form-horizontal list" data-bind="with:configure">
               <div class="row">
                 <div class="col-sm-8">
-                  <h2 id="type" data-bind="text:name"></h2>
-                  <h3 data-bind="text:description"></h3>
+                  <h2 id="type" data-bind="text:name">placeholder</h2>
+                  <h3 data-bind="text:description">placeholder</h3>
                 </div>
                 <div class="col-sm-4">
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb6">
@@ -411,16 +415,16 @@
                   String options:
                 </legend>
                 <!-- ko foreach: stringOptions -->
-                <div class="form-group">
-                  <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="col-sm-2 control-label"></label>
-                  <div class="col-sm-10">
+                <div class="form-group list-item-configure">
+                  <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
+                  <div class="col-sm-10 col-xs-12">
                     <select data-bind="attr: { id: 'string-option'+$index() }, foreach: options, selectedIndex: selected" class="form-control">
                       <option data-bind="text: name">option</option>
                       <!-- attr: {selected: selected},  -->
                     </select>
                   </div>
-                  <small class="col-sm-12" data-bind="text: description"></small>
-                  <small class="col-sm-12" data-bind="text: selected_description"></small>
+                  <small class="col-sm-2 col-xs-12" data-bind="text: description"></small>
+                  <small class="col-sm-10 col-xs-12" data-bind="text: selected_description"></small>
                 </div>
                 <!-- /ko -->
               </fieldset>
@@ -429,13 +433,13 @@
                   Integer options:
                 </legend>
                 <!-- ko foreach: integerOptions -->
-                <div class="form-group">
-                  <label data-bind="text: name, attr: { for: 'integer-option'+$index() }" class="col-sm-2 control-label"></label>
-                  <div class="col-sm-10">
+                <div class="form-group list-item-configure">
+                  <label data-bind="text: name, attr: { for: 'integer-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
+                  <div class="col-sm-10 col-xs-12">
                     <input data-bind="attr: { id: 'integer-option'+$index(), min: min, max: max, value: value }" type="number"
                     step="1" class="form-control" />
                   </div>
-                  <small class="col-sm-12"> <span data-bind="text: description"></span> - minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
+                  <small class="col-sm-12 col-xs-12"> <span data-bind="text: description"></span> - minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
                 </div>
                 <!-- /ko -->
               </fieldset>
@@ -447,6 +451,7 @@
           <!-- <pre data-bind="text: JSON.stringify(ko.toJS($data), null, 3)"></pre> -->
 
         </div>
+       </div>
         <!-- configure-container -->
 
       </div>

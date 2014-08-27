@@ -1,98 +1,97 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
-<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1282.5" height="398.454" viewBox="-20 -20 1282.5 398.454" >
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="398.45" width="1282.5" version="1.1" viewBox="-20 -20 1282.5 398.454">
   <defs>
-    <path id="arrow" stroke-width="0" d="M 0 0 L 0 12 L 16 6 Z" />
+    <path id="arrow" stroke-width="0" d="m0 0v12l16-6z"/>
   </defs>
-  <rect fill="transparent" stroke="none" x="-20" y="-20" width="1282.5" height="398.454" />
-  <a xlink:href="1.html" id="a0">
-    <path id="a0" fill="none" stroke="blue" stroke-width="2" d="M 0 111.802 L 348.5 111.802 " />
-    <use xlink:href="#arrow" transform="translate(332.5 105.802)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="68.875" y="126.802">S01</text>
+  <rect y="-20" width="1282.5" fill="transparent" x="-20" height="398.45"/>
+  <a id="a0" xlink:href="1.html">
+    <path id="a0" stroke="blue" stroke-width="2" fill="none" d="m0 111.8h348.5"/>
+    <use xlink:href="#arrow" transform="translate(332.5 105.8)"/>
+    <text y="126.802" x="68.875" font-size="15" text-anchor="middle" fill="black">S01</text>
   </a>
-  <a xlink:href="2.html" id="a1">
-    <path id="a1" fill="none" stroke="blue" stroke-width="2" d="M 0 142.661 L 137.75 142.661 " />
-    <use xlink:href="#arrow" transform="translate(121.75 136.661)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="68.875" y="157.661">S02</text>
+  <a id="a1" xlink:href="2.html">
+    <path id="a1" stroke="blue" stroke-width="2" fill="none" d="m0 142.66h137.75"/>
+    <use xlink:href="#arrow" transform="translate(121.75 136.66)"/>
+    <text y="157.661" x="68.875" font-size="15" text-anchor="middle" fill="black">S02</text>
   </a>
-  <a xlink:href="3.html" id="a2">
-    <path id="a2" fill="none" stroke="blue" stroke-width="2" d="M 0 255.24 L 560.25 255.24 L 560.25 145.135 L 586.25 145.135 " />
-    <use xlink:href="#arrow" transform="translate(570.25 139.135)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="68.875" y="270.24">S09</text>
+  <a id="a2" xlink:href="3.html">
+    <path id="a2" stroke="blue" stroke-width="2" fill="none" d="m0 255.24h560.25v-110.1h26"/>
+    <use xlink:href="#arrow" transform="translate(570.25 139.14)"/>
+    <text y="270.24" x="68.875" font-size="15" text-anchor="middle" fill="black">S09</text>
   </a>
-  <a xlink:href="4.html" id="a3">
-    <path id="a3" fill="none" stroke="blue" stroke-width="2" d="M 428.5 91.8021 L 586.25 91.8021 " />
-    <use xlink:href="#arrow" transform="translate(592.25 107.802) rotate(270 0.0 0.0)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="497.375" y="106.802">S05</text>
+  <a id="a3" xlink:href="4.html">
+    <path id="a3" stroke="blue" stroke-width="2" fill="none" d="m428.5 91.802h157.75"/>
+    <use xlink:href="#arrow" transform="translate(592.25 107.8) rotate(-90)"/>
+    <text y="106.802" x="497.375" font-size="15" text-anchor="middle" fill="black">S05</text>
   </a>
-  <a xlink:href="5.html" id="a4">
-    <path id="a4" fill="none" stroke="blue" stroke-width="2" d="M 666.25 88.4688 L 692.25 88.4688 L 692.25 41.7344 L 814 41.7344 " />
-    <use xlink:href="#arrow" transform="translate(798 35.7344)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="745.125" y="56.7344">S06</text>
+  <a id="a4" xlink:href="5.html">
+    <path id="a4" stroke="blue" stroke-width="2" fill="none" d="m666.25 88.469h26v-46.735h121.75"/>
+    <use xlink:href="#arrow" transform="translate(798 35.734)"/>
+    <text y="56.7344" x="745.125" font-size="15" text-anchor="middle" fill="black">S06</text>
   </a>
-  <a xlink:href="6.html" id="a5">
-    <path id="a5" fill="none" stroke="blue" stroke-width="2" d="M 666.25 108.469 L 1008.75 108.469 L 1008.75 268.458 L 1044.75 268.458 " />
-    <use xlink:href="#arrow" transform="translate(1028.75 262.458)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="745.125" y="123.469">S11</text>
+  <a id="a5" xlink:href="6.html">
+    <path id="a5" stroke="blue" stroke-width="2" fill="none" d="m666.25 108.47h342.55v159.99h36"/>
+    <use xlink:href="#arrow" transform="translate(1028.8 262.46)"/>
+    <text y="123.469" x="745.125" font-size="15" text-anchor="middle" fill="black">S11</text>
   </a>
-  <a xlink:href="7.html" id="a6">
-    <path id="a6" fill="none" stroke="blue" stroke-width="2" d="M 666.25 128.469 L 692.25 128.469 L 692.25 343.454 L 1242.5 343.454 " />
-    <use xlink:href="#arrow" transform="translate(1226.5 337.454)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="1173.62" y="358.454">S12</text>
+  <a id="a6" xlink:href="6.html">
+    <path id="a6" stroke="blue" stroke-width="2" fill="none" d="m666.25 128.47h26v214.98h550.25"/>
+    <use xlink:href="#arrow" transform="translate(1226.5 337.45)"/>
+    <text y="358.454" x="1173.62" font-size="15" text-anchor="middle" fill="black">S12</text>
   </a>
-  <a xlink:href="8.html" id="a7">
-    <path id="a7" fill="none" stroke="blue" stroke-width="2" d="M 586.25 118.469 L 550.25 118.469 L 550.25 183.469 L 1130.75 183.469 L 1130.75 268.458 L 1104.75 268.458 " />
-    <use xlink:href="#arrow" transform="translate(570.25 112.469)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="745.125" y="198.469">S03</text>
+  <a id="a7" xlink:href="5.html">
+    <path id="a7" stroke="blue" stroke-width="2" fill="none" d="m586.25 118.47h-36v65h580.55v84.99h-26"/>
+    <use xlink:href="#arrow" transform="translate(570.25 112.47)"/>
+    <text y="198.469" x="745.125" font-size="15" text-anchor="middle" fill="black">S03</text>
   </a>
-  <a xlink:href="9.html" id="a8">
-    <path id="a8" fill="none" stroke="blue" stroke-width="2" d="M 887 20.8672 L 1018.75 20.8672 L 1018.75 218.465 L 1044.75 218.465 " />
-    <use xlink:href="#arrow" transform="translate(1028.75 212.465)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="955.875" y="35.8672">S07</text>
+  <a id="a8" xlink:href="3.html">
+    <path id="a8" stroke="blue" stroke-width="2" fill="none" d="m887 20.867h131.8v197.59h26"/>
+    <use xlink:href="#arrow" transform="translate(1028.8 212.46)"/>
+    <text y="35.8672" x="955.875" font-size="15" text-anchor="middle" fill="black">S07</text>
   </a>
-  <a xlink:href="10.html" id="a9">
-    <path id="a9" fill="none" stroke="blue" stroke-width="2" d="M 887 62.6016 L 913 62.6016 L 913 45.8672 L 998.75 45.8672 L 998.75 318.454 L 1242.5 318.454 " />
-    <use xlink:href="#arrow" transform="translate(1226.5 312.454)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="1173.62" y="333.454">S08</text>
+  <a id="a9" xlink:href="1.html">
+    <path id="a9" stroke="blue" stroke-width="2" fill="none" d="m887 62.602h26v-16.735h85.75v272.58h243.75"/>
+    <use xlink:href="#arrow" transform="translate(1226.5 312.45)"/>
+    <text y="333.454" x="1173.62" font-size="15" text-anchor="middle" fill="black">S08</text>
   </a>
-  <a xlink:href="11.html" id="a10">
-    <path id="a10" fill="none" stroke="blue" stroke-width="2" d="M 210.75 163.521 L 322.5 163.521 L 322.5 71.8021 L 348.5 71.8021 " />
-    <use xlink:href="#arrow" transform="translate(332.5 65.8021)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="279.625" y="178.521">S04</text>
+  <a id="a10" xlink:href="1.html">
+    <path id="a10" stroke="blue" stroke-width="2" fill="none" d="m210.75 163.52h111.75v-91.718h26"/>
+    <use xlink:href="#arrow" transform="translate(332.5 65.802)"/>
+    <text y="178.521" x="279.625" font-size="15" text-anchor="middle" fill="black">S04</text>
   </a>
-  <a xlink:href="12.html" id="a11">
-    <path id="a11" fill="none" stroke="blue" stroke-width="2" d="M 137.75 184.38 L 111.75 184.38 L 111.75 230.24 L 540.25 230.24 L 540.25 68.4688 L 702.25 68.4688 L 702.25 148.469 L 666.25 148.469 " />
-    <use xlink:href="#arrow" transform="translate(121.75 178.38)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="279.625" y="245.24">S10</text>
+  <a id="a11" xlink:href="2.html">
+    <path id="a11" stroke="blue" stroke-width="2" fill="none" d="m137.75 184.38h-26v45.86h428.5v-161.77l162-0.001v80.001h-36"/>
+    <use xlink:href="#arrow" transform="translate(121.75 178.38)"/>
+    <text y="245.24" x="279.625" font-size="15" text-anchor="middle" fill="black">S10</text>
   </a>
-  <a xlink:href="13.html" id="a12">
-    <path id="a12" fill="none" stroke="blue" stroke-width="2" d="M 1104.75 218.465 L 1242.5 218.465 " />
-    <use xlink:href="#arrow" transform="translate(1226.5 212.465)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="1173.62" y="233.465">S13</text>
+  <a id="a12" xlink:href="3.html">
+    <path id="a12" stroke="blue" stroke-width="2" fill="none" d="m1104.8 218.46h137.7"/>
+    <use xlink:href="#arrow" transform="translate(1226.5 212.46)"/>
+    <text y="233.465" x="1173.62" font-size="15" text-anchor="middle" fill="black">S13</text>
   </a>
-  <a xlink:href="14.html" id="a13">
-    <rect id="a13" stroke="black" stroke-width="0.5" fill="none" x="348.5" y="51.8021" width="80" height="80" />
-    <image x="348.5" y="51.8021" width="80" height="80" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FlowSheet.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="388.5" y="146.802">OC</text>
+  <a id="a13" xlink:href="4.html">
+    <rect id="a13" height="80" width="80" stroke="#000" y="51.802" x="348.5" stroke-width=".5" fill="none"/>
+    <image y="51.802" x="348.5" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FlowSheet.svg" width="80" height="80"/>
+    <text y="146.802" x="388.5" font-size="15" text-anchor="middle" fill="black">OC</text>
   </a>
-  <a xlink:href="15.html" id="a14">
-    <rect id="a14" stroke="black" stroke-width="0.5" fill="none" x="586.25" y="78.4688" width="80" height="80" />
-    <image x="586.25" y="78.4688" width="80" height="80" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FlowSheet.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="626.25" y="173.469">FC</text>
+  <a id="a14" xlink:href="5.html">
+    <rect id="a14" height="80" width="80" stroke="#000" y="78.469" x="586.25" stroke-width=".5" fill="none"/>
+    <image y="78.469" x="586.25" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/FlowSheet.svg" width="80" height="80"/>
+    <text y="173.469" x="626.25" font-size="15" text-anchor="middle" fill="black">FC</text>
   </a>
-  <a xlink:href="16.html" id="a15">
-    <rect id="a15" stroke="black" stroke-width="0.5" fill="none" x="814" y="0" width="73" height="83.4688" />
-    <image x="814" y="0" width="73" height="83.4688" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="850.5" y="98.4688">SPLIT</text>
+  <a id="a15" xlink:href="6.html">
+    <rect id="a15" height="83.469" width="73" stroke="#000" y="0" x="814" stroke-width=".5" fill="none"/>
+    <image y="0" x="814" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" width="73" height="83.469"/>
+    <text y="98.4688" x="850.5" font-size="15" text-anchor="middle" fill="black">SPLIT</text>
   </a>
-  <a xlink:href="17.html" id="a16">
-    <rect id="a16" stroke="black" stroke-width="0.5" fill="none" x="137.75" y="121.802" width="73" height="83.4375" />
-    <image x="137.75" y="121.802" width="73" height="83.4375" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="174.25" y="220.24">MIX</text>
+  <a id="a16" xlink:href="6.html">
+    <rect id="a16" height="83.438" width="73" stroke="#000" y="121.8" x="137.75" stroke-width=".5" fill="none"/>
+    <image y="121.8" x="137.75" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" width="73" height="83.438"/>
+    <text y="220.24" x="174.25" font-size="15" text-anchor="middle" fill="black">MIX</text>
   </a>
-  <a xlink:href="18.html" id="a17">
-    <rect id="a17" stroke="black" stroke-width="0.5" fill="none" x="1044.75" y="193.469" width="60" height="99.9857" />
-    <image x="1044.75" y="193.469" width="60" height="99.9857" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Separator.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="1074.75" y="308.454">SC</text>
+  <a id="a17" xlink:href="5.html">
+    <rect id="a17" height="99.986" width="60" stroke="#000" y="193.47" x="1044.8" stroke-width=".5" fill="none"/>
+    <image y="193.47" x="1044.8" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Separator.svg" width="60" height="99.986"/>
+    <text y="308.454" x="1074.75" font-size="15" text-anchor="middle" fill="black">SC</text>
   </a>
 </svg>

@@ -1242,6 +1242,7 @@
     },
     {
       "name": "Pasteur",
+      "icon": "Pasteur.svg",
       "description": "Generic continuous pasteurization process",
       "category": "flowsheet",
       "instantiable": true,
@@ -1262,7 +1263,7 @@
     },
     {
       "name": "PasteurHTST15_milkWhole",
-      "icon": "PasteurHTST15_milkWhole.png",
+      "icon": "PasteurHTST15_milkWhole.svg",
       "description": "High Temperature Short Time Pasteurization 15 s of whole milk",
       "category": "flowsheet",
       "instantiable": true,

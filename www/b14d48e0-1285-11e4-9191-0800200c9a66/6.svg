@@ -1,73 +1,72 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1 Tiny//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11-tiny.dtd">
-<svg version="1.1" baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="817" height="276.203" viewBox="-20 -20 817 276.203" >
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" baseProfile="tiny" height="276.2" width="817" version="1.1" viewBox="-20 -20 817 276.203">
   <defs>
-    <path id="arrow" stroke-width="0" d="M 0 0 L 0 12 L 16 6 Z" />
+    <path id="arrow" stroke-width="0" d="m0 0v12l16-6z"/>
   </defs>
-  <rect fill="transparent" stroke="none" x="-20" y="-20" width="817" height="276.203" />
-  <a xlink:href="76.html" id="a0">
-    <path id="a0" fill="none" stroke="blue" stroke-width="2" d="M 0 41.7344 L 126.5 41.7344 " />
-    <use xlink:href="#arrow" transform="translate(110.5 35.7344)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="63.25" y="56.7344">FA</text>
+  <rect y="-20" width="817" fill="transparent" x="-20" height="276.2"/>
+  <a id="a0" xlink:href="2.html">
+    <path id="a0" stroke="blue" stroke-width="2" fill="none" d="m0 41.734h126.5"/>
+    <use xlink:href="#arrow" transform="translate(110.5 35.734)"/>
+    <text y="56.7344" x="63.25" font-size="15" text-anchor="middle" fill="black">FA</text>
   </a>
-  <a xlink:href="80.html" id="a1">
-    <path id="a1" fill="none" stroke="blue" stroke-width="2" d="M 0 150.203 L 126.5 150.203 " />
-    <use xlink:href="#arrow" transform="translate(110.5 144.203)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="63.25" y="165.203">FB</text>
+  <a id="a1" xlink:href="0.html">
+    <path id="a1" stroke="blue" stroke-width="2" fill="none" d="m0 150.2h126.5"/>
+    <use xlink:href="#arrow" transform="translate(110.5 144.2)"/>
+    <text y="165.203" x="63.25" font-size="15" text-anchor="middle" fill="black">FB</text>
   </a>
-  <a xlink:href="72.html" id="a2">
-    <path id="a2" fill="none" stroke="blue" stroke-width="2" d="M 439.75 150.203 L 588.75 150.203 " />
-    <use xlink:href="#arrow" transform="translate(572.75 144.203)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="514.25" y="165.203">B[0]</text>
+  <a id="a2" xlink:href="2.html">
+    <path id="a2" stroke="blue" stroke-width="2" fill="none" d="m439.75 150.2h149"/>
+    <use xlink:href="#arrow" transform="translate(572.75 144.2)"/>
+    <text y="165.203" x="514.25" font-size="15" text-anchor="middle" fill="black">B[0]</text>
   </a>
-  <a xlink:href="70.html" id="a3">
-    <path id="a3" fill="none" stroke="blue" stroke-width="2" d="M 199.5 41.7344 L 399.75 41.7344 L 399.75 110.203 " />
-    <use xlink:href="#arrow" transform="translate(405.75 94.2031) rotate(90 0.0 0.0)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="279.625" y="56.7344">FA[0]</text>
+  <a id="a3" xlink:href="0.html">
+    <path id="a3" stroke="blue" stroke-width="2" fill="none" d="m199.5 41.734h200.25v68.466"/>
+    <use xlink:href="#arrow" transform="translate(405.75 94.203) rotate(90)"/>
+    <text y="56.7344" x="279.625" font-size="15" text-anchor="middle" fill="black">FA[0]</text>
   </a>
-  <a xlink:href="78.html" id="a4">
-    <path id="a4" fill="none" stroke="blue" stroke-width="2" d="M 661.75 41.7188 L 777 41.7188 " />
-    <use xlink:href="#arrow" transform="translate(761 35.7188)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="719.375" y="56.7188">A</text>
+  <a id="a4" xlink:href="5.html">
+    <path id="a4" stroke="blue" stroke-width="2" fill="none" d="m661.75 41.719h115.25"/>
+    <use xlink:href="#arrow" transform="translate(761 35.719)"/>
+    <text y="56.7188" x="719.375" font-size="15" text-anchor="middle" fill="black">A</text>
   </a>
-  <a xlink:href="74.html" id="a5">
-    <path id="a5" fill="none" stroke="blue" stroke-width="2" d="M 199.5 150.203 L 359.75 150.203 " />
-    <use xlink:href="#arrow" transform="translate(343.75 144.203)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="279.625" y="165.203">FB[0]</text>
+  <a id="a5" xlink:href="4.html">
+    <path id="a5" stroke="blue" stroke-width="2" fill="none" d="m199.5 150.2h160.25"/>
+    <use xlink:href="#arrow" transform="translate(343.75 144.2)"/>
+    <text y="165.203" x="279.625" font-size="15" text-anchor="middle" fill="black">FB[0]</text>
   </a>
-  <a xlink:href="82.html" id="a6">
-    <path id="a6" fill="none" stroke="blue" stroke-width="2" d="M 661.75 150.203 L 777 150.203 " />
-    <use xlink:href="#arrow" transform="translate(761 144.203)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="719.375" y="165.203">B</text>
+  <a id="a6" xlink:href="2.html">
+    <path id="a6" stroke="blue" stroke-width="2" fill="none" d="m661.75 150.2h115.25"/>
+    <use xlink:href="#arrow" transform="translate(761 144.2)"/>
+    <text y="165.203" x="719.375" font-size="15" text-anchor="middle" fill="black">B</text>
   </a>
-  <a xlink:href="68.html" id="a7">
-    <path id="a7" fill="none" stroke="blue" stroke-width="2" d="M 399.75 190.203 L 399.75 236.203 L 465.75 236.203 L 465.75 41.7188 L 588.75 41.7188 " />
-    <use xlink:href="#arrow" transform="translate(572.75 35.7188)" />
-    <text text-anchor="middle" fill="black" font-size="15" x="514.25" y="56.7188">A[0]</text>
+  <a id="a7" xlink:href="5.html">
+    <path id="a7" stroke="blue" stroke-width="2" fill="none" d="m399.75 190.2v46h66v-194.48l123-0.001"/>
+    <use xlink:href="#arrow" transform="translate(572.75 35.719)"/>
+    <text y="56.7188" x="514.25" font-size="15" text-anchor="middle" fill="black">A[0]</text>
   </a>
-  <a xlink:href="58.html" id="a8">
-    <rect id="a8" stroke="black" stroke-width="0.5" fill="none" x="359.75" y="110.203" width="80" height="80" />
-    <image x="359.75" y="110.203" width="80" height="80" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Exchanger.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="399.75" y="226.203">S[0][0]</text>
+  <a id="a8" xlink:href="5.html">
+    <rect id="a8" height="80" width="80" stroke="#000" y="110.2" x="359.75" stroke-width=".5" fill="none"/>
+    <image y="110.2" x="359.75" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Exchanger.svg" width="80" height="80"/>
+    <text y="226.203" x="399.75" font-size="15" text-anchor="middle" fill="black">S[0][0]</text>
   </a>
-  <a xlink:href="64.html" id="a9">
-    <rect id="a9" stroke="black" stroke-width="0.5" fill="none" x="126.5" y="0" width="73" height="83.4688" />
-    <image x="126.5" y="0" width="73" height="83.4688" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="163" y="98.4688">SPLITA</text>
+  <a id="a9" xlink:href="4.html">
+    <rect id="a9" height="83.469" width="73" stroke="#000" y="0" x="126.5" stroke-width=".5" fill="none"/>
+    <image y="0" x="126.5" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" width="73" height="83.469"/>
+    <text y="98.4688" x="163" font-size="15" text-anchor="middle" fill="black">SPLITA</text>
   </a>
-  <a xlink:href="65.html" id="a10">
-    <rect id="a10" stroke="black" stroke-width="0.5" fill="none" x="588.75" y="0" width="73" height="83.4375" />
-    <image x="588.75" y="0" width="73" height="83.4375" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="625.25" y="98.4375">MIXA</text>
+  <a id="a10" xlink:href="5.html">
+    <rect id="a10" height="83.438" width="73" stroke="#000" y="0" x="588.75" stroke-width=".5" fill="none"/>
+    <image y="0" x="588.75" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" width="73" height="83.438"/>
+    <text y="98.4375" x="625.25" font-size="15" text-anchor="middle" fill="black">MIXA</text>
   </a>
-  <a xlink:href="66.html" id="a11">
-    <rect id="a11" stroke="black" stroke-width="0.5" fill="none" x="126.5" y="108.469" width="73" height="83.4688" />
-    <image x="126.5" y="108.469" width="73" height="83.4688" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="163" y="206.938">SPLITB</text>
+  <a id="a11" xlink:href="2.html">
+    <rect id="a11" height="83.469" width="73" stroke="#000" y="108.47" x="126.5" stroke-width=".5" fill="none"/>
+    <image y="108.47" x="126.5" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Divider.svg" width="73" height="83.469"/>
+    <text y="206.938" x="163" font-size="15" text-anchor="middle" fill="black">SPLITB</text>
   </a>
-  <a xlink:href="67.html" id="a12">
-    <rect id="a12" stroke="black" stroke-width="0.5" fill="none" x="588.75" y="108.484" width="73" height="83.4375" />
-    <image x="588.75" y="108.484" width="73" height="83.4375" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" />
-    <text text-anchor="middle" fill="black" font-size="15" x="625.25" y="206.922">MIXB</text>
+  <a id="a12" xlink:href="2.html">
+    <rect id="a12" height="83.438" width="73" stroke="#000" y="108.48" x="588.75" stroke-width=".5" fill="none"/>
+    <image y="108.48" x="588.75" xlink:href="b14d48e0-1285-11e4-9191-0800200c9a66/Mixer.svg" width="73" height="83.438"/>
+    <text y="206.922" x="625.25" font-size="15" text-anchor="middle" fill="black">MIXB</text>
   </a>
 </svg>

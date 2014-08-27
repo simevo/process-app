@@ -2,7 +2,7 @@ html, body {
   height: 100%;
   width: 100%;
 }
-body, button, optgroup, select, textarea {
+body, button, optgroup, select, textarea, input {
   font-size: large !important;
   /*
    Font Windows Phone
@@ -15,7 +15,8 @@ body, button, optgroup, select, textarea {
 }
 
 div#svg-container {
-	height: calc(100% - 5em); 
+	height: calc(100% - 5em);
+	height: -webkit-calc(100% - 5em);
 	left: 0;
 	position:	absolute; 
 	width: 100%;
@@ -96,7 +97,7 @@ div#children {
   max-height: 100%;
 }
 div#navigation {
-	background: rgba(143, 143, 143, 1);
+	background: #007878;
   border-bottom: 1px solid #4B4B4B;
   height: 2.5em;
   padding: 3px 0;
@@ -106,15 +107,18 @@ div#navigation {
   position: relative;
 }
 div#navigation-configure {
-	background: rgba(143, 143, 143, 1);
+	background-color: #007878;
   border-bottom: 1px solid #4B4B4B;
   box-shadow: 0px 1px 10px 0px #000;
   height: 2.5em;
   padding: 3px 0;
   width: 100%;
+  z-index: 4;
+  position: relative;
 }
 div#main {
   height: calc(100% - 5em);
+  height: -webkit-calc(100% - 5em);
   width: 100%;
   z-index: 2;
   /*
@@ -141,7 +145,7 @@ div#input-box {
 }
 div#toolbar {
   border-top: 1px solid #4B4B4B;
-  background: rgba(143, 143, 143, 1);
+  background: #007878;
   height: 2.5em;
   /* controllare se ha preso padding left */
   padding: 3px;
@@ -164,7 +168,7 @@ ul#recent-list {
 ul#new-list {
   margin-bottom: 0;
 }
-ul#server-list {
+ul#service-list {
   margin-bottom: 0;
 }
 div#input-container {
@@ -228,8 +232,9 @@ div#output-container {
 }
 
 .box {
-	background: rgba(143, 143, 143, 0.5);
+	background: rgba(228, 228, 228, 0.5);
   height: calc(100% - 5em);
+  height: -webkit-calc(100% - 5em);
   width: 100%;
   top: 2.5em;
   position: absolute;
@@ -261,7 +266,7 @@ div#output-container {
   top: 50% !important;
   top: -webkit-calc(50% - 5em);
   -ms-transform: translateY(-50%);
-  -wekbit-transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
 }
 .lefty {
@@ -282,7 +287,7 @@ div#output-container {
 #recent-list {
   height: calc(100% - 3.3em);
 }
-#server-list {
+#service-list {
   height: 100%;
 }
 .list {
@@ -336,17 +341,23 @@ img.thumb8 {
   padding-left: 1em;
   border-radius: 0.5em 0.5em 0.5em 0.5em;
 }
+.list-item-configure {
+  min-height: 3em;
+  margin-left: 4em;
+  background: linear-gradient(to top, rgba(255, 255, 255,1), rgba(0, 0, 0, 0));
+  border-radius: 0.5em 0.5em 0.5em 0.5em;
+}
 .s-active {
   background: rgba(255, 255, 255, 1);
   border-radius: 0.5em 0.5em 0.5em 0.5em;
 }
-img.server-thumb {
+img.service-thumb {
   width: 5em;
   height: 5em;
   margin-top: 1em;
   margin-left: 0.25em;
 }
-.server-item {
+.service-item {
   min-height: 5em;
   margin-left: 5.5em;
   background-size: cover;
@@ -361,7 +372,7 @@ ul#recent-list li, ul#children-list li {
 ul#new-list li {
   margin: 0.5em;
 }
-ul#server-list li {
+ul#service-list li {
   margin: 0.5em;
 }
 /* da togliere */
@@ -373,16 +384,20 @@ ul#server-list li {
 }
 .nav-tabs li {
   margin-left: 0.25em;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 4px 4px 0 0;
+}
+.nav-tabs li a{
+	color: #007878;
 }
 .nav-tabs li.active {
   background: none;
+  color: #000000;
 }
 #new-container {
   display: none;
 }
-#server-container {
+#service-container {
   display: none;
 }
 input#range {
@@ -421,9 +436,13 @@ input[type=range]:focus::-webkit-slider-runnable-track {
 fieldset {
   margin: 1em !important;
 }
+#configure-veiling {
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
+	height: calc(100% - 2.5em);
+}
 #configure-container {
   width: 100%;
-  height: calc(100% - 2.5em);
+  height: 100%;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

@@ -9,11 +9,30 @@ For more informations visit: [http://simevo.com](http://simevo.com)
 
 Copyright (C) simevo 2014 [http://simevo.com](http://simevo.com)
 
+Javascript portions by Kavinda (vinok88@gmail.com).
+
+Some icons by Helena Charmer.
+
 **GPLv3 License**:
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#Testing with phonegap developer
+
+work round issue https://github.com/phonegap/phonegap-app-developer/issues/187 !
+
+added an empty the file www/__api__/register with an empty json document:
+
+    {}
+
+
+now move to repo with the terminal and type:
+
+    cordova serve
+
+the app is accessible from: http://localhost:8000/android/www/
 
 #Contains code borrowed from:
 
@@ -49,31 +68,21 @@ You should have received a copy of the GNU General Public License along with thi
 
 #Contains graphic elements and artwork from:
 
-- Biogas-Anlage icon Copyright (C) 2014 - Agentur für Erneuerbare Energien
+- Biogas fermenter dome icon based on Biogas-Anlage icon Copyright (C) 2014 - Agentur für Erneuerbare Energien
 
   [http://www.unendlich-viel-energie.de/](http://www.unendlich-viel-energie.de/)
 
-- Pasteurization icon from "Explain that Stuff"
+- Pasteurization icon adapted from from "Explain that Stuff"
 
   Creative Commons NC-SA license
 
   [http://www.explainthatstuff.com/pasteurization.html](http://www.explainthatstuff.com/pasteurization.html)
 
-- Icosahedron by DTR
-
-  Creative Commons Attribution-Share Alike 3.0 Unported license
-
-  [http://en.wikipedia.org/wiki/File:Icosahedron.svg](http://en.wikipedia.org/wiki/File:Icosahedron.svg)
-
 - Following the edges of the icosidodecahedron by fdecomite
 
+  Creative Commons Attribution 2.0 Generic (CC BY 2.0)
+
   [https://www.flickr.com/photos/fdecomite/5267221562](https://www.flickr.com/photos/fdecomite/5267221562)
-
-- Penrose LI classes by Levochik
-
-  Creative Commons Attribution-Share Alike 3.0 Unported
-
-  [http://commons.wikimedia.org/wiki/File:Penrose_LI_classes.svg](http://commons.wikimedia.org/wiki/File:Penrose_LI_classes.svg)
 
 - P8140170 by Philip Sheldrake
 
@@ -93,21 +102,31 @@ You should have received a copy of the GNU General Public License along with thi
 
   [http://thenounproject.com/term/undo/14157/](http://thenounproject.com/term/undo/14157/)
 
+#LINK SERVER
+
 #TODO
 
 ##ASAP:
 
-1. inserire file di phonegap nel repository, nel caso di index prendere la parte di codice che attiva phonegap e inserirla nel nostro codice
+1. Al primo avvio dell'app anzichè aprire su New, si aprirà su Services che sarà vuoto
 
-1. andare a modificare config.xml (creato da phonegap la prima volta) coi valori da noi interessati
+1. A ogni apertura dell'app essa effettua la discovery e aggiorna l'elenco dei servizi
+
+1. Possibilità di inserire un nuovo servizio manualmente e di rimuovere i servizi
+
+1. Possibilità di rimuovere un caso dai recent
 
 1. fare le traduzioni
 
 1. http://validator.w3.org/check
 
-HARD
+1. applicare velatura div scelta server su iOS
 
-1. Gestione tasto back
+1. inserire icone svg nuove
+
+1. creare un div opaco da mettere sotto l'icona nel div della scelta del service
+
+##HARD
 
 1. rendere l'undo stack persistente: se io inizio a modificare delle variabili poi chiudo l'app, alla riapertura non posso più annullare le modfiche fatte nella sessione precedente; questo oltre ad essere limitante è un problema grave nel momento in cui quando l'utente richiede un calcolo, devo iniviare al server le modifiche fatte !
 
@@ -119,11 +138,15 @@ HARD
 
 ##Fase post-Phonegap:
 
-1. Rimuovere tasto back per Android e Windows Phone
+1. Attivare plugin device, farci dare il valore di device.platform e in base a quel valore caricare un css a secondo che ci si trovi su WP, Android, iOS
 
 1. Solo per android non ci deve essere la toolbar in basso e i bottoni vanno in alto a dx nella navigation ed eventualmente raggruppati in un unico pulsante
 
 ##MaybeDO:
+
+1. Gestione tasto back
+
+1. Rimuovere tasto back per Android e Windows Phone
 
 1. Unificare tutti e 7 i viewModel della mainPage e rimuovere la patch
 
@@ -133,11 +156,7 @@ HARD
 
 1. Differenziazione per piattaforma
 
-1. Android Materia Design (mettere le ombre)
-
 1. Windows Phone scorrimento orizzontale anzichè la tab-list
-
-1. Rendere cliccabile l'immagine .svg
 
 ##Open questions:
 

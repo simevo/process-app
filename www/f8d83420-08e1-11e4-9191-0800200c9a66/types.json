@@ -3,7 +3,7 @@
     {
       "name": "Biogas1000",
       "description": "Biogas plant from anaerobic digestion, 1 MW Internal Combustion Engine",
-      "icon": "Biogas1000.png",
+      "icon": "Biogas1000.svg",
       "category": "flowsheet",
       "instantiable": true,
       "integerOptions": [],
@@ -19,7 +19,7 @@
     {
       "name": "Biogas100",
       "description": "Biogas plant from anaerobic digestion, 100 kW Internal Combustion Engine",
-      "icon": "Biogas100.png",
+      "icon": "Biogas100.svg",
       "category": "flowsheet",
       "instantiable": true,
       "integerOptions": [],
@@ -35,7 +35,7 @@
     {
       "name": "Biogas",
       "description": "Biogas plant from anaerobic digestion, Internal Combustion Engine, parameterized power",
-      "icon": "Biogas.png",
+      "icon": "Biogas.svg",
       "category": "flowsheet",
       "instantiable": true,
       "integerOptions": [],
