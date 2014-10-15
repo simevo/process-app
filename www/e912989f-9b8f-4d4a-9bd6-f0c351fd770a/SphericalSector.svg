@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Слой_1" xml:space="preserve" height="123.07px" viewBox="0 0 136.096 123.07" width="136.1px" version="1.1" y="0px" x="0px" enable-background="new 0 0 136.096 123.07">
+<switch>
+  <g>
+        <polygon stroke-linejoin="round" stroke="#fff" points="68.192 103.56 9.167 77.563 127.22 77.563" stroke-miterlimit="10" stroke-width="4" fill="#fff"/>
+        <path stroke-linejoin="round" d="m68.192 18.537c32.599 0 59.025 26.427 59.025 59.025h-118.05c-0.003-32.598 26.425-59.025 59.022-59.025z" stroke="#1D1D1B" stroke-miterlimit="10" stroke-width="5" fill="#fff"/>
+          <path d="m25.938 39.286" fill="none"/>
+          <path d="m68.192 77.563" fill="none"/>
+          <defs>
+            <path id="SVGID_1_" d="m42.605 9.269s80 34.147 19.411 68.295h80.746v-68.295h-100.16z"/>
+          </defs>
+          <clipPath id="SVGID_2_">
+            <use overflow="visible" xlink:href="#SVGID_1_"/>
+          </clipPath>
+            <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="77.563" cx="68.192" stroke-miterlimit="10" r="53.275" fill="#fff"/>
+            <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="77.563" cx="68.192" stroke-miterlimit="10" r="46.678" fill="#fff"/>
+            <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="77.563" cx="68.192" stroke-miterlimit="10" r="38.046" fill="#fff"/>
+            <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="77.563" cx="68.192" stroke-miterlimit="10" r="25.908" fill="#fff"/>
+            <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="77.563" cx="68.192" stroke-miterlimit="10" r="11.728" fill="#fff"/>
+          <line stroke-width="4" y2="77.563" y1="77.563" stroke="#1D1D1B" stroke-miterlimit="10" x2="127.22" x1="9.167" fill="#fff"/>
+        <polyline stroke-linejoin="round" stroke="#1D1D1B" points="9.167 77.563 68.192 103.56 127.22 77.563" stroke-miterlimit="10" stroke-width="5" fill="none"/>
+        <path stroke-linejoin="round" d="m68.192 18.537c32.599 0 59.025 26.427 59.025 59.025h-118.05c-0.003-32.598 26.425-59.025 59.022-59.025z" stroke="#1D1D1B" stroke-miterlimit="10" stroke-width="5" fill="none"/>
+          <line stroke-linejoin="round" y2="103.56" fill="none" y1="78.459" stroke="#1D1D1B" stroke-miterlimit="10" x2="68.192" x1="109.09" stroke-width="3"/>
+        <path d="m25.645 39.286" fill="none"/>
+        <path d="m67.898 77.563" fill="none"/>
+  </g>
+</switch>
+</svg>

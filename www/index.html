@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
@@ -18,6 +18,9 @@
     <script type='text/javascript' src='js/undomanager.js'></script>
 
     <!-- Simevo-specific JS -->
+    <script type='text/javascript' src='js/Landing.js'></script>
+    <script type='text/javascript' src='js/Configure.js'></script>
+    <script type='text/javascript' src='js/Main.js'></script>
     <script type='text/javascript' src='js/common.js'></script>
 
     <script type='text/javascript'>
@@ -27,22 +30,28 @@
 
   </head>
   <body>
-    <script type="text/javascript" src="phonegap.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-      app.initialize();
-    </script>
-    <div id="background">
+    <script type="text/javascript" src="cordova.js"></script>
+
+    <!-- script src="js/three.min.js"></script -->
+    <!-- script src="js/JSONLoader.js"></script -->
+    <!-- script src="js/OrbitControls.js"></script -->
+    <!-- script src="js/Detector.js"></script -->
+    <!-- script src="js/3d.js"></script -->
+    
+    <div id="background" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=')">
+
       <div id="landing-page">
 
         <div id="logo">
           <!-- TODO remove this buttons for release version ! -->
+          <!--
           <button type="button" class="btn btn-success" onclick='reset_local_storage();'>
-            <span class="glyphicon glyphicon-trash"></span>
+          <span class="glyphicon glyphicon-trash"></span>
           </button>
           <button type="button" class="btn btn-success" onclick='show_local_storage();'>
-            <span class="glyphicon glyphicon-list-alt"></span>
+          <span class="glyphicon glyphicon-list-alt"></span>
           </button>
+          -->
         </div>
         <!-- logo -->
 
@@ -66,13 +75,14 @@
                 <div class="form-group has-feedback">
                   <input id="recent-search" type="text" class="form-control" placeholder="filter" data-bind="value: recent.query, valueUpdate: 'keyup'" autocomplete="off">
                   <input type="text" class="display-none form-control" placeholder="filter">
-                  <span id="recent-search-clearer" data-bind="visible: recent.query().length > 0" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                  <!-- data-bind="visible: recent.query().length > 0" -->
+                  <span id="recent-search-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
                 </div>
               </form>
             </div>
 
             <ul data-bind="foreach: recent.recentFiltered" id="recent-list" class="yscroll list">
-              <li data-bind="attr: { id: 'r'+$index() }, event: { click: openMainPageFromLanding }" >
+              <li style="position: relative;" data-bind="attr: { id: 'r'+$index() }, event: { click: openMainPageFromLanding }" >
                 <div class="thumb">
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                 </div>
@@ -82,6 +92,9 @@
                   <p>
                     <span data-bind='text: type'></span> - <span data-bind='text: type_description'></span>
                   </p>
+                  <button type="button" class="btn btn-default disabled" style="position: absolute; right: 0.5em; top: 0.5em;">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                  </button>
                 </div>
               </li>
 
@@ -109,43 +122,68 @@
 
           </div>
           <!-- new-container -->
-
           <div id="service-container" class="rns-container">
-
-            <ul data-bind="foreach: services.services" id="service-list" class="yscroll list">
-
-              <li data-bind="if: active">
-                <div class="thumb">
-                  <img alt="service thumbnail" data-bind="attr: { src: uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
+            <ul id="service-list" class="yscroll list">
+              <li>
+                <div data-bind="style: { backgroundColor: services.activeService().color }" class="service-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: services.activeService().uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
                 <div class="service-item list-item">
-                  <strong><span data-bind="text: name"></span></strong>
+                  <strong><span data-bind='text: services.activeService().name()'>placeholder</span></strong>
+                  <!-- ko if: services.activeService().dead -->
+                  <div style="position: absolute; right: 1.5em; top: 2em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
+                    <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
+                  </div>
+                  <!-- /ko -->
                   <br />
                   <p>
-                    <span data-bind='text: description'></span>
+                    <span data-bind='text: services.activeService().description()'>placeholder</span>
                   </p>
                   <p>
-                    <span data-bind='text: service'></span>
+                    <span data-bind='text: services.activeService().server()'>placeholder</span>
                   </p>
                 </div>
               </li>
-
-              <li data-bind="ifnot: active, attr: { id: uuid }, event: { click: switchService }">
-                <div class="thumb">
+              <!-- ko foreach: services.services -->
+              <!-- ko ifnot: active -->
+              <li class="clearfix" data-bind="attr: { id: uuid }, event: { click: switchService }">
+                <div data-bind="style: { backgroundColor: color }" class="service-thumb">
                   <img alt="service thumbnail" data-bind="attr: { src: uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+uuid()+'/background.jpg)'}">
-                  <strong><span data-bind="text: name"></span></strong>
-                  <br />
-                  <p>
-                    <span data-bind='text: description'></span>
-                  </p>
-                  <button type="button" class="btn btn-default disabled">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                  </button>
+                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+uuid()+'/background.jpg); position: relative;'}">
+                  <div id="services-veiling"></div>
+                  <div style="z-index: 100; position: relative;">
+                    <strong style="float: left;"><span data-bind="text: name"></span></strong>
+                    <button type="button" class="btn btn-default disabled" style="position: absolute; right: 0.5em; top: 0.5em;">
+                      <span class="glyphicon glyphicon-remove-circle"></span>
+                    </button>
+                    <!-- ko if: dead -->
+                    <div style="position: absolute; right: 0.5em; top: 3em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
+                      <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
+                    </div>
+                    <!-- /ko -->
+                    <br />
+                    <p>
+                      <span data-bind='text: description'></span>
+                    </p>
+                  </div>
                 </div>
               </li>
-
+              <!-- /ko -->
+              <!-- /ko -->
+              <li>
+                <div class="service-thumb" style="background-color: #007878;">
+                  <img alt="service thumbnail" src="images/logo.svg" class="service-thumb">
+                </div>
+                <div class="service-item list-item" style="background-color: #007878;">
+                  <strong>[ Your own service here ... ]</strong>
+                  <br />
+                  <p>
+                    To find out how to access your own models from the <strong>simevo process app</strong>, please <a href="mailto:info@simevo.com">contact us</a>.
+                  </p>
+                  <br />
+                </div>
+              </li>
             </ul>
             <!-- service-list -->
 
@@ -154,11 +192,13 @@
 
         </div>
         <!-- tab-container -->
+        
       </div>
       <!-- landing -->
 
       <div id="main-page">
-        <div class="box" data-bind="attr: { style: 'background-image: url('+services.activeService().uuid()+'/background.jpg)'}">
+        <!-- data-bind="attr: { style: 'background-image: url('+services.activeService().uuid()+'/background.jpg)'}" -->
+        <div id="box" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=')">
           <div id="input-open" class="lid-retracted vcenter lefty" onclick="showInputContainer();">
             <span class="glyphicon glyphicon-pencil vcenter"></span>
           </div>
@@ -168,11 +208,13 @@
         </div>
         <!-- box -->
 
+        <div id="image-container"></div>
+
         <div class="container-fluid no-padding box1">
 
-          <div id="navigation" class="row no-margin">
+          <div data-bind="style: { backgroundColor: service_color }" id="navigation" class="row no-margin">
             <div class="center col-xs-2 col-sm-2 no-padding">
-              <button id="parent-open-main" type="button" class="btn btn-default" data-bind="click: clickAction()">
+              <button id="parent-open-main" type="button" class="btn btn-default" data-bind="click: clickAction">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 <span data-bind="text: homeText"></span>
               </button>
@@ -187,7 +229,6 @@
             </div>
           </div>
           <!-- navigation -->
-          <div id="svg-container"></div>
           <div id="main" class="row no-margin">
 
             <div id="input-container" class="col-xs-10 col-sm-5 no-padding">
@@ -343,7 +384,7 @@
           </div>
           <!-- main -->
 
-          <div id="toolbar" class="row no-margin">
+          <div data-bind="style: { backgroundColor: service_color }" id="toolbar" class="row no-margin">
             <div class="col-xs-12 col-sm-12 no-padding">
               <button disabled id="calculate" type="button" class="btn btn-default" onclick="launch_calculation();">
                 <span class="glyphicon glyphicon-play"></span>
@@ -365,7 +406,7 @@
       <!-- main-page -->
 
       <div id="configure-page" class="h100">
-        <div id="navigation-configure" class="row no-margin">
+        <div data-bind="style: { backgroundColor: service_color }" id="navigation-configure" class="row no-margin">
 
           <div class=" center col-xs-2 col-sm-2 no-padding">
             <button id="parent-open-configure" type="button" class="btn btn-default" onclick="window.open('index.html','_self')">
@@ -381,77 +422,75 @@
           <div class=" center col-xs-2 col-sm-2 no-padding"></div>
         </div>
         <!-- navigation-configure -->
-			<div id="configure-veiling" class="yscroll">
-        <div id="configure-container" class="form-horizontal" data-bind="">
+        <div id="configure-veiling" class="yscroll">
+          <div id="configure-container" class="form-horizontal">
 
-          <div class="box1">
+            <div class="box1">
 
-            <form id="configure-form" class="form-horizontal list" data-bind="with:configure">
-              <div class="row">
-                <div class="col-sm-8">
-                  <h2 id="type" data-bind="text:name">placeholder</h2>
-                  <h3 data-bind="text:description">placeholder</h3>
-                </div>
-                <div class="col-sm-4">
-                  <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb6">
-                </div>
-              </div>
-              <fieldset>
-                <div class="form-group has-feedback">
-                  <div class="col-xs-12 col-sm-12">
-                    <input data-bind="value: instance_tag" autofocus required id="tag" type="text" maxlength="50" placeholder="tag" class="form-control">
-                    <span data-bind="visible: instance_tag().length > 0" id="tag-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+              <form id="configure-form" class="form-horizontal list" data-bind="with:configuration">
+                <div class="row">
+                  <div class="col-sm-8">
+                    <h2 id="type" data-bind="text:name">placeholder</h2>
+                    <h3 data-bind="text:description">placeholder</h3>
+                  </div>
+                  <div class="col-sm-4">
+                    <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb6">
                   </div>
                 </div>
-                <div class="form-group has-feedback">
-                  <div class="col-xs-12 col-sm-12">
-                    <input data-bind="value: instance_description" id="description" type="text" maxlength="255" placeholder="description" class="form-control">
-                    <span data-bind="visible: instance_description().length > 0" id="description-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                <fieldset>
+                  <div class="form-group has-feedback">
+                    <div class="col-xs-12 col-sm-12">
+                      <input data-bind="value: instance_tag" autofocus required id="tag" type="text" maxlength="50" placeholder="tag" class="form-control">
+                      <span data-bind="visible: instance_tag().length > 0" id="tag-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    </div>
                   </div>
-                </div>
-              </fieldset>
-              <fieldset data-bind="visible: stringOptions().length > 0">
-                <legend>
-                  String options:
-                </legend>
-                <!-- ko foreach: stringOptions -->
-                <div class="form-group list-item-configure">
-                  <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
-                  <div class="col-sm-10 col-xs-12">
-                    <select data-bind="attr: { id: 'string-option'+$index() }, foreach: options, selectedIndex: selected" class="form-control">
-                      <option data-bind="text: name">option</option>
-                      <!-- attr: {selected: selected},  -->
-                    </select>
+                  <div class="form-group has-feedback">
+                    <div class="col-xs-12 col-sm-12">
+                      <input data-bind="value: instance_description" id="description" type="text" maxlength="255" placeholder="description" class="form-control">
+                      <span data-bind="visible: instance_description().length > 0" id="description-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                    </div>
                   </div>
-                  <small class="col-sm-2 col-xs-12" data-bind="text: description"></small>
-                  <small class="col-sm-10 col-xs-12" data-bind="text: selected_description"></small>
-                </div>
-                <!-- /ko -->
-              </fieldset>
-              <fieldset data-bind="visible: integerOptions().length > 0">
-                <legend>
-                  Integer options:
-                </legend>
-                <!-- ko foreach: integerOptions -->
-                <div class="form-group list-item-configure">
-                  <label data-bind="text: name, attr: { for: 'integer-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
-                  <div class="col-sm-10 col-xs-12">
-                    <input data-bind="attr: { id: 'integer-option'+$index(), min: min, max: max, value: value }" type="number"
-                    step="1" class="form-control" />
+                </fieldset>
+                <fieldset data-bind="visible: stringOptions().length > 0">
+                  <legend>
+                    String options:
+                  </legend>
+                  <!-- ko foreach: stringOptions -->
+                  <div class="form-group list-item-configure">
+                    <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
+                    <div class="col-sm-10 col-xs-12">
+                      <select data-bind="attr: { id: 'string-option'+$index() }, foreach: options, selectedIndex: selected" class="form-control">
+                        <option data-bind="text: name">option</option>
+                        <!-- attr: {selected: selected},  -->
+                      </select>
+                    </div>
+                    <small class="col-sm-2 col-xs-12" data-bind="text: description"></small>
+                    <small class="col-sm-10 col-xs-12" data-bind="text: selected_description"></small>
                   </div>
-                  <small class="col-sm-12 col-xs-12"> <span data-bind="text: description"></span> - minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
-                </div>
-                <!-- /ko -->
-              </fieldset>
-            </form>
-            <!-- configure-form -->
+                  <!-- /ko -->
+                </fieldset>
+                <fieldset data-bind="visible: integerOptions().length > 0">
+                  <legend>
+                    Integer options:
+                  </legend>
+                  <!-- ko foreach: integerOptions -->
+                  <div class="form-group list-item-configure">
+                    <label data-bind="text: name, attr: { for: 'integer-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
+                    <div class="col-sm-10 col-xs-12">
+                      <input data-bind="attr: { id: 'integer-option'+$index(), min: min, max: max, value: value }" type="number"
+                      step="1" class="form-control" />
+                    </div>
+                    <small class="col-sm-12 col-xs-12"> <span data-bind="text: description"></span> - minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
+                  </div>
+                  <!-- /ko -->
+                </fieldset>
+              </form>
+              <!-- configure-form -->
+            </div>
+            <!-- box1 -->
+
           </div>
-          <!-- box1 -->
-
-          <!-- <pre data-bind="text: JSON.stringify(ko.toJS($data), null, 3)"></pre> -->
-
         </div>
-       </div>
         <!-- configure-container -->
 
       </div>

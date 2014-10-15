@@ -1,17 +1,19 @@
-simevo Process App
+﻿simevo process app
 ==================
 
-The **simevo Process App (SPA)** is an open source mobile app to access process simulations hosted in the cloud using **simevo process technology**.
+The **simevo process app** is a free, open source mobile app to access process simulations hosted in the cloud using **simevo process technology**.
 
-For more informations visit: [http://simevo.com](http://simevo.com)
+For more informations visit: [http://simevo.com/process/app.html](http://simevo.com/process/app.html)
 
 #License
 
 Copyright (C) simevo 2014 [http://simevo.com](http://simevo.com)
 
+HTML5/CCS3/Javascript portions by Francesco Perotti.
+
 Javascript portions by Kavinda (vinok88@gmail.com).
 
-Some icons by Helena Charmer.
+Certain icons by Helena Charmer.
 
 **GPLv3 License**:
 
@@ -27,12 +29,19 @@ added an empty the file www/__api__/register with an empty json document:
 
     {}
 
-
 now move to repo with the terminal and type:
 
     cordova serve
 
 the app is accessible from: http://localhost:8000/android/www/
+
+#Debugging knockout.js
+
+http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs
+
+    <div>
+      <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
+    </div>
 
 #Contains code borrowed from:
 
@@ -102,64 +111,134 @@ the app is accessible from: http://localhost:8000/android/www/
 
   [http://thenounproject.com/term/undo/14157/](http://thenounproject.com/term/undo/14157/)
 
-#LINK SERVER
+#Device emulation
 
-#TODO
+Testing the app on the device emulators.
 
-##ASAP:
+Create an empty phonegap app that we will use for the builds using the [CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface):
 
-1. Al primo avvio dell'app anzichè aprire su New, si aprirà su Services che sarà vuoto
+    phonegap create process-app-local com.simevo.process-app ProcessApp
+    cd process-app-local
 
-1. A ogni apertura dell'app essa effettua la discovery e aggiorna l'elenco dei servizi
+Remove the automatically generated www directory:
 
-1. Possibilità di inserire un nuovo servizio manualmente e di rimuovere i servizi
+    rm -rf www
 
-1. Possibilità di rimuovere un caso dai recent
+Link the www directory from the live repo into the *-local build directory:
 
-1. fare le traduzioni
+    ln -s ../process-app-private/www .
 
-1. http://validator.w3.org/check
+on windows, open a CMD as admin, browse to process-app-local and:
 
-1. applicare velatura div scelta server su iOS
+    mklink /d www ..\process-app-private\www
 
-1. inserire icone svg nuove
+Now install plugins & build:
 
-1. creare un div opaco da mettere sotto l'icona nel div della scelta del service
+    phonegap local plugin add org.apache.cordova.device
+    phonegap local plugin add org.apache.cordova.file
+    phonegap local plugin add org.apache.cordova.file-transfer
+    phonegap local plugin add org.apache.cordova.splashscreen
 
-##HARD
+Now start the emulator, one of:
 
-1. rendere l'undo stack persistente: se io inizio a modificare delle variabili poi chiudo l'app, alla riapertura non posso più annullare le modfiche fatte nella sessione precedente; questo oltre ad essere limitante è un problema grave nel momento in cui quando l'utente richiede un calcolo, devo iniviare al server le modifiche fatte !
+    phonegap local run android
+    phonegap local run wp8
+    phonegap local run ios
 
-1. aggiungere la possibilità di fornire un valore di difetto per una specfica opzione stringa, diversa dal valore di difetto per l'enumeratore corrispondente; in questo caso la prima prenderà il soppravvento
+Looking at the OS console (inclusing the webview console):
 
-##Fase post freelancer:
+    adb logcat
 
-1. chiudere e resettare valori nel div input quando si crea un nuovo tipo
+or via android device monitor:
 
-##Fase post-Phonegap:
+    monitor
 
-1. Attivare plugin device, farci dare il valore di device.platform e in base a quel valore caricare un css a secondo che ci si trovi su WP, Android, iOS
+#Debugging Cordova hybrid applications on the Android emulator
 
-1. Solo per android non ci deve essere la toolbar in basso e i bottoni vanno in alto a dx nella navigation ed eventualmente raggruppati in un unico pulsante
+On Android 4.4 (kitkat) and later it is possible to debug from the Chrome / Chromium inspector of the host the HTML / javascript contents of Android WebView of a Cordova hybrid application running inside the Android emulator. 
 
-##MaybeDO:
+Enable remote debugging as per [this guide](http://www.thedumbterminal.co.uk/?action=showArticle&articleId=180) adding a few lines in the simevoProcessApp.java file located in process-app-local/platforms/android/src/com/simevo/process_app.
 
-1. Gestione tasto back
+This is the modified file:
 
-1. Rimuovere tasto back per Android e Windows Phone
+    package com.simevo.process_app;
 
-1. Unificare tutti e 7 i viewModel della mainPage e rimuovere la patch
+    import android.os.Bundle;
+    import org.apache.cordova.*;
 
-1. Una volta unificati i 7 viewModel, rimuovere la patch
+    // !! start
+    import android.os.Build;
+    import android.util.Log;
+    import android.content.pm.ApplicationInfo;
+    import android.webkit.WebView;
+    // !! end
 
-1. Quando ci sono input/output-container e clicco sullo sfondo si deve poter chiudere
+    public class simevoProcessApp extends CordovaActivity 
+    {
+        @Override
+        public void onCreate(Bundle savedInstanceState)
+        {
+            super.onCreate(savedInstanceState);
+            // !! start: enable Debugging Android WebViews in Cordova hybrid application running on kitkat
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+              if (0 != (getApplicationInfo().flags = ApplicationInfo.FLAG_DEBUGGABLE)) {
+              Log.i("Your app", "Enabling web debugging");
+              WebView.setWebContentsDebuggingEnabled(true);
+              }
+            }
+            // !! end
+            super.init();
+            // Set by <content src="index.html" /> in config.xml
+            super.loadUrl(Config.getStartUrl());
+            //super.loadUrl("file:///android_asset/www/index.html");
+        }
+    }
 
-1. Differenziazione per piattaforma
+Then do: 
 
-1. Windows Phone scorrimento orizzontale anzichè la tab-list
+    cordova -d build android
+    cordova -d run android
+    
+Then follow [this guide](https://developer.chrome.com/devtools/docs/remote-debugging) but skipping the USB part:
 
-##Open questions:
+- open Chrome / Chromium in the host 
 
-1. Dare un feedback all'undo/redo quando li effettuo?
+- Go to chrome://inspect to get a list of debuggable WebViews
 
-1. Può esser utile una tabella riassuntiva di tutte le modifiche?
+- Click inspect on the WebView you wish to debug and use the inspector as you would for a remote browser tab.
+
+#Ripple Emulation
+
+To use Ripple on Google Chrome or Firefox we have followed this procedure:
+
+We have changed this tag into the body of index.html:
+
+    <script type="text/javascript" src="phonegap.js"></script>
+
+changing phonegap.js with cordova.js
+
+    <script type="text/javascript" src="cordova.js"></script>
+
+After this, we have followed the [instructions on Raymond Camden's blog](http://www.raymondcamden.com/2013/11/5/Ripple-is-Reborn). To be more precise we have typed these commands into console:
+
+    npm install -g ripple-emulator
+    cordova plugin add org.apache.cordova.device org.apache.cordova.file org.apache.cordova.splashscreen
+    cordova platform add android
+    cordova prepare
+    mkdir -p platforms/android/assets/www/platforms
+
+Each time the app source code is changed restart the emulator:
+
+    ripple emulate --path platforms/android/assets/www
+
+At launch of this last command, your Google Chrome should open with Ripple at the last version of Cordova (3.0.0) giving no errors when you open console with your inspector / firebug.
+
+#Websql tweak
+
+Websql is supported only in google chrome / chromium; for testing, to manually load the database for site http://192.168.0.3:8080, copy persistency.db in:
+
+    /home/paolog/.config/chromium/Default/databases/http_192.168.0.3_8080/
+
+or on Windows:
+
+    c:\Users\username\AppData\Local\Google\Chrome\UserData\Default\databases\http_192.168.0.3_8080\

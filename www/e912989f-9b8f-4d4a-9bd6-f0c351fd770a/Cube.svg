@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Слой_1" xml:space="preserve" height="112.38px" viewBox="0 0 117.134 112.381" width="117.13px" version="1.1" y="0px" x="0px" enable-background="new 0 0 117.134 112.381">
+<switch>
+  <g>
+      <polygon points="2.5 110.64 2.5 36.909 114.63 2.5 114.63 75.472 75.701 109.88" fill="#fff"/>
+      <polygon points="75.701 109.88 2.5 109.88 43.027 75.472 116.23 75.472" fill="#fff"/>
+        <line stroke-linejoin="round" y2="75.472" fill="none" y1="2.5" stroke="#1D1D1B" stroke-miterlimit="10" x2="114.63" x1="114.63" stroke-width="5"/>
+        <rect stroke-linejoin="round" height="72.972" width="73.201" stroke="#1D1D1B" stroke-miterlimit="10" y="36.909" x="2.5" stroke-width="4" fill="none"/>
+        <path d="m50.348 75.472" fill="none"/>
+        <polyline stroke-linejoin="round" stroke-linecap="round" stroke="#1D1D1B" points="2.5 109.88 75.701 109.88 114.63 75.472" stroke-miterlimit="10" stroke-width="5" fill="none"/>
+        <line stroke-linejoin="round" y2="109.88" fill="none" y1="75.472" stroke="#1D1D1B" stroke-dasharray="8,4" x2="3.611" stroke-miterlimit="10" x1="43.027" stroke-width="3"/>
+        <path stroke-linejoin="round" d="m63.025 26.053" stroke="#1D1D1B" stroke-miterlimit="10" stroke-dasharray="0,4" stroke-width="3" fill="#fff"/>
+      <path stroke="#1D1D1B" stroke-width="3" stroke-miterlimit="10" d="m75.701 109.88" fill="none"/>
+      <path stroke-linejoin="round" d="m98.827 92.677" stroke="#1D1D1B" stroke-linecap="round" stroke-miterlimit="10" stroke-width="3" fill="none"/>
+        <rect stroke-linejoin="round" height="72.972" width="73.201" stroke="#1D1D1B" stroke-linecap="round" stroke-miterlimit="10" y="36.909" x="2.5" stroke-width="5" fill="none"/>
+        <polygon stroke-linejoin="round" stroke-linecap="round" stroke="#1D1D1B" points="75.701 36.909 2.5 36.909 43.027 2.5 114.63 2.5" stroke-miterlimit="10" stroke-width="5" fill="#fff"/>
+        <polyline stroke-linejoin="round" stroke="#1D1D1B" points="43.027 2.5 43.027 75.472 114.63 75.472" stroke-miterlimit="10" stroke-dasharray="8,4" stroke-width="3" fill="none"/>
+  </g>
+</switch>
+</svg>

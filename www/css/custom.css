@@ -14,20 +14,27 @@ body, button, optgroup, select, textarea, input {
    */
 }
 
-div#svg-container {
-	height: calc(100% - 5em);
-	height: -webkit-calc(100% - 5em);
-	left: 0;
-	position:	absolute; 
-	width: 100%;
-	z-index: 1;
+div#image-container {
+  height: calc(100% - 5em);
+  height: -webkit-calc(100% - 5em);
+  height: -moz-calc(100% - 5em);
+  left: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 1;
 }
 
-#svg-container > svg {
-	height: 100%;
-	margin: 0px 36px;
-	top: 50%;
-	width: calc(100% - 72px);
+#image-container > canvas {
+	position: absolute;
+  top: 0;
+  z-index: 5;
+}
+
+#image-container > svg {
+  height: 100%;
+  margin: 0px 36px;
+  top: 50%;
+  width: calc(100% - 72px);
 }
 
 #input-open, #output-open {
@@ -97,17 +104,15 @@ div#children {
   max-height: 100%;
 }
 div#navigation {
-	background: #007878;
+  box-shadow: 0px 1px 10px 0px #000;
   border-bottom: 1px solid #4B4B4B;
   height: 2.5em;
   padding: 3px 0;
-  width: 100%;
-  box-shadow: 0px 1px 10px 0px #000;
-  z-index: 4 !important;
   position: relative;
+  width: 100%;
+  z-index: 4 !important;
 }
 div#navigation-configure {
-	background-color: #007878;
   border-bottom: 1px solid #4B4B4B;
   box-shadow: 0px 1px 10px 0px #000;
   height: 2.5em;
@@ -144,15 +149,14 @@ div#input-box {
   padding: 0.5em;
 }
 div#toolbar {
+  box-shadow: 0px -1px 10px 0px #000;
   border-top: 1px solid #4B4B4B;
-  background: #007878;
   height: 2.5em;
   /* controllare se ha preso padding left */
   padding: 3px;
   position: relative;
   width: 100%;
-  box-shadow: 0px -1px 10px 0px #000;
-  z-index: 4;
+  z-index: 4 !important;
 }
 div#tab-container {
   height: 85%;
@@ -181,13 +185,12 @@ div#input-container {
   position: relative;
 }
 input#number {
-	margin: 10px 0 10px 0;
+  margin: 10px 0 10px 0;
 }
 #input-open {
   border: 1px solid #ccc;
   border-radius: 0em 0.5em 0.5em 0em;
   box-shadow: 1px 2px 10px 0px #000;
-  
 }
 #input-close {
   border: 1px solid #ccc;
@@ -231,8 +234,8 @@ div#output-container {
   padding-right: 0em !important;
 }
 
-.box {
-	background: rgba(228, 228, 228, 0.5);
+div#box {
+  background: rgba(0, 0, 0, 0.5);
   height: calc(100% - 5em);
   height: -webkit-calc(100% - 5em);
   width: 100%;
@@ -316,6 +319,11 @@ img.mirror {
 }
 div.thumb {
   float: left;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 0.5em 0.5em 0.5em 0.5em;
+}
+div.service-thumb {
+  float: left;
 }
 img.thumb2 {
   width: 2em;
@@ -337,8 +345,7 @@ img.thumb8 {
   min-height: 3em;
   margin-left: 4em;
   background-color: rgba(255, 255, 255, 0.4);
-  padding: 0.5em;
-  padding-left: 1em;
+  padding: 0 0 0 0.5em;
   border-radius: 0.5em 0.5em 0.5em 0.5em;
 }
 .list-item-configure {
@@ -354,8 +361,6 @@ img.thumb8 {
 img.service-thumb {
   width: 5em;
   height: 5em;
-  margin-top: 1em;
-  margin-left: 0.25em;
 }
 .service-item {
   min-height: 5em;
@@ -363,7 +368,6 @@ img.service-thumb {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
-  background-blend-mode: lighten;
 }
 ul#recent-list li, ul#children-list li {
   margin: 0.5em;
@@ -387,8 +391,8 @@ ul#service-list li {
   background: rgba(255, 255, 255, 0.7);
   border-radius: 4px 4px 0 0;
 }
-.nav-tabs li a{
-	color: #007878;
+.nav-tabs li a {
+  color: #007878;
 }
 .nav-tabs li.active {
   background: none;
@@ -404,41 +408,51 @@ input#range {
   margin-bottom: 20px;
 }
 
-input[type=range]{
-	-webkit-appearance: none;
+input[type=range] {
+  -webkit-appearance: none;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-	height: 5px;
-	background:#4B4B4B;
-	border: none;
-	border-radius: 3px;
+  height: 5px;
+  background: #4B4B4B;
+  border: none;
+  border-radius: 3px;
 }
 
 input[type=range]::-webkit-slider-thumb {
-	-webkit-appearance: none;
-	border: none;
-	height: 16px;
-	width: 16px;
-	border-radius: 50%;
-	background: #d43f3a;
-	margin-top: -4px;
+  -webkit-appearance: none;
+  border: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #d43f3a;
+  margin-top: -4px;
 }
 
 input[type=range]:focus {
-	outline: none;
+  outline: none;
 }
 
 input[type=range]:focus::-webkit-slider-runnable-track {
-	background: #4B4B4B;
+  background: #4B4B4B;
 }
 
 fieldset {
   margin: 1em !important;
 }
 #configure-veiling {
-	background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
-	height: calc(100% - 2.5em);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(0, 0, 0, 0));
+  height: calc(100% - 2.5em);
+}
+#services-veiling {
+  background: rgba(255, 255, 255, 0.7);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  padding: 0 0 0 0.5em;
+  border-radius: 0.5em 0.5em 0.5em 0.5em;
 }
 #configure-container {
   width: 100%;
@@ -462,4 +476,11 @@ fieldset {
 }
 #output-search-clearer {
   top: 1px;
+}
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
 }

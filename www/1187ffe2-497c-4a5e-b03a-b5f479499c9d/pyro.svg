@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:i="&#38;ns_ai;" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/" id="Слой_1" version="1.1" xml:space="preserve" height="198.03" viewBox="0 0 122.9 198.034" width="122.9" enable-background="new 0 0 201.508 208.034" y="0px" x="0px">
+  <polygon id="polygon15" transform="translate(-38.4)" stroke="#1d1d1b" points="107.33 190.54 90.178 190.54 48.631 139.67 48.631 41.291 40.945 41.291 40.945 27.408 49.727 27.408 49.727 15.158 90.995 15.158 90.995 2.5 108.14 2.5 108.14 14.75 147.93 14.75 147.93 54.766 158.78 54.766 158.78 71.099 147.93 71.099 147.93 139.67" stroke-miterlimit="10" stroke-width="4" fill="#fff"/>
+  <g id="g17" transform="translate(-38.4)">
+    <defs id="defs19">
+      <polygon id="SVGID_1_" points="107.33 190.54 90.178 190.54 48.631 139.67 48.631 41.291 40.945 41.291 40.945 27.408 49.727 27.408 49.727 15.158 90.995 15.158 90.995 2.5 108.14 2.5 108.14 14.75 147.93 14.75 147.93 54.766 158.78 54.766 158.78 71.099 147.93 71.099 147.93 139.67"/>
+    </defs>
+    <clipPath id="SVGID_2_">
+      <use id="use23" xlink:href="#SVGID_1_" height="208.034" width="201.508" y="0" x="0" overflow="visible"/>
+    </clipPath>
+    <path id="path25" d="m71.124 79.82s-2.45-38.11 28.583-38.11c31.032 0 27.766 38.11 27.766 38.11v128.21h-56.392l0.046-128.21z" clip-path="url(#SVGID_2_)" fill="#ff6243"/>
+    <path id="path27" d="m42.279 79.073h43.553v57.71s-0.271 40.287-23.137 41.377l-20.262-24.66-0.154-74.427z" clip-path="url(#SVGID_2_)" stroke="#000" stroke-miterlimit="10" stroke-width="3" fill="#ccc"/>
+    <path id="path29" d="m155.09 79.073h-41.65v57.71s0.273 40.287 23.139 41.377l18.227-29.127 0.284-69.96z" clip-path="url(#SVGID_2_)" stroke="#000" stroke-miterlimit="10" stroke-width="3" fill="#ccc"/>
+  </g>
+  <g id="g31" transform="translate(-38.4)">
+    <g id="g33">
+      <line id="line35" y2="68.491" stroke-width="7" x2="99.861" stroke="#1d1d1b" stroke-miterlimit="10" y1="100.26" x1="99.861" fill="none"/>
+      <g id="g37">
+        <polygon id="polygon39" points="108.59 71.044 99.861 55.933 91.135 71.044" fill="#1d1d1b"/>
+      </g>
+    </g>
+  </g>
+  <g id="g41" transform="translate(-38.4)">
+    <g id="g43">
+      <line id="line45" y2="123.72" stroke-width="7" x2="131" stroke="#1d1d1b" stroke-miterlimit="10" y1="100.6" x1="131" fill="none"/>
+      <g id="g47">
+        <polygon id="polygon49" points="122.27 121.17 131 136.28 139.73 121.17" fill="#1d1d1b"/>
+      </g>
+    </g>
+  </g>
+  <g id="g51" transform="translate(-38.4)">
+    <g id="g53">
+      <line id="line55" y2="123.72" stroke-width="7" x2="66.667" stroke="#1d1d1b" stroke-miterlimit="10" y1="100.6" x1="66.667" fill="none"/>
+      <g id="g57">
+        <polygon id="polygon59" points="57.94 121.17 66.667 136.28 75.393 121.17" fill="#1d1d1b"/>
+      </g>
+    </g>
+  </g>
+  <polygon id="polygon81" transform="translate(-38.4)" stroke="#1d1d1b" points="147.93 71.099 147.93 139.67 107.33 190.54 90.178 190.54 48.631 139.67 48.631 41.291 40.945 41.291 40.945 27.408 49.727 27.408 49.727 15.158 90.995 15.158 90.995 2.5 108.14 2.5 108.14 14.75 147.93 14.75 147.93 54.766 158.78 54.766 158.78 71.099" stroke-miterlimit="10" stroke-width="5" fill="none"/>
+  <path id="path3225" stroke="#000" stroke-width="5" fill="none" d="m46.6 2.534 29.3 2e-7"/>
+  <path id="path3225-9" stroke="#000" stroke-width="5" fill="none" d="m120.4 78.034v-30"/>
+  <path id="path3225-97" stroke="#000" stroke-width="5" fill="none" d="m46.6 195.53h29.3"/>
+  <path id="path3225-9-1" stroke="#000" stroke-width="5" fill="none" d="m2.5 49.034v-29"/>
+</svg>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Слой_1" xml:space="preserve" height="122.34px" viewBox="0 0 147.111 122.34" width="147.11px" version="1.1" y="0px" x="0px" enable-background="new 0 0 147.111 122.34">
+<switch>
+  <g>
+      <circle stroke-width="5" stroke="#1D1D1B" cy="61.17" cx="77.585" stroke-miterlimit="10" r="58.669" fill="#fff"/>
+        <path d="m35.332 22.894" fill="none"/>
+        <path d="m77.586 61.171" fill="none"/>
+        <defs>
+          <path id="SVGID_1_" d="m63.37 2.503s34.02 15.458 33.808 58.669c-0.143 28.99-33.808 58.668-33.808 58.668h100.16v-117.34h-100.16z"/>
+        </defs>
+        <clipPath id="SVGID_2_">
+          <use overflow="visible" xlink:href="#SVGID_1_"/>
+        </clipPath>
+          <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="61.17" cx="77.586" stroke-miterlimit="10" r="53.275" fill="#fff"/>
+          <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="61.17" cx="77.586" stroke-miterlimit="10" r="46.678" fill="#fff"/>
+          <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="61.17" cx="77.586" stroke-miterlimit="10" r="38.046" fill="#fff"/>
+          <circle stroke-width="3" clip-path="url(#SVGID_2_)" stroke="#1D1D1B" cy="61.17" cx="77.586" stroke-miterlimit="10" r="25.908" fill="#fff"/>
+  </g>
+</switch>
+</svg>

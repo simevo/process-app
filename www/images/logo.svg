@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   width="882.69"
+   height="882.6875"
+   sodipodi:docname="19732_0_logo.svg"
+   inkscape:export-filename="/home/paolog/Documenti/PROGETTI/simevo_app/s1.png"
+   inkscape:export-xdpi="100"
+   inkscape:export-ydpi="100">
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1440"
+     inkscape:window-height="853"
+     id="namedview4"
+     showgrid="false"
+     inkscape:zoom="0.5"
+     inkscape:cx="579.03822"
+     inkscape:cy="504.45374"
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <path
+     style="color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:20;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+     d="M 882.6875 20.625 C 803.1723 50.636289 737.37891 75.477572 658.03125 105.75 C 651.40594 108.27766 646.94404 109.98081 640.59375 113.09375 C 634.24346 116.20669 628.11137 119.68797 622.3125 123.46875 C 616.51364 127.24953 611.03866 131.34123 606 135.6875 C 579.22326 158.78473 565.1575 192.4565 566.8125 229.5 C 568.10701 258.47457 575.95639 277.05312 595.3125 297.15625 C 617.14669 319.83309 636.72655 330.94869 699.03125 356 C 738.00428 371.67017 760.76608 383.45717 770.53125 393 C 778.68579 400.96887 781.04125 406.3974 780.96875 417 C 780.91997 424.13744 780.50767 426.31072 778.3125 430.5625 C 773.75105 439.39747 766.21918 444.7935 750.84375 450.3125 C 738.40671 454.77677 727.67874 455.6855 713.03125 455.6875 C 532.2264 455.7105 148.24446 455.80381 0 455.6875 L 0 546.40625 C 154.94767 546.61895 575.96939 546.20557 694.03125 546.34375 C 704.38374 546.35587 740.29902 546.0114 750.03125 544.5 C 778.56657 540.06851 802.96215 530.89811 824.46875 516.46875 C 845.3374 502.4674 861.3333 483.17536 871.1875 461.34375 C 877.87217 446.32291 882.44405 427.16048 882.46875 409.09375 C 882.4569 403.07345 882.00887 397.03523 881.09375 391 C 879.16147 378.25653 876.29957 369.38718 870.46875 358 C 853.38951 324.64545 819.63215 302.21499 750.03125 278 C 696.78488 259.47494 676.06924 247.0522 667.34375 228.40625 C 659.85139 212.26421 672.65743 197.34865 690.09375 190.71875 C 742.97333 170.61207 810.16198 145.11064 882.6875 117.59375 L 882.6875 20.625 z "
+     id="rect3790" />
+</svg>
