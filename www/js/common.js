@@ -4,8 +4,10 @@
 
 function onDeviceReady() {
   "use strict";
-  console.info("Device ready"  + device.platform);
+  console.info("Device ready, platform = " + device.platform);
 }
+
+document.addEventListener ("deviceready", onDeviceReady, false);
 
 var landing = { };
 var configure = { };
@@ -108,8 +110,10 @@ function openService(uuid) {
   localStorage.setItem(services_key, services_json);
   
   // trick
-  configure.viewModel.service_uuid(uuid);
-  configure.viewModel.service_color(color);
+  if (configure.viewModel.init) {
+    configure.viewModel.service_uuid(uuid);
+    configure.viewModel.service_color(color);
+  }
   main.viewModel.service_color(color);
 } // openService
 

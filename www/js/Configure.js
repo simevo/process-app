@@ -14,7 +14,7 @@ var Configure = (function() {
 
   // public variables
   // view model
-  this.viewModel = { };
+  this.viewModel = { init: false };
 
   // public functions
   this.init = function(activeService, d) {
@@ -25,6 +25,7 @@ var Configure = (function() {
 
       // initialize configure master view model and view
       this.viewModel = {
+        init : true,
         configuration : ko.observable(null),
         service_uuid : ko.observable(activeService.uuid()),
         service_color : ko.observable(activeService.color())

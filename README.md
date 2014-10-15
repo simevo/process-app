@@ -21,28 +21,6 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#Testing with phonegap developer
-
-work round issue https://github.com/phonegap/phonegap-app-developer/issues/187 !
-
-added an empty the file www/__api__/register with an empty json document:
-
-    {}
-
-now move to repo with the terminal and type:
-
-    cordova serve
-
-the app is accessible from: http://localhost:8000/android/www/
-
-#Debugging knockout.js
-
-http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs
-
-    <div>
-      <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
-    </div>
-
 #Contains code borrowed from:
 
 - Adobe PhoneGap and Apache Cordova
@@ -111,7 +89,31 @@ http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-
 
   [http://thenounproject.com/term/undo/14157/](http://thenounproject.com/term/undo/14157/)
 
-#Device emulation
+#Building and testing
+
+##Testing with phonegap developer
+
+work round issue https://github.com/phonegap/phonegap-app-developer/issues/187 !
+
+added an empty the file www/__api__/register with an empty json document:
+
+    {}
+
+now move to repo with the terminal and type:
+
+    cordova serve
+
+the app is accessible from: http://localhost:8000/android/www/
+
+##Debugging knockout.js
+
+As per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs):
+
+    <div>
+      <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
+    </div>
+
+##Device emulation
 
 Testing the app on the device emulators.
 
@@ -124,13 +126,15 @@ Remove the automatically generated www directory:
 
     rm -rf www
 
-Link the www directory from the live repo into the *-local build directory:
+Link the www and merges directories from the live repo into the *-local build directory:
 
     ln -s ../process-app-private/www .
+    ln -s ../process-app-private/merges .
 
-on windows, open a CMD as admin, browse to process-app-local and:
+to do that on Windows, open a CMD as admin, browse to process-app-local and:
 
     mklink /d www ..\process-app-private\www
+    mklink /d merges ..\process-app-private\merges
 
 Now install plugins & build:
 
@@ -138,6 +142,7 @@ Now install plugins & build:
     phonegap local plugin add org.apache.cordova.file
     phonegap local plugin add org.apache.cordova.file-transfer
     phonegap local plugin add org.apache.cordova.splashscreen
+    phonegap local plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
 
 Now start the emulator, one of:
 
@@ -153,7 +158,7 @@ or via android device monitor:
 
     monitor
 
-#Debugging Cordova hybrid applications on the Android emulator
+##Debugging Cordova hybrid applications on the Android emulator
 
 On Android 4.4 (kitkat) and later it is possible to debug from the Chrome / Chromium inspector of the host the HTML / javascript contents of Android WebView of a Cordova hybrid application running inside the Android emulator. 
 
@@ -207,7 +212,9 @@ Then follow [this guide](https://developer.chrome.com/devtools/docs/remote-debug
 
 - Click inspect on the WebView you wish to debug and use the inspector as you would for a remote browser tab.
 
-#Ripple Emulation
+##Ripple Emulation
+
+**ripple emulation was useful in the early stages of the app development, it is less so now that we use phonegap apis**
 
 To use Ripple on Google Chrome or Firefox we have followed this procedure:
 
@@ -233,7 +240,7 @@ Each time the app source code is changed restart the emulator:
 
 At launch of this last command, your Google Chrome should open with Ripple at the last version of Cordova (3.0.0) giving no errors when you open console with your inspector / firebug.
 
-#Websql tweak
+##Websql tweak
 
 Websql is supported only in google chrome / chromium; for testing, to manually load the database for site http://192.168.0.3:8080, copy persistency.db in:
 

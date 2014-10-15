@@ -5,9 +5,9 @@
   xmlns:gap="http://phonegap.com/ns/1.0"
   xmlns:cdv="http://cordova.apache.org/ns/1.0"
   id="com.simevo.processapp"
-  version="0.0.1">
+  version="0.0.2">
 
-  <name>simevo Process App</name>
+  <name>simevo process app</name>
 
   <description>
     An open source mobile app to access process simulations hosted in the cloud using simevo process technology.
@@ -49,23 +49,21 @@
   <gap:plugin name="org.apache.cordova.device-motion" />
   <gap:plugin name="org.apache.cordova.device-orientation" />
   <gap:plugin name="org.apache.cordova.dialogs" />
-  <gap:plugin name="org.apache.cordova.file-transfer" />
   <gap:plugin name="org.apache.cordova.geolocation" />
   <gap:plugin name="org.apache.cordova.globalization" />
   <gap:plugin name="org.apache.cordova.inappbrowser" />
   <gap:plugin name="org.apache.cordova.media" />
   <gap:plugin name="org.apache.cordova.network-information" />-->
+
   <gap:plugin name="org.apache.cordova.device" />
   <gap:plugin name="org.apache.cordova.file" />
+  <gap:plugin name="org.apache.cordova.file-transfer" />
   <gap:plugin name="org.apache.cordova.splashscreen" />
 <!--  <gap:plugin name="org.apache.cordova.vibration" />-->
   
   <!-- Third party plugins -->
-  <!-- SQLite database support for Android / iOS https://build.phonegap.com/plugins/731 -->
-  <gap:plugin name="com.millerjames01.sqlite-plugin" gap:platform="android" />
-  <gap:plugin name="com.millerjames01.sqlite-plugin" gap:platform="ios" />
-  <!-- SQLite database support for WP8 https://build.phonegap.com/plugins/321 -->
-  <gap:plugin name="ch.zhaw.sqlite" gap:platform="winphone" />
+  <!-- Cordova/PhoneGap SQLitePlugin> https://build.phonegap.com/plugins/977 -->
+  <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.0" />
 
   <!-- Define app icon for each platform. -->
   <icon src="icon.png" />

@@ -4,14 +4,6 @@ html, body {
 }
 body, button, optgroup, select, textarea, input {
   font-size: large !important;
-  /*
-   Font Windows Phone
-   */
-  font-family: 'Segoe UI' !important;
-  /*
-   Font Android
-   font-family: 'Roboto' !important;
-   */
 }
 
 div#image-container {

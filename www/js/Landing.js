@@ -2,6 +2,9 @@
 /* jshint browser: true, devel: true, strict: true */
 /* global ko */
 
+// Javascript module pattern with dynamic namespacing via the Namespace Proxy technique
+// http://javascriptweblog.wordpress.com/2010/12/07/namespacing-in-javascript/
+// http://www.sitepoint.com/my-favorite-javascript-design-pattern/
 var Landing = (function() {
   "use strict";
   
@@ -23,6 +26,7 @@ var Landing = (function() {
   // public variables
   // view model with child view models
   this.viewModel =  {
+    base : ko.observable(''),
     services : [],
     recent : [],
     types : [],
@@ -130,7 +134,7 @@ var Landing = (function() {
     ko.mapping.fromJS(data, {}, this);
     this.selected = ko.observable(enumerator_default[this.enumerator()]);
     this.selected_description = ko.computed(function() {
-      // console.log('looking for the description of option ' + this.selected() + ' in enumerator ' + this.enumerator());
+      console.log('looking for the description of option ' + this.selected() + ' in enumerator ' + this.enumerator());
       return enumerator_lookup[this.enumerator()].options[this.selected()].description;
     }, this);
     this.options = ko.computed(function() {
@@ -156,36 +160,49 @@ var Landing = (function() {
     // parse JSON to javascript object
     types_used = JSON.parse(types_used_json);
 
-    xmlhttp.open("GET", THIS.viewModel.services.activeService().uuid() + "/types.json", false);
-    xmlhttp.send();
-    types = JSON.parse(xmlhttp.responseText);
-    var types_instantiatable = {
-      'types' : []
-    };
-    for (var x = 0; x < types.types.length; x++) {
-      var t = types.types[x];
-      if (t.instantiable) {
-        types_instantiatable.types.push(t);
-      }
-      if (t.icon) {
-        t.icon = THIS.viewModel.services.activeService().uuid() + "/" + t.icon;
-      } else {
-        t.icon = "images/" + t.category + ".svg";
-      }
-    }
-    // console.log("types = " + JSON.stringify(types.types));
+    var uuid = THIS.viewModel.services.activeService().uuid();
+    console.info("uuid: " + uuid);
+    console.log('--------loading types -----------------');
+    getFileEntry(uuid, '/types.json', function(entry) {
+      console.log('loading types from: ' + entry.toURL());
 
-    for (var i = 0, len = types.types.length; i < len; i++) {
-      // alert("adding type_lookup for " + types.types[i].name);
-      type_lookup[types.types[i].name] = types.types[i];
-    }
-    // console.log(JSON.stringify(type_lookup));
+      var pos = entry.toURL().indexOf(uuid);
+      var prefix = entry.toURL().substr(0, pos);
+      console.info("prefix = " + prefix);
+      THIS.viewModel.base(prefix);
 
-    if (update)
-      ko.mapping.fromJS(types_instantiatable, mappingTypes, THIS.viewModel.types);
-    else
-      THIS.viewModel.types = ko.mapping.fromJS(types_instantiatable, mappingTypes);
-    THIS.viewModel.types.types.sort(sortFunction);
+      xmlhttp.open("GET", entry.toURL(), false);
+      xmlhttp.send();
+      types = JSON.parse(xmlhttp.responseText);
+      // console.log("types = " + JSON.stringify(types.types));
+      var types_instantiatable = {
+        'types' : []
+      };
+      for (var x = 0; x < types.types.length; x++) {
+        var t = types.types[x];
+        if (t.instantiable) {
+          types_instantiatable.types.push(t);
+        }
+        if (t.icon) {
+          t.icon = THIS.viewModel.services.activeService().uuid() + "/" + t.icon;
+        } else {
+          t.icon = "images/" + t.category + ".svg";
+        }
+      }
+      console.log("types_instantiatable = " + JSON.stringify(types_instantiatable.types));
+
+      for (var i = 0, len = types.types.length; i < len; i++) {
+        // console.log("adding type_lookup for " + types.types[i].name);
+        type_lookup[types.types[i].name] = types.types[i];
+      }
+      // console.log("type_lookup = " + JSON.stringify(type_lookup));
+
+      if (update)
+        ko.mapping.fromJS(types_instantiatable, mappingTypes, THIS.viewModel.types);
+      else
+        THIS.viewModel.types = ko.mapping.fromJS(types_instantiatable, mappingTypes);
+      THIS.viewModel.types.types.sort(sortFunction);
+    }); // getFileEntry
   } // updateTypes
 
   var mappingEnumerators = {
@@ -202,29 +219,39 @@ var Landing = (function() {
       return enumerator_default[this.name()];
     }, this);
   };
+
   function updateEnumerators(update) {
     console.log('updateEnumerators');
-    console.info("uid : " + THIS.viewModel.services.activeService().uuid());
-    xmlhttp.open("GET", THIS.viewModel.services.activeService().uuid() + "/enumerators.json", false);
-    xmlhttp.send();
-    enumerators = JSON.parse(xmlhttp.responseText);
-    // alert(JSON.stringify(enumerators.enumerators));
-    enumerator_lookup = {};
-    for (var i = 0, len = enumerators.enumerators.length; i < len; i++) {
-      // alert("adding enumerator_lookup for " + enumerators.enumerators[i].name);
-      enumerator_lookup[enumerators.enumerators[i].name] = enumerators.enumerators[i];
-      for (var j = 0, len1 = enumerators.enumerators[i].options.length; j < len1; j++) {
-        if (enumerators.enumerators[i].options[j].default) {
-          enumerator_default[enumerators.enumerators[i].name] = j;
+
+    var uuid = THIS.viewModel.services.activeService().uuid();
+    console.info("uuid: " + uuid);
+    console.log('--------loading enumerators -----------------');
+    getFileEntry(uuid, '/enumerators.json', function(entry) {
+      console.log('loading enumerators from: ' + entry.toURL());
+
+      xmlhttp.open("GET", entry.toURL(), false);
+      xmlhttp.send();
+      enumerators = JSON.parse(xmlhttp.responseText);
+
+      // console.log("enumerators = "+ JSON.stringify(enumerators.enumerators));
+      enumerator_lookup = {};
+      for (var i = 0, len = enumerators.enumerators.length; i < len; i++) {
+        // console.log("adding enumerator_lookup for " + enumerators.enumerators[i].name);
+        enumerator_lookup[enumerators.enumerators[i].name] = enumerators.enumerators[i];
+        for (var j = 0, len1 = enumerators.enumerators[i].options.length; j < len1; j++) {
+          if (enumerators.enumerators[i].options[j].default) {
+            enumerator_default[enumerators.enumerators[i].name] = j;
+          }
         }
       }
-    }
-    // console.log(JSON.stringify(enumerator_lookup));
-    // console.log(JSON.stringify(enumerator_default));
-    if (update)
-      ko.mapping.fromJS(enumerators, mappingEnumerators, THIS.viewModel.enumerators);
-    else
-      THIS.viewModel.enumerators = ko.mapping.fromJS(enumerators, mappingEnumerators);
+      // console.log("enumerator_lookup = " + JSON.stringify(enumerator_lookup));
+      // console.log("enumerator_default = " + JSON.stringify(enumerator_default));
+      if (update)
+        ko.mapping.fromJS(enumerators, mappingEnumerators, THIS.viewModel.enumerators);
+      else
+        THIS.viewModel.enumerators = ko.mapping.fromJS(enumerators, mappingEnumerators);
+    }); // getFileEntry
+
   } // updateEnumerators
 
   var mappingRecent = {
@@ -307,11 +334,12 @@ var Landing = (function() {
       console.info("need to update from server");
       getDataFromAPI(serviceUrl, function(data){
         if (data===null) {
-          alert("No services found, retry?");
+          console.error("No services to discover !");
+          data = { "services" : [ ] };
         }
         detailDiscovery(data,function(detailedServices){
           saveToLocal(detailedServices,services_key,function(isFirst){
-            console.info("calling download assets");
+            console.info("calling download assets for ");
             downloadAssets(services_key,function(){
               return loadFromLocal(isFirst,services_key,update,callback);
             });
@@ -332,58 +360,69 @@ var Landing = (function() {
     console.log('connecting to: '+url);
     try {
       var request = new XMLHttpRequest();
-      request.open('GET', url, true);
       var data;
       request.onload = function() {
         if (request.status >= 200 && request.status < 400){
-            console.log("request success"+request.responseText);
-            data = JSON.parse(request.responseText);
-            callback(data);
+          console.log("request success"+request.responseText);
+          data = JSON.parse(request.responseText);
+          callback(data);
         } else {
-            console.error('problem in the server: '+url);
+          console.error('problem in the server: '+url);
           callback(null);
         // We reached our target server, but it returned an error
         }
       };
-
       request.onerror = function(e) {
         console.error('connection error for URL: '+url + ', error status: ' + e.target.status);
         callback(null);
       };
-
+      request.open('GET', url, true);
       request.send();
     } catch(err){
       console.error('problem in the server: '+err);
     }
-  }
+  } // getDataFromAPI
 
-  function detailDiscovery(data,callback){
-      console.log("IN DETAIL_DISCOVERY FUNC");
-      var serviceArray = [];
-      var i=0;
-      var len = data.services.length;
-      data.services.forEach(function(serviceData){
-          
-          getDataFromAPI(serviceData.url,function(details){
-              if(details!==null){
-                  console.info("Adding service status: "+serviceData.status);
-                  if(serviceData.status=="active"){
-                      details.active = "true";
-                      console.info("Details active: "+details.active);
-                  }
-                  else{
-                      details.active = "false";
-                      console.info("Details active: "+details.active);
-                  }
-                  serviceArray.push(details);
-              }
-              i++;
-              if(i>=len){
-                  callback({"services" : serviceArray});
-              }
-          });
+  // returns detailed service data
+  function detailDiscovery(data, callback){
+    console.log("IN DETAIL_DISCOVERY FUNC");
+    var serviceArray = [];
+    var i=0;
+    var len = data.services.length;
+    data.services.forEach(function(serviceData){
+      console.log("discovering " + JSON.stringify(serviceData));  
+      getDataFromAPI(serviceData.url,function(details){
+        if(details===null){
+          console.error("impossible to discover " + serviceData.url + " !");
+          details = { };
+          details.active = false;
+          details.dead = true;
+          details.uuid = serviceData.service_uuid;
+          details.server = serviceData.url;
+          details.name = "unknown";
+          details.description = "";
+          details.color = "#000000";
+        } else {
+          console.info("Adding service status: "+serviceData.status);
+          if (serviceData.status=="active"){
+            details.active = true;
+            details.dead = false;
+            console.info("Details active: "+details.active);
+          } else {
+            details.active = false;
+            details.dead = false;
+            console.info("Details active: "+details.active);
+          }
+        }
+        details.last_used = i;
+        serviceArray.push(details);
+        i++;
+        if(i>=len){
+          callback({"services" : serviceArray});
+        }
       });
-  } //returns detailed service data
+    });
+  } // detailDiscovery
 
   function saveToLocal(initial_services, services_key,callback){
     console.log('IN SAVE TO LOCAL FUNC');
@@ -404,30 +443,32 @@ var Landing = (function() {
     var services_json = localStorage.getItem(services_key);
     services_json = JSON.parse(services_json);
     services_json.services.forEach(function(service) {
-      var iconUrl = service.server+'icon';
-      downloadFile(iconUrl,service.uuid,"icon.svg");//icon
+      if (service.active) {
+        var iconUrl = service.server+'icon';
+        downloadFile(iconUrl,service.uuid,"icon.svg");//icon
 
-      var backgroundUrl = service.server+'background/1000';
-      downloadFile(backgroundUrl,service.uuid,'background.jpg'); //background file
+        var backgroundUrl = service.server+'background/1000';
+        downloadFile(backgroundUrl,service.uuid,'background.jpg'); //background file
 
-      var typesUrl = service.server+'types';
-      downloadFile(typesUrl,service.uuid,'types.json');
+        var typesUrl = service.server+'types';
+        downloadFile(typesUrl,service.uuid,'types.json');
 
-      var enumUrl = service.server+'enumerators';
-      downloadFile(enumUrl,service.uuid,'enumerators.json');
+        var enumUrl = service.server+'enumerators';
+        downloadFile(enumUrl,service.uuid,'enumerators.json');
 
-      var svgsUrl = service.server+'svgs';
-      getDataFromAPI(svgsUrl, function(data){
-        data.svgs.forEach(
-          function(svg) {
-            var filename = svg.substring(svg.lastIndexOf('/')+1);
-            downloadFile(svg,service.uuid,filename);
-          }
-        );
-        callback();
-      });
-    });
-  }
+        var svgsUrl = service.server+'svgs';
+        getDataFromAPI(svgsUrl, function(data){
+          data.svgs.forEach(
+            function(svg) {
+              var filename = svg.substring(svg.lastIndexOf('/')+1);
+              downloadFile(svg,service.uuid,filename);
+            }
+          );
+          callback();
+        });
+      } // service is active
+    }); // for each service  
+  } // downloadAssets
 
   function fail(e) {
     console.log("FileSystem Error");
@@ -510,6 +551,7 @@ var Landing = (function() {
             
     function onGetFileSuccess(fileEntry) {
       var path = fileEntry.toURL();
+      console.info("transferring URL " + URL + " to file " + path);
       var fileTransfer = new FileTransfer();
       //fileEntry.remove();
 
@@ -517,10 +559,10 @@ var Landing = (function() {
         URL,
         path + fileName,
         function(file) {
-            //console.log('download complete: ' + file.toURI());
+          // console.log('download complete: ' + file.toURI());
         },
         function(error) {
-            console.log('download error source ' + error.source+' target '+error.target+' code '+error.code);
+          console.log('download error source ' + error.source +' target ' + error.target + ' code ' + error.code);
         }
       );
     }
@@ -536,7 +578,7 @@ var Landing = (function() {
     );
     function onRequestFileSystemSuccess(fileSystem){
       fileSystem.root.getFile(dirName+fileName, null, function(entry){
-        console.log('entry:'+entry.toURL());
+        console.log('entry = ' + entry.toURL());
         callback(entry);
       }, fail);
     }
