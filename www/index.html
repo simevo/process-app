@@ -24,11 +24,6 @@
     <script type='text/javascript' src='js/Main.js'></script>
     <script type='text/javascript' src='js/common.js'></script>
 
-    <script type='text/javascript'>
-      // init
-      window.onload = init;
-    </script>
-
   </head>
   <body>
     <script type="text/javascript" src="cordova.js"></script>
@@ -127,7 +122,7 @@
             <ul id="service-list" class="yscroll list">
               <li>
                 <div data-bind="style: { backgroundColor: services.activeService().color }" class="service-thumb">
-                  <img alt="service thumbnail" data-bind="attr: { src: base() + services.activeService().uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: prefix() + services.activeService().uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
                 <div class="service-item list-item">
                   <strong><span data-bind='text: services.activeService().name()'>placeholder</span></strong>
@@ -149,9 +144,9 @@
               <!-- ko ifnot: active -->
               <li class="clearfix" data-bind="attr: { id: uuid }, event: { click: switchService }">
                 <div data-bind="style: { backgroundColor: color }" class="service-thumb">
-                  <img alt="service thumbnail" data-bind="attr: { src: $root.base() + uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: $root.prefix() + uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.base() + uuid()+'/background.jpg); position: relative;'}">
+                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.prefix() + uuid()+'/background.jpg); position: relative;'}">
                   <div id="services-veiling"></div>
                   <div style="z-index: 100; position: relative;">
                     <strong style="float: left;"><span data-bind="text: name"></span></strong>

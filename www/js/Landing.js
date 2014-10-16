@@ -8,7 +8,7 @@
 var Landing = (function() {
   "use strict";
   
-  console.info("loading Landing");
+  console.log("loading Landing");
 
   // private variables
   var services;
@@ -26,7 +26,7 @@ var Landing = (function() {
   // public variables
   // view model with child view models
   this.viewModel =  {
-    base : ko.observable(''),
+    prefix : ko.observable(''),
     services : [],
     recent : [],
     types : [],
@@ -35,19 +35,19 @@ var Landing = (function() {
 
   // public functions
   this.init = function() {
-    console.info("initializing Landing");
+    console.log("initializing Landing");
     // refresh services, types and recent lists
     first = updateServices(false, updateOthers);
   }; // init
 
   this.update = function() {
-    console.info("updating Landing");
+    console.log("updating Landing");
     // refresh services, types and recent lists
     first = updateServices(true, updateOthers);
   }; // update
 
   this.updateRT = function() {
-    console.info("updating Landing recent & types");
+    console.log("updating Landing recent & types");
     // refresh services, types and recent lists
     updateTypes(true);
     updateRecent(true);
@@ -69,37 +69,101 @@ var Landing = (function() {
   }; // type_property
   
   // private functions
+  function updateServices(update, callback) {
+    console.log('updateServices');
+    localStorage.clear();
+    var services_key = "services.json";
+    var serviceUrl = "http://simevo.com/api/process.json";
+    if (localStorage.getItem(services_key) === null) {
+      console.log("need to update from server");
+      downloadFile(serviceUrl,'',"process.json");
+      getDataFromAPI(serviceUrl, function(data){
+        if (data===null) {
+          console.error("No services to discover !");
+          data = { "services" : [ ] };
+        }
+        detailDiscovery(data,function(detailedServices){
+          saveToLocal(detailedServices,services_key,function(isFirst){
+            console.log("calling download assets for ");
+            downloadAssets(services_key,function(){
+              return loadFromLocal(isFirst,services_key,update,callback);
+            });
+          });
+        });  
+      });
+    } // services key in localStorage was empty: first app launch 
+    else {
+      console.log("services already in local");
+      callback(update);
+      return loadFromLocal(false,services_key,update,callback);
+    }
+  } // updateServices
+
   function updateOthers(update) {
-    updateEnumerators(update);
-    updateTypes(update);
-    updateRecent(update);
-    
-    if (!update)
-      apply();
+    updateEnumerators(update, updateTypes, updateRecent);
   } // updateOthers
 
-  function apply() {
-    console.info("applying Landing");
-    var landing_page = document.getElementById('landing-page');
-    ko.applyBindings(THIS.viewModel, landing_page);
+  ///////////////////////////// update enumerators ////////////////////////////
 
-    // assign onclick events
-    var ts = document.getElementsByClassName("tab");
-    for (var x = 0; x < ts.length; x++) {
-      ts[x].onclick = toggleTab;
+  var mappingEnumerators = {
+    'enumerators' : {
+      create : function(options) {
+        return new MyEnumeratorModel(options.data);
+      }
     }
+  };
+  var MyEnumeratorModel = function(data) {
+    var self = this;
+    ko.mapping.fromJS(data, { }, self);
+    self.default = ko.computed(function() {
+      return enumerator_default[this.name()];
+    }, this);
+  };
 
-    if (first) {
-      // if the service has not yet been chosen, open the services tab
-      sendClick(ts[2]);
-    } else if (THIS.viewModel.recent.recent().length === 0) {
-      // if there is no recent, open the new tab
-      sendClick(ts[1]);
-    } else {
-      // else open the recent tab
-      sendClick(ts[0]);
-    }
-  } // apply
+  function updateEnumerators(update, callback1, callback2) {
+    console.log('updateEnumerators');
+
+    var uuid = THIS.viewModel.services.activeService().uuid();
+    var enumerators_file = THIS.viewModel.prefix() + uuid + '/enumerators.json';
+    console.log('--------loading enumerators from: ' + enumerators_file + '-----------------');
+
+    window.resolveLocalFileSystemURL(enumerators_file, gotFile, failFS);
+    
+    function gotFile(fileEntry) {
+      fileEntry.file(function(file) {
+        var reader = new FileReader();
+
+        reader.onloadend = function(e) {
+          enumerators = JSON.parse(this.result);
+
+          // console.log("enumerators = "+ JSON.stringify(enumerators.enumerators));
+          enumerator_lookup = {};
+          for (var i = 0, len = enumerators.enumerators.length; i < len; i++) {
+            // console.log("adding enumerator_lookup for " + enumerators.enumerators[i].name);
+            enumerator_lookup[enumerators.enumerators[i].name] = enumerators.enumerators[i];
+            for (var j = 0, len1 = enumerators.enumerators[i].options.length; j < len1; j++) {
+              if (enumerators.enumerators[i].options[j].default) {
+                enumerator_default[enumerators.enumerators[i].name] = j;
+              }
+            }
+          }
+          console.log("enumerator_lookup = " + JSON.stringify(enumerator_lookup));
+          // console.log("enumerator_default = " + JSON.stringify(enumerator_default));
+          if (update)
+            ko.mapping.fromJS(enumerators, mappingEnumerators, THIS.viewModel.enumerators);
+          else
+            THIS.viewModel.enumerators = ko.mapping.fromJS(enumerators, mappingEnumerators);
+          
+          callback1(update, callback2);
+        };
+
+        reader.readAsText(file);
+      });
+
+    } // gotFile
+  } // updateEnumerators
+
+  /////////////////////////////// update types ////////////////////////////////
 
   var mappingTypes = {
     'types' : {
@@ -138,12 +202,14 @@ var Landing = (function() {
       return enumerator_lookup[this.enumerator()].options[this.selected()].description;
     }, this);
     this.options = ko.computed(function() {
+      console.log('returning options for enumerator ' + this.enumerator());
       return enumerator_lookup[this.enumerator()].options;
     }, this);
   };
 
-  function updateTypes(update) {
+  function updateTypes(update, callback) {
     console.log('updateTypes');
+
     var types_used_key = "types_used.json";
     if (localStorage.getItem(types_used_key) === null) {
       // store initial types_used list in local storage
@@ -161,99 +227,58 @@ var Landing = (function() {
     types_used = JSON.parse(types_used_json);
 
     var uuid = THIS.viewModel.services.activeService().uuid();
-    console.info("uuid: " + uuid);
-    console.log('--------loading types -----------------');
-    getFileEntry(uuid, '/types.json', function(entry) {
-      console.log('loading types from: ' + entry.toURL());
+    var types_file = THIS.viewModel.prefix() + uuid + '/types.json';
+    console.log('--------loading types from: ' + types_file + '-----------------');
 
-      var pos = entry.toURL().indexOf(uuid);
-      var prefix = entry.toURL().substr(0, pos);
-      console.info("prefix = " + prefix);
-      THIS.viewModel.base(prefix);
+    window.resolveLocalFileSystemURL(types_file, gotFile, failFS);
+    
+    function gotFile(fileEntry) {
+      fileEntry.file(function(file) {
+        var reader = new FileReader();
 
-      xmlhttp.open("GET", entry.toURL(), false);
-      xmlhttp.send();
-      types = JSON.parse(xmlhttp.responseText);
-      // console.log("types = " + JSON.stringify(types.types));
-      var types_instantiatable = {
-        'types' : []
-      };
-      for (var x = 0; x < types.types.length; x++) {
-        var t = types.types[x];
-        if (t.instantiable) {
-          types_instantiatable.types.push(t);
-        }
-        if (t.icon) {
-          t.icon = THIS.viewModel.services.activeService().uuid() + "/" + t.icon;
-        } else {
-          t.icon = "images/" + t.category + ".svg";
-        }
-      }
-      console.log("types_instantiatable = " + JSON.stringify(types_instantiatable.types));
+        reader.onloadend = function(e) {
+          types = JSON.parse(this.result);
 
-      for (var i = 0, len = types.types.length; i < len; i++) {
-        // console.log("adding type_lookup for " + types.types[i].name);
-        type_lookup[types.types[i].name] = types.types[i];
-      }
-      // console.log("type_lookup = " + JSON.stringify(type_lookup));
+          // console.log("types = " + JSON.stringify(types.types));
+          var types_instantiatable = {
+            'types' : []
+          };
+          for (var x = 0; x < types.types.length; x++) {
+            var t = types.types[x];
+            if (t.instantiable) {
+              types_instantiatable.types.push(t);
+            }
+            if (t.icon) {
+              t.icon = THIS.viewModel.prefix() + uuid + "/" + t.icon;
+            } else {
+              t.icon = "images/" + t.category + ".svg";
+            }
+          }
+          console.log("types_instantiatable = " + JSON.stringify(types_instantiatable.types));
 
-      if (update)
-        ko.mapping.fromJS(types_instantiatable, mappingTypes, THIS.viewModel.types);
-      else
-        THIS.viewModel.types = ko.mapping.fromJS(types_instantiatable, mappingTypes);
-      THIS.viewModel.types.types.sort(sortFunction);
-    }); // getFileEntry
+          for (var i = 0, len = types.types.length; i < len; i++) {
+            // console.log("adding type_lookup for " + types.types[i].name);
+            type_lookup[types.types[i].name] = types.types[i];
+          }
+          // console.log("type_lookup = " + JSON.stringify(type_lookup));
+
+          if (update)
+            ko.mapping.fromJS(types_instantiatable, mappingTypes, THIS.viewModel.types);
+          else
+            THIS.viewModel.types = ko.mapping.fromJS(types_instantiatable, mappingTypes);
+          THIS.viewModel.types.types.sort(sortFunction);
+          
+          callback(update);
+        };
+
+        reader.readAsText(file);
+      });
+
+    } // gotFile
+
   } // updateTypes
 
-  var mappingEnumerators = {
-    'enumerators' : {
-      create : function(options) {
-        return new MyEnumeratorModel(options.data);
-      }
-    }
-  };
-  var MyEnumeratorModel = function(data) {
-    var self = this;
-    ko.mapping.fromJS(data, { }, self);
-    self.default = ko.computed(function() {
-      return enumerator_default[this.name()];
-    }, this);
-  };
-
-  function updateEnumerators(update) {
-    console.log('updateEnumerators');
-
-    var uuid = THIS.viewModel.services.activeService().uuid();
-    console.info("uuid: " + uuid);
-    console.log('--------loading enumerators -----------------');
-    getFileEntry(uuid, '/enumerators.json', function(entry) {
-      console.log('loading enumerators from: ' + entry.toURL());
-
-      xmlhttp.open("GET", entry.toURL(), false);
-      xmlhttp.send();
-      enumerators = JSON.parse(xmlhttp.responseText);
-
-      // console.log("enumerators = "+ JSON.stringify(enumerators.enumerators));
-      enumerator_lookup = {};
-      for (var i = 0, len = enumerators.enumerators.length; i < len; i++) {
-        // console.log("adding enumerator_lookup for " + enumerators.enumerators[i].name);
-        enumerator_lookup[enumerators.enumerators[i].name] = enumerators.enumerators[i];
-        for (var j = 0, len1 = enumerators.enumerators[i].options.length; j < len1; j++) {
-          if (enumerators.enumerators[i].options[j].default) {
-            enumerator_default[enumerators.enumerators[i].name] = j;
-          }
-        }
-      }
-      // console.log("enumerator_lookup = " + JSON.stringify(enumerator_lookup));
-      // console.log("enumerator_default = " + JSON.stringify(enumerator_default));
-      if (update)
-        ko.mapping.fromJS(enumerators, mappingEnumerators, THIS.viewModel.enumerators);
-      else
-        THIS.viewModel.enumerators = ko.mapping.fromJS(enumerators, mappingEnumerators);
-    }); // getFileEntry
-
-  } // updateEnumerators
-
+  //////////////////////////////// update recent ///////////////////////////////
   var mappingRecent = {
     create : function(options) {
       // console.log("creating recent with data = " + options.data);
@@ -301,6 +326,7 @@ var Landing = (function() {
   var sortFunction = function(left, right) {
     return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
   };
+
   function updateRecent(update) {
     console.log('updateRecent');
     var recent_key = THIS.viewModel.services.activeService().uuid() + ".recent.json";
@@ -323,36 +349,33 @@ var Landing = (function() {
     else
       THIS.viewModel.recent = ko.mapping.fromJS(recent, mappingRecent);
     THIS.viewModel.recent.recent.sort(sortFunction);
+    
+    if (!update)
+      apply();
   } // updateRecent
 
-  function updateServices(update, callback) {
-    console.log('updateServices');
-    localStorage.clear();
-    var services_key = "services.json";
-    var serviceUrl = "http://simevo.com/process.json";
-    if (localStorage.getItem(services_key) === null) {
-      console.info("need to update from server");
-      getDataFromAPI(serviceUrl, function(data){
-        if (data===null) {
-          console.error("No services to discover !");
-          data = { "services" : [ ] };
-        }
-        detailDiscovery(data,function(detailedServices){
-          saveToLocal(detailedServices,services_key,function(isFirst){
-            console.info("calling download assets for ");
-            downloadAssets(services_key,function(){
-              return loadFromLocal(isFirst,services_key,update,callback);
-            });
-          });
-        });  
-      });
-    } // services key in localStorage was empty: first app launch 
-    else {
-      console.log("services already in local");
-      callback(update);
-      return loadFromLocal(false,services_key,update,callback);
+  function apply() {
+    console.log("applying Landing");
+    var landing_page = document.getElementById('landing-page');
+    ko.applyBindings(THIS.viewModel, landing_page);
+
+    // assign onclick events
+    var ts = document.getElementsByClassName("tab");
+    for (var x = 0; x < ts.length; x++) {
+      ts[x].onclick = toggleTab;
     }
-  } // updateServices
+
+    if (first) {
+      // if the service has not yet been chosen, open the services tab
+      sendClick(ts[2]);
+    } else if (THIS.viewModel.recent.recent().length === 0) {
+      // if there is no recent, open the new tab
+      sendClick(ts[1]);
+    } else {
+      // else open the recent tab
+      sendClick(ts[0]);
+    }
+  } // apply
 
   function getDataFromAPI(url,callback) {
     console.log('IN GETDATAFROMAPI FUNC');
@@ -403,15 +426,15 @@ var Landing = (function() {
           details.description = "";
           details.color = "#000000";
         } else {
-          console.info("Adding service status: "+serviceData.status);
+          console.log("Adding service status: "+serviceData.status);
           if (serviceData.status=="active"){
             details.active = true;
             details.dead = false;
-            console.info("Details active: "+details.active);
+            console.log("Details active: "+details.active);
           } else {
             details.active = false;
             details.dead = false;
-            console.info("Details active: "+details.active);
+            console.log("Details active: "+details.active);
           }
         }
         details.last_used = i;
@@ -499,38 +522,47 @@ var Landing = (function() {
 
   function loadFromLocal(first,services_key,update,callback) {
     console.log('loadFromLocal');
-    // load value from local storage
-    var services_json = localStorage.getItem(services_key);
-    // parse JSON to javascript object
-    var services = JSON.parse(services_json);
     
-    if (update)
-      ko.mapping.fromJS(services, mappingRecent, THIS.viewModel.services);
-    else
-      THIS.viewModel.services = ko.mapping.fromJS(services, mappingServices);
-    THIS.viewModel.services.services().sort(function(left, right) {
-      return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
-    });
+    getFileEntry('.', '/process.json', function(entry) {
+      console.log('setting prefix from: ' + entry.toURL());
+      var pos = entry.toURL().indexOf('./process.json');
+      var prefix = entry.toURL().substr(0, pos);
+      console.log("prefix = " + prefix);
+      THIS.viewModel.prefix(prefix);
 
-    var uuid = THIS.viewModel.services.activeService().uuid();
-    console.log('UUID = ' + uuid);
-    console.log('--------loading background-----------------');
-    getFileEntry(uuid, '/background.jpg', function(entry) {
+      // load value from local storage
+      var services_json = localStorage.getItem(services_key);
+      // parse JSON to javascript object
+      var services = JSON.parse(services_json);
+      
+      if (update)
+        ko.mapping.fromJS(services, mappingRecent, THIS.viewModel.services);
+      else
+        THIS.viewModel.services = ko.mapping.fromJS(services, mappingServices);
+      THIS.viewModel.services.services().sort(function(left, right) {
+        return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
+      });
+
+      var uuid = THIS.viewModel.services.activeService().uuid();
+      var background_file = THIS.viewModel.prefix() + uuid + '/background.jpg';
+      console.log('--------loading background from: ' + background_file + '-----------------');
+
       var box = document.getElementById('box');
-      box.style.backgroundImage = 'url(' + entry.toURL() + ')';
-      console.log('set background image of div#box to: ' + entry.toURL());
+      box.style.backgroundImage = 'url(' + background_file + ')';
+      console.log('set background image of div#box to: ' + background_file);
 
       var background = document.getElementById('background');
-      background.style.backgroundImage = 'url(' + entry.toURL() + ')';
-      console.log('set background image of div#background to: ' + entry.toURL());
+      background.style.backgroundImage = 'url(' + background_file + ')';
+      console.log('set background image of div#background to: ' + background_file);
 
       callback(update);
-      return first;
     });
+
+    return first;
   } // loadFromLocal
 
-  function downloadFile(url,dirName,fileName) {
-    console.log('loadFromLocal url=' + url + " dirname = " + dirName + " fileName = " + fileName);
+  function downloadFile(url, dirName, fileName) {
+    console.log('downloadFile url = ' + url + " dirName = " + dirName + " fileName = " + fileName);
     var URL = url;
     
     window.requestFileSystem(
@@ -541,23 +573,38 @@ var Landing = (function() {
     );
 
     function onRequestFileSystemSuccess(fileSystem) {
-      fileSystem.root.getDirectory(
-        dirName,
-        {create: true, exclusive: false},
-        onGetFileSuccess,
-        fail
-      );
+      if (dirName === '') {
+        console.log('create ' + fileName + ' in root');
+        fileSystem.root.getFile(fileName,
+          { create: true, exclusive: false},
+          function(fileEntry) {
+            var path = fileEntry.toURL();
+            onGetFileSuccess(path);
+          },
+          fail
+        );
+      } else {
+        console.log('create ' + fileName + ' in ' + dirName);
+        fileSystem.root.getDirectory(
+          dirName,
+          { create: true, exclusive: false},
+          function(dirEntry) {
+            var path = dirEntry.toURL() + fileName;
+            onGetFileSuccess(path);
+          },
+          fail
+        );
+      }
     }
             
-    function onGetFileSuccess(fileEntry) {
-      var path = fileEntry.toURL();
-      console.info("transferring URL " + URL + " to file " + path);
+    function onGetFileSuccess(path) {
+      console.log("transferring URL " + URL + " to file " + path);
       var fileTransfer = new FileTransfer();
       //fileEntry.remove();
 
       fileTransfer.download(
         URL,
-        path + fileName,
+        path,
         function(file) {
           // console.log('download complete: ' + file.toURI());
         },
@@ -583,7 +630,7 @@ var Landing = (function() {
       }, fail);
     }
   }
-  
+
   function type_used(type_name) {
     var len = types_used.length, i;
     for ( i = 0; i < len; i++) {

@@ -5,7 +5,7 @@
 var Configure = (function() {
   "use strict";
 
-  console.info("loading Configure");
+  console.log("loading Configure");
 
   // private variables
   var first = true;
@@ -21,7 +21,7 @@ var Configure = (function() {
     if (first) {
       first = false;
 
-      console.info("initializing Configure");
+      console.log("initializing Configure");
 
       // initialize configure master view model and view
       this.viewModel = {
@@ -36,11 +36,11 @@ var Configure = (function() {
 
       apply();
     } else {
-      console.info("updating Configure");
+      console.log("updating Configure");
 
       this.viewModel.configuration(d);
-      this.viewModel.service_uuid(activeService.uuid()),
-      this.viewModel.service_color(activeService.color())
+      this.viewModel.service_uuid(activeService.uuid());
+      this.viewModel.service_color(activeService.color());
     }
   }; // init
   
@@ -51,7 +51,7 @@ var Configure = (function() {
   // private stuff
   
   function apply() {
-    console.info("applying Configure");
+    console.log("applying Configure");
 
     var recent_search_clearer = document.getElementById('recent-search-clearer');
     recent_search_clearer.onclick = function() {

@@ -5,7 +5,7 @@
 var Main = (function() {
   "use strict";
   
-  console.info("loading Main");
+  console.log("loading Main");
 
   // private variables
   var first = true;
@@ -31,7 +31,7 @@ var Main = (function() {
     if (first) {
       first = false;
 
-      console.info("initializing Main");
+      console.log("initializing Main");
 
       type_property = typeProperty;
 
@@ -125,7 +125,7 @@ var Main = (function() {
 
       apply();
     } else {
-      console.info("updating Main");
+      console.log("updating Main");
     }
     // point to the node with database N.ID == 0 and load all data
     this.change_node(0);
@@ -133,7 +133,7 @@ var Main = (function() {
 
   // private functions
   function apply() {
-    console.info("applying Main");
+    console.log("applying Main");
 
     var messages_list = document.getElementById('messages-list');
     ko.applyBindings(viewModelMessages, messages_list);

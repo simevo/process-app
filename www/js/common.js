@@ -4,7 +4,8 @@
 
 function onDeviceReady() {
   "use strict";
-  console.info("Device ready, platform = " + device.platform);
+  console.log("Device ready, platform = " + device.platform);
+  init();
 }
 
 document.addEventListener ("deviceready", onDeviceReady, false);
@@ -16,7 +17,7 @@ var main = { };
 function init() {
   "use strict";
   
-  console.info("initting");
+  console.log("initting");
   
   // import Landing module
   Landing.call(landing);
@@ -45,15 +46,32 @@ function clickAction() {
   }
 }
 
+function failFS(e) {
+  "use strict";
+  console.log("FileSystem Error");
+  console.dir(e);
+}
+
 function change_svg(id) {
   "use strict";
   var file_svg = "b14d48e0-1285-11e4-9191-0800200c9a66/" + id + ".svg";
-  xmlhttp.open("GET", file_svg, false);
-  xmlhttp.send();
-  var svg = xmlhttp.responseText;
-  document.getElementById('image-container').innerHTML = svg;
-  overrideXlinks();
-}
+
+  window.resolveLocalFileSystemURL(file_svg, gotFile, failFS);
+  
+  function gotFile(fileEntry) {
+    fileEntry.file(function(file) {
+      var reader = new FileReader();
+
+      reader.onloadend = function(e) {
+        var svg = this.result;
+        document.getElementById('image-container').innerHTML = svg;
+        overrideXlinks();
+      };
+
+      reader.readAsText(file);
+    });
+  } // gotFile
+} // change_svg
 
 function clear_field(control_id) {
   "use strict";
@@ -84,7 +102,6 @@ function sendClick(control) {
 }
 
 // global variables
-var xmlhttp = new XMLHttpRequest();
 var btnUndo;
 var btnRedo;
 
