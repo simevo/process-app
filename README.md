@@ -1,4 +1,4 @@
-﻿simevo process app
+simevo process app
 ==================
 
 The **simevo process app** is a free, open source mobile app to access process simulations hosted in the cloud using **simevo process technology**.
@@ -119,7 +119,7 @@ Testing the app on the device emulators.
 
 Create an empty phonegap app that we will use for the builds using the [CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface):
 
-    phonegap create process-app-local com.simevo.process-app ProcessApp
+    phonegap create process-app-local com.simevo.processapp processapp
     cd process-app-local
 
 Remove the automatically generated www directory:
@@ -150,6 +150,8 @@ Now start the emulator, one of:
     phonegap local run wp8
     phonegap local run ios
 
+###Android-specific bits:
+
 Looking at the OS console (inclusing the webview console):
 
     adb logcat
@@ -157,6 +159,23 @@ Looking at the OS console (inclusing the webview console):
 or via android device monitor:
 
     monitor
+
+###iOS-specific tips:
+
+Build once with phonegap CLI, then open the process-app-local/platforms/ios/simevo process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap
+
+It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in process-app-local/platforms/ios/CordovaLib/Classes/CDVViewController.m in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.
+
+###Windows-specific bits:
+
+The build will succeed but loading to the emulator fails with this error:
+
+    CordovaDeploy.exe not found, attempting to build CordovaDeploy.exe...
+    ..\process-app-local\platforms\wp8\cordova\lib\deploy.js(96, 5) WshShell.Exec: The system cannot find the file specified.
+
+The solution: open the Visual Studio solution process-app-local\platforms\wp8\simevo_process_app.sln then start the debugger in there.
+
+To watch files in the isolated storage, get [Windows Phone Power Tools](http://wptools.codeplex.com/).
 
 ##Debugging Cordova hybrid applications on the Android emulator
 

@@ -66,9 +66,30 @@ var Main = (function() {
       };
 
       // initialize messages view-model and view
-      xmlhttp.open("GET", "messages.json", false);
-      xmlhttp.send();
-      messages = JSON.parse(xmlhttp.responseText);
+      messages = {
+        "messages": [
+          {
+            "fulltag": "FC",
+            "message_text": "fuel inlet too low",
+            "type": "warning"
+          },
+          {
+            "fulltag": "FC:stacks",
+            "message_text": "maximum temperature too high",
+            "type": "error"
+          },
+          {
+            "fulltag": "FC:BLOWER",
+            "message_text": "surge limit approaching",
+            "type": "warning"
+          },
+          {
+            "fulltag": "C101:S01:Tphase",
+            "message_text": "zero total flow",
+            "type": "warning"
+          }
+        ]
+      };
       viewModelMessages = ko.mapping.fromJS(messages, mapping);
 
       // initialize input view-model and view with empty data; these will be actually filled by change_node

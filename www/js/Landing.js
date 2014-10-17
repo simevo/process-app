@@ -49,8 +49,7 @@ var Landing = (function() {
   this.updateRT = function() {
     console.log("updating Landing recent & types");
     // refresh services, types and recent lists
-    updateTypes(true);
-    updateRecent(true);
+    updateTypes(true, updateRecent);
   }; // updateRT
 
   this.type_property = function(type_name, property_name, default_value) {
@@ -71,12 +70,12 @@ var Landing = (function() {
   // private functions
   function updateServices(update, callback) {
     console.log('updateServices');
-    localStorage.clear();
+    // uncomment to force reloading each time
+    // localStorage.clear();
     var services_key = "services.json";
     var serviceUrl = "http://simevo.com/api/process.json";
     if (localStorage.getItem(services_key) === null) {
       console.log("need to update from server");
-      downloadFile(serviceUrl,'',"process.json");
       getDataFromAPI(serviceUrl, function(data){
         if (data===null) {
           console.error("No services to discover !");
@@ -94,7 +93,6 @@ var Landing = (function() {
     } // services key in localStorage was empty: first app launch 
     else {
       console.log("services already in local");
-      callback(update);
       return loadFromLocal(false,services_key,update,callback);
     }
   } // updateServices
@@ -124,19 +122,19 @@ var Landing = (function() {
     console.log('updateEnumerators');
 
     var uuid = THIS.viewModel.services.activeService().uuid();
-    var enumerators_file = THIS.viewModel.prefix() + uuid + '/enumerators.json';
-    console.log('--------loading enumerators from: ' + enumerators_file + '-----------------');
-
-    window.resolveLocalFileSystemURL(enumerators_file, gotFile, failFS);
-    
-    function gotFile(fileEntry) {
+    getFileEntry(uuid, '/enumerators.json', function(fileEntry) {
+      console.log('--------loading enumerators from: ' + fileEntry.toURL() + '-----------------');
       fileEntry.file(function(file) {
         var reader = new FileReader();
 
         reader.onloadend = function(e) {
-          enumerators = JSON.parse(this.result);
+          console.log("raw file enumerators.JSON = " + this.result);
+          if (typeof this.result === 'object')
+            enumerators = this.result;
+          else
+            enumerators = JSON.parse(this.result);
+          console.log("enumerators = " + JSON.stringify(enumerators.enumerators));
 
-          // console.log("enumerators = "+ JSON.stringify(enumerators.enumerators));
           enumerator_lookup = {};
           for (var i = 0, len = enumerators.enumerators.length; i < len; i++) {
             // console.log("adding enumerator_lookup for " + enumerators.enumerators[i].name);
@@ -148,7 +146,7 @@ var Landing = (function() {
             }
           }
           console.log("enumerator_lookup = " + JSON.stringify(enumerator_lookup));
-          // console.log("enumerator_default = " + JSON.stringify(enumerator_default));
+          console.log("enumerator_default = " + JSON.stringify(enumerator_default));
           if (update)
             ko.mapping.fromJS(enumerators, mappingEnumerators, THIS.viewModel.enumerators);
           else
@@ -156,11 +154,9 @@ var Landing = (function() {
           
           callback1(update, callback2);
         };
-
         reader.readAsText(file);
-      });
-
-    } // gotFile
+      }); // fileEntry
+    }); // gotFileEntry
   } // updateEnumerators
 
   /////////////////////////////// update types ////////////////////////////////
@@ -227,19 +223,18 @@ var Landing = (function() {
     types_used = JSON.parse(types_used_json);
 
     var uuid = THIS.viewModel.services.activeService().uuid();
-    var types_file = THIS.viewModel.prefix() + uuid + '/types.json';
-    console.log('--------loading types from: ' + types_file + '-----------------');
-
-    window.resolveLocalFileSystemURL(types_file, gotFile, failFS);
-    
-    function gotFile(fileEntry) {
+    getFileEntry(uuid, '/types.json', function(fileEntry) {
+      console.log('--------loading types from: ' + fileEntry.toURL() + '-----------------');
       fileEntry.file(function(file) {
         var reader = new FileReader();
 
-        reader.onloadend = function(e) {
-          types = JSON.parse(this.result);
+        reader.onloadend = function (e) {
+          if (typeof this.result === 'object')
+            types = this.result;
+          else
+            types = JSON.parse(this.result);
+          console.log("types = " + JSON.stringify(types.types));
 
-          // console.log("types = " + JSON.stringify(types.types));
           var types_instantiatable = {
             'types' : []
           };
@@ -270,12 +265,9 @@ var Landing = (function() {
           
           callback(update);
         };
-
         reader.readAsText(file);
-      });
-
-    } // gotFile
-
+      }); // fileEntry
+    }); // gotFileEntry
   } // updateTypes
 
   //////////////////////////////// update recent ///////////////////////////////
@@ -522,11 +514,15 @@ var Landing = (function() {
 
   function loadFromLocal(first,services_key,update,callback) {
     console.log('loadFromLocal');
-    
-    getFileEntry('.', '/process.json', function(entry) {
-      console.log('setting prefix from: ' + entry.toURL());
-      var pos = entry.toURL().indexOf('./process.json');
-      var prefix = entry.toURL().substr(0, pos);
+
+    window.requestFileSystem(
+      LocalFileSystem.PERSISTENT,
+      0,
+      onRequestFileSystemSuccess,
+      fail
+    );
+    function onRequestFileSystemSuccess(fileSystem) {
+      var prefix = fileSystem.root.toURL();
       console.log("prefix = " + prefix);
       THIS.viewModel.prefix(prefix);
 
@@ -556,7 +552,7 @@ var Landing = (function() {
       console.log('set background image of div#background to: ' + background_file);
 
       callback(update);
-    });
+    }
 
     return first;
   } // loadFromLocal
