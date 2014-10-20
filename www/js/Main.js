@@ -25,15 +25,17 @@ var Main = (function() {
   var type_property;
   
   // public variables
+  this.case_uuid = '';
 
   // public functions
-  this.init = function(activeService, typeProperty) {
+  this.init = function(activeService, caseUuid, typeProperty) {
     if (first) {
       first = false;
 
       console.log("initializing Main");
 
       type_property = typeProperty;
+      this.case_uuid = caseUuid;
 
       // define a knockout binding handler to get the selectedIndex property of the select element
       // i.e. to find out the index of the currently selected option
@@ -119,11 +121,9 @@ var Main = (function() {
       };
       viewModelChildren = ko.mapping.fromJS(children, mapping);
 
-      var current_case = 'b14d48e0-1285-11e4-9191-0800200c9a66';
-
       // sqlite database connection
       if (window.openDatabase) {
-        db = openDatabase(current_case + '/persistency.db', '1.0', 'persistency database', 2 * 1024 * 1024);
+        db = openDatabase(this.case_uuid + '/persistency.db', '1.0', 'persistency database', 2 * 1024 * 1024);
         db.transaction(function(tx) {
           tx.executeSql('SELECT * FROM N', [], function(tx, results) {
             var len = results.rows.length, i;
@@ -263,6 +263,7 @@ var Main = (function() {
   }; // action
   
   this.change_node = function(targetid) {
+    console.log("switching to node " + targetid);
     // update main list of children nodes, update toggle button
     var childArray = [];
     if (db) {

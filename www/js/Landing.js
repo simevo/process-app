@@ -25,7 +25,7 @@ var Landing = (function() {
 
   // public variables
   // view model with child view models
-  this.viewModel =  {
+  this.viewModel = {
     prefix : ko.observable(''),
     services : [],
     recent : [],
@@ -81,7 +81,8 @@ var Landing = (function() {
           console.error("No services to discover !");
           data = { "services" : [ ] };
         }
-        detailDiscovery(data,function(detailedServices){
+        detailDiscovery(data, function(detailedServices){
+          console.log('detailed services = ' + JSON.stringify(detailedServices));
           saveToLocal(detailedServices,services_key,function(isFirst){
             console.log("calling download assets for ");
             downloadAssets(services_key,function(){
@@ -453,7 +454,7 @@ var Landing = (function() {
     callback(first);
   }
 
-  function downloadAssets(services_key,callback){
+  function downloadAssets(services_key, callback) {
     console.log("IN DOWNLOAD ASSETS FUNC");
     var services_json = localStorage.getItem(services_key);
     services_json = JSON.parse(services_json);
@@ -479,6 +480,7 @@ var Landing = (function() {
               downloadFile(svg,service.uuid,filename);
             }
           );
+          console.log('================================================================================');
           callback();
         });
       } // service is active
@@ -602,7 +604,7 @@ var Landing = (function() {
         URL,
         path,
         function(file) {
-          // console.log('download complete: ' + file.toURI());
+          console.log('download complete: ' + file.toURL());
         },
         function(error) {
           console.log('download error source ' + error.source +' target ' + error.target + ' code ' + error.code);

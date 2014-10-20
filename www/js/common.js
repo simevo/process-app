@@ -160,15 +160,17 @@ function show_local_storage() {
   console.log(localStorage.getItem(types_used_key));
 }// show
 
-function openMainPageFromLanding() {
+function openMainPageFromLanding(d, e) {
   "use strict";
+
+  console.log('openMainPageFromLanding');
 
   hideChildren();
   hideInputContainer();
   hideOutputContainer();
   hideInfoContainer();
 
-  main.init(landing.viewModel.services.activeService(), landing.type_property);
+  main.init(landing.viewModel.services.activeService(), d.handle(), landing.type_property);
 
   // hide landing page
   var landing_page = document.getElementById('landing-page');
@@ -195,6 +197,8 @@ function openLandingPageFromMain() {
 function openConfigurePageFromLanding(d, e) {
   "use strict";
   
+  console.log('openConfigurePageFromLanding(' + JSON.stringify(d) + ')');
+
   // update last_used field for the selected type so that it is pushed up in the new-list
   d.last_used(Math.round(Date.now() / 1000));
   // reset the fields in the configure form
@@ -332,7 +336,28 @@ function launch_calculation() {
     var variable = controlled_variable(controlled, variable_fulltag);
     variable.end = undoCommands[i].data.end;
   }
-  console.log('will connect to address http://localhost:8080/cases/0/calculate with with verb POST and this JSON in the response: ' + JSON.stringify(controlled));
+  var data = JSON.stringify(controlled);
+
+  // TODO: connect to service
+  var url = landing.viewModel.services.activeService() + 'cases/' + main.case_uuid + '/calculate';
+  console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(data));
+
+  var box2 = document.getElementById('box2');
+  setTimeout(function() {
+    console.log("unlock UI");
+    // hide the grey layer
+    box2.style.display = 'none';
+    // hide GIF
+    // TODO
+
+  }, 5000); // delay in ms
+
+  console.log("lock UI");
+  // superimpose a grey layer on the main page
+  // add GIF loader animation on the main page
+  // TODO
+  box2.style.display = 'block';
+
   return false;
 }// launch_calculation
 
@@ -371,21 +396,39 @@ function openMainPageFromConfigure() {
   }
 
   // TODO: connect to service, create case there and get handle
-  console.log('will connect to address http://localhost:8080/cases with with verb POST and this JSON in the response: ' + JSON.stringify(data));
+  var url = landing.viewModel.services.activeService() + 'cases';
+  console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(data));
 
-  var handle = "550e8400-e29b-41d4-a716-446655440000";
-  var last_used = Math.round(Date.now() / 1000);
+  var box2 = document.getElementById('box2');
+  setTimeout(function() {
+    console.log("unlock UI");
+    // hide the grey layer
+    box2.style.display = 'none';
+    // hide GIF
+    // TODO
+    
+    // TODO read handle from the response case_uuid field
+    var handle = "550e8400-e29b-41d4-a716-446655440000";
 
-  configure.addRecent(tag, last_used, description, name, handle);
+    var last_used = Math.round(Date.now() / 1000);
 
-  main.init(landing.viewModel.services.activeService());
+    configure.addRecent(tag, last_used, description, name, handle);
 
-  // hide configure page
-  var configure_page = document.getElementById('configure-page');
-  configure_page.style.display = 'none';
-  // reveal main page
-  var main_page = document.getElementById('main-page');
-  main_page.style.display = 'block';
+    // hide configure page
+    var configure_page = document.getElementById('configure-page');
+    configure_page.style.display = 'none';
+    // reveal main page
+    var main_page = document.getElementById('main-page');
+    main_page.style.display = 'block';
+
+    main.init(landing.viewModel.services.activeService(), handle, landing.type_property);
+  }, 5000); // delay in ms
+
+  console.log("lock UI");
+  // superimpose a grey layer on the configure page
+  // add GIF loader animation on the configure page
+  // TODO
+  box2.style.display = 'block';
 } // openMainPageFromConfigure
 
 function onClickXref() {
