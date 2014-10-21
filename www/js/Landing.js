@@ -22,6 +22,8 @@ var Landing = (function() {
   var first = false;
   // provide access to the function-scope this object in the private functions
   var THIS = this;
+  // when both enumerators.json and types.json have been loaded, readyET is equal to 2
+  var readyET = 0;
 
   // public variables
   // view model with child view models
@@ -36,14 +38,15 @@ var Landing = (function() {
   // public functions
   this.init = function() {
     console.log("initializing Landing");
+    lockUI();
     // refresh services, types and recent lists
-    first = updateServices(false, updateOthers);
+    updateServices(false, updateOthers);
   }; // init
 
   this.update = function() {
     console.log("updating Landing");
     // refresh services, types and recent lists
-    first = updateServices(true, updateOthers);
+    updateServices(true, updateOthers);
   }; // update
 
   this.updateRT = function() {
@@ -83,10 +86,10 @@ var Landing = (function() {
         }
         detailDiscovery(data, function(detailedServices){
           console.log('detailed services = ' + JSON.stringify(detailedServices));
-          saveToLocal(detailedServices,services_key,function(isFirst){
+          saveToLocal(detailedServices,services_key,function(){
             console.log("calling download assets for ");
             downloadAssets(services_key,function(){
-              return loadFromLocal(isFirst,services_key,update,callback);
+              loadFromLocal(services_key,update,callback);
             });
           });
         });  
@@ -94,7 +97,7 @@ var Landing = (function() {
     } // services key in localStorage was empty: first app launch 
     else {
       console.log("services already in local");
-      return loadFromLocal(false,services_key,update,callback);
+      loadFromLocal(services_key,update,callback);
     }
   } // updateServices
 
@@ -345,6 +348,21 @@ var Landing = (function() {
     
     if (!update)
       apply();
+
+    var ts = document.getElementsByClassName("tab");
+    if (first) {
+      // if the service has not yet been chosen, open the services tab
+      sendClick(ts[2]);
+      first = false;
+    } else if (THIS.viewModel.recent.recent().length === 0) {
+      // if there is no recent, open the new tab
+      sendClick(ts[1]);
+    } else {
+      // else open the recent tab
+      sendClick(ts[0]);
+    }
+
+    unlockUI();
   } // updateRecent
 
   function apply() {
@@ -356,17 +374,6 @@ var Landing = (function() {
     var ts = document.getElementsByClassName("tab");
     for (var x = 0; x < ts.length; x++) {
       ts[x].onclick = toggleTab;
-    }
-
-    if (first) {
-      // if the service has not yet been chosen, open the services tab
-      sendClick(ts[2]);
-    } else if (THIS.viewModel.recent.recent().length === 0) {
-      // if there is no recent, open the new tab
-      sendClick(ts[1]);
-    } else {
-      // else open the recent tab
-      sendClick(ts[0]);
     }
   } // apply
 
@@ -442,7 +449,6 @@ var Landing = (function() {
 
   function saveToLocal(initial_services, services_key,callback){
     console.log('IN SAVE TO LOCAL FUNC');
-    first = false;
     try {
       localStorage.setItem(services_key, JSON.stringify(initial_services));
       first = true;
@@ -451,7 +457,7 @@ var Landing = (function() {
         console.log('Web Storage quota exceeded');
       }
     }
-    callback(first);
+    callback();
   }
 
   function downloadAssets(services_key, callback) {
@@ -460,17 +466,27 @@ var Landing = (function() {
     services_json = JSON.parse(services_json);
     services_json.services.forEach(function(service) {
       if (service.active) {
+        var enumUrl = service.server+'enumerators';
+        downloadFile(enumUrl, service.uuid, 'enumerators.json', function() {
+          readyET += 1;
+          if (readyET == 2)
+            console.log('================================================================================');
+            callback();
+        });
+
+        var typesUrl = service.server+'types';
+        downloadFile(typesUrl,service.uuid,'types.json', function() {
+          readyET += 1;
+          if (readyET == 2)
+            console.log('================================================================================');
+            callback();
+        });
+
         var iconUrl = service.server+'icon';
-        downloadFile(iconUrl,service.uuid,"icon.svg");//icon
+        downloadFile(iconUrl,service.uuid,"icon.svg"); //icon
 
         var backgroundUrl = service.server+'background/1000';
         downloadFile(backgroundUrl,service.uuid,'background.jpg'); //background file
-
-        var typesUrl = service.server+'types';
-        downloadFile(typesUrl,service.uuid,'types.json');
-
-        var enumUrl = service.server+'enumerators';
-        downloadFile(enumUrl,service.uuid,'enumerators.json');
 
         var svgsUrl = service.server+'svgs';
         getDataFromAPI(svgsUrl, function(data){
@@ -480,8 +496,6 @@ var Landing = (function() {
               downloadFile(svg,service.uuid,filename);
             }
           );
-          console.log('================================================================================');
-          callback();
         });
       } // service is active
     }); // for each service  
@@ -514,7 +528,7 @@ var Landing = (function() {
     }
   };
 
-  function loadFromLocal(first,services_key,update,callback) {
+  function loadFromLocal(services_key,update,callback) {
     console.log('loadFromLocal');
 
     window.requestFileSystem(
@@ -555,11 +569,9 @@ var Landing = (function() {
 
       callback(update);
     }
-
-    return first;
   } // loadFromLocal
 
-  function downloadFile(url, dirName, fileName) {
+  function downloadFile(url, dirName, fileName, callback) {
     console.log('downloadFile url = ' + url + " dirName = " + dirName + " fileName = " + fileName);
     var URL = url;
     
@@ -605,6 +617,8 @@ var Landing = (function() {
         path,
         function(file) {
           console.log('download complete: ' + file.toURL());
+          if (callback)
+            callback();
         },
         function(error) {
           console.log('download error source ' + error.source +' target ' + error.target + ' code ' + error.code);

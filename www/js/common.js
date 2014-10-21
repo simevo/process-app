@@ -344,22 +344,29 @@ function launch_calculation() {
 
   var box2 = document.getElementById('box2');
   setTimeout(function() {
-    console.log("unlock UI");
-    // hide the grey layer
-    box2.style.display = 'none';
-    // hide GIF
-    // TODO
-
+    unlockUI();
   }, 5000); // delay in ms
 
+  lockUI();
+
+  return false;
+} // launch_calculation
+
+function unlockUI() {
+  console.log("unlock UI");
+  // hide the grey layer
+  box2.style.display = 'none';
+  // hide GIF
+  // TODO
+}
+
+function lockUI() {
   console.log("lock UI");
   // superimpose a grey layer on the main page
   // add GIF loader animation on the main page
   // TODO
   box2.style.display = 'block';
-
-  return false;
-}// launch_calculation
+}
 
 function updateUI() {
   "use strict";
