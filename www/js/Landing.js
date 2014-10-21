@@ -22,8 +22,10 @@ var Landing = (function() {
   var first = false;
   // provide access to the function-scope this object in the private functions
   var THIS = this;
-  // when both enumerators.json and types.json have been loaded, readyET is equal to 2
-  var readyET = 0;
+  // number of downloaded files
+  var downloaded = 0;
+  // number of files to download
+  var toDownload = 4;
 
   // public variables
   // view model with child view models
@@ -79,25 +81,28 @@ var Landing = (function() {
     var serviceUrl = "http://simevo.com/api/process.json";
     if (localStorage.getItem(services_key) === null) {
       console.log("need to update from server");
+      toDownload = 5; // enumerators, types, icon, background
       getDataFromAPI(serviceUrl, function(data){
         if (data===null) {
           console.error("No services to discover !");
           data = { "services" : [ ] };
         }
-        detailDiscovery(data, function(detailedServices){
+        detailDiscovery(data, function(detailedServices) {
           console.log('detailed services = ' + JSON.stringify(detailedServices));
-          saveToLocal(detailedServices,services_key,function(){
+          saveToLocal(detailedServices, services_key, function() {
             console.log("calling download assets for ");
             downloadAssets(services_key,function(){
-              loadFromLocal(services_key,update,callback);
+              loadFromLocal(services_key, update, callback);
             });
-          });
-        });  
-      });
+          }); // saveToLocal
+        });  // detailDiscovery
+      }); // getDataFromAPI
     } // services key in localStorage was empty: first app launch 
     else {
       console.log("services already in local");
-      loadFromLocal(services_key,update,callback);
+      // make as if all files are already downloaded (actually they are!)
+      downloaded = toDownload - 1;
+      loadFromLocal(services_key, update, callback);
     }
   } // updateServices
 
@@ -377,41 +382,16 @@ var Landing = (function() {
     }
   } // apply
 
-  function getDataFromAPI(url,callback) {
-    console.log('IN GETDATAFROMAPI FUNC');
-    //get data from given url
-    console.log('connecting to: '+url);
-    try {
-      var request = new XMLHttpRequest();
-      var data;
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400){
-          console.log("request success"+request.responseText);
-          data = JSON.parse(request.responseText);
-          callback(data);
-        } else {
-          console.error('problem in the server: '+url);
-          callback(null);
-        // We reached our target server, but it returned an error
-        }
-      };
-      request.onerror = function(e) {
-        console.error('connection error for URL: '+url + ', error status: ' + e.target.status);
-        callback(null);
-      };
-      request.open('GET', url, true);
-      request.send();
-    } catch(err){
-      console.error('problem in the server: '+err);
-    }
-  } // getDataFromAPI
-
   // returns detailed service data
   function detailDiscovery(data, callback){
     console.log("IN DETAIL_DISCOVERY FUNC");
     var serviceArray = [];
     var i=0;
     var len = data.services.length;
+
+    // force first service to be active
+    data.services[0].active = true;
+
     data.services.forEach(function(serviceData){
       console.log("discovering " + JSON.stringify(serviceData));  
       getDataFromAPI(serviceData.url,function(details){
@@ -467,44 +447,30 @@ var Landing = (function() {
     services_json.services.forEach(function(service) {
       if (service.active) {
         var enumUrl = service.server+'enumerators';
-        downloadFile(enumUrl, service.uuid, 'enumerators.json', function() {
-          readyET += 1;
-          if (readyET == 2)
-            console.log('================================================================================');
-            callback();
-        });
+        downloadFile(enumUrl, service.uuid, 'enumerators.json', callback);
 
-        var typesUrl = service.server+'types';
-        downloadFile(typesUrl,service.uuid,'types.json', function() {
-          readyET += 1;
-          if (readyET == 2)
-            console.log('================================================================================');
-            callback();
-        });
+        var typesUrl = service.server + 'types';
+        downloadFile(typesUrl, service.uuid, 'types.json', callback);
 
-        var iconUrl = service.server+'icon';
-        downloadFile(iconUrl,service.uuid,"icon.svg"); //icon
+        var iconUrl = service.server + 'icon';
+        downloadFile(iconUrl, service.uuid, 'icon.svg', callback); //icon
 
-        var backgroundUrl = service.server+'background/1000';
-        downloadFile(backgroundUrl,service.uuid,'background.jpg'); //background file
+        var backgroundUrl = service.server + 'background/' + Math.max(window.innerHeight, window.innerWidth);
+        downloadFile(backgroundUrl, service.uuid, 'background.jpg', callback);
 
         var svgsUrl = service.server+'svgs';
-        getDataFromAPI(svgsUrl, function(data){
+        getDataFromAPI(svgsUrl, function(data) {
+          toDownload += data.svgs.length - 1;
           data.svgs.forEach(
             function(svg) {
               var filename = svg.substring(svg.lastIndexOf('/')+1);
-              downloadFile(svg,service.uuid,filename);
+              downloadFile(svg, service.uuid, filename, callback);
             }
           );
         });
       } // service is active
     }); // for each service  
   } // downloadAssets
-
-  function fail(e) {
-    console.log("FileSystem Error");
-    console.dir(e);
-  }
 
   // http://stackoverflow.com/questions/8673928/adding-properties-to-the-view-model-created-by-using-the-knockout-js-mapping-plu
   var mappingServices = {
@@ -528,15 +494,21 @@ var Landing = (function() {
     }
   };
 
-  function loadFromLocal(services_key,update,callback) {
+  function loadFromLocal(services_key, update, callback) {
     console.log('loadFromLocal');
+    downloaded += 1;
+    if (downloaded >= toDownload) {
+      console.log('================================================================================');
+      console.log('done downloading assets');
 
-    window.requestFileSystem(
-      LocalFileSystem.PERSISTENT,
-      0,
-      onRequestFileSystemSuccess,
-      fail
-    );
+      window.requestFileSystem(
+        LocalFileSystem.PERSISTENT,
+        0,
+        onRequestFileSystemSuccess,
+        fail
+      );
+    } // all required files have arrived
+
     function onRequestFileSystemSuccess(fileSystem) {
       var prefix = fileSystem.root.toURL();
       console.log("prefix = " + prefix);
@@ -570,78 +542,6 @@ var Landing = (function() {
       callback(update);
     }
   } // loadFromLocal
-
-  function downloadFile(url, dirName, fileName, callback) {
-    console.log('downloadFile url = ' + url + " dirName = " + dirName + " fileName = " + fileName);
-    var URL = url;
-    
-    window.requestFileSystem(
-      LocalFileSystem.PERSISTENT,
-      0,
-      onRequestFileSystemSuccess,
-      fail
-    );
-
-    function onRequestFileSystemSuccess(fileSystem) {
-      if (dirName === '') {
-        console.log('create ' + fileName + ' in root');
-        fileSystem.root.getFile(fileName,
-          { create: true, exclusive: false},
-          function(fileEntry) {
-            var path = fileEntry.toURL();
-            onGetFileSuccess(path);
-          },
-          fail
-        );
-      } else {
-        console.log('create ' + fileName + ' in ' + dirName);
-        fileSystem.root.getDirectory(
-          dirName,
-          { create: true, exclusive: false},
-          function(dirEntry) {
-            var path = dirEntry.toURL() + fileName;
-            onGetFileSuccess(path);
-          },
-          fail
-        );
-      }
-    }
-            
-    function onGetFileSuccess(path) {
-      console.log("transferring URL " + URL + " to file " + path);
-      var fileTransfer = new FileTransfer();
-      //fileEntry.remove();
-
-      fileTransfer.download(
-        URL,
-        path,
-        function(file) {
-          console.log('download complete: ' + file.toURL());
-          if (callback)
-            callback();
-        },
-        function(error) {
-          console.log('download error source ' + error.source +' target ' + error.target + ' code ' + error.code);
-        }
-      );
-    }
-  } // downloadFile
-
-  function getFileEntry(dirName,fileName,callback){
-    // https://developer.mozilla.org/en-US/docs/Web/API/LocalFileSystem#requestFileSystem
-    window.requestFileSystem(
-      LocalFileSystem.PERSISTENT,
-      0,
-      onRequestFileSystemSuccess,
-      fail
-    );
-    function onRequestFileSystemSuccess(fileSystem){
-      fileSystem.root.getFile(dirName+fileName, null, function(entry){
-        console.log('entry = ' + entry.toURL());
-        callback(entry);
-      }, fail);
-    }
-  }
 
   function type_used(type_name) {
     var len = types_used.length, i;

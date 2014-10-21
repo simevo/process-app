@@ -57,9 +57,19 @@ div#image-container {
   width: 100%;
 }
 @-ms-viewport {   width: device-width;  }
+
 .center {
   text-align: center;
 }
+
+.margin-left {
+	margin-left: 5%;
+}
+
+.margin-right {
+	margin-right: 5%;
+}
+
 .container-fluid {
   height: 100%;
   width: 100%;

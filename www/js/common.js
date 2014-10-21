@@ -18,7 +18,9 @@ function init() {
   "use strict";
   
   console.log("initting");
-  
+  StatusBar.overlaysWebView(false);
+  StatusBar.backgroundColorByName("black");
+
   // import Landing module
   Landing.call(landing);
   
@@ -51,27 +53,6 @@ function failFS(e) {
   console.log("FileSystem Error");
   console.dir(e);
 }
-
-function change_svg(id) {
-  "use strict";
-  var file_svg = "b14d48e0-1285-11e4-9191-0800200c9a66/" + id + ".svg";
-
-  window.resolveLocalFileSystemURL(file_svg, gotFile, failFS);
-  
-  function gotFile(fileEntry) {
-    fileEntry.file(function(file) {
-      var reader = new FileReader();
-
-      reader.onloadend = function(e) {
-        var svg = this.result;
-        document.getElementById('image-container').innerHTML = svg;
-        overrideXlinks();
-      };
-
-      reader.readAsText(file);
-    });
-  } // gotFile
-} // change_svg
 
 function clear_field(control_id) {
   "use strict";
@@ -146,6 +127,7 @@ function pause(ms) {
 // index-specific code
 function reset_local_storage() {
   "use strict";
+  lockUI();
   localStorage.clear();
   landing.update();
   sendClick(document.getElementsByClassName("tab")[1]);
@@ -178,6 +160,17 @@ function openMainPageFromLanding(d, e) {
   // reveal main page
   var main_page = document.getElementById('main-page');
   main_page.style.display = 'block';
+}
+
+function openLandingPageFromConfigure() {
+  "use strict";
+
+  // hide configure page
+  var configure_page = document.getElementById('configure-page');
+  configure_page.style.display = 'none';
+  // reveal landing page
+  var landing_page = document.getElementById('landing-page');
+  landing_page.style.display = 'block';
 }
 
 function openLandingPageFromMain() {
@@ -274,7 +267,7 @@ var page_start = Date.now();
 function change(variable, start, end) {
   "use strict";
   // save in database
-  updateValue(variable, end);
+  main.updateValue(variable, end);
   var change_id = Date.now() - page_start;
   // initial storage
   var ch = new change_object(variable, start, end);
@@ -287,7 +280,7 @@ function change(variable, start, end) {
       // undo in view
       variable.value(ch.start);
       // undo in database
-      updateValue(variable, ch.start);
+      main.updateValue(variable, ch.start);
       // update undo stack
       removeChange(change_id);
     },
@@ -297,7 +290,7 @@ function change(variable, start, end) {
       // redo in view
       variable.value(ch.end);
       // redo in database
-      updateValue(variable, ch.end);
+      main.updateValue(variable, ch.end);
       // update undo stack
       addChange(change_id, ch);
     },
@@ -342,7 +335,6 @@ function launch_calculation() {
   var url = landing.viewModel.services.activeService() + 'cases/' + main.case_uuid + '/calculate';
   console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(data));
 
-  var box2 = document.getElementById('box2');
   setTimeout(function() {
     unlockUI();
   }, 5000); // delay in ms
@@ -353,18 +345,16 @@ function launch_calculation() {
 } // launch_calculation
 
 function unlockUI() {
+  "use strict";
   console.log("unlock UI");
-  // hide the grey layer
+  var box2 = document.getElementById('box2');
   box2.style.display = 'none';
-  // hide GIF
-  // TODO
 }
 
 function lockUI() {
+  "use strict";
   console.log("lock UI");
-  // superimpose a grey layer on the main page
-  // add GIF loader animation on the main page
-  // TODO
+  var box2 = document.getElementById('box2');
   box2.style.display = 'block';
 }
 
@@ -380,6 +370,11 @@ function updateUI() {
 
 undoManager.setCallback(updateUI);
 
+// number of downloaded files
+var downloaded = 0;
+// number of files to download
+var toDownload = 4;
+
 function openMainPageFromConfigure() {
   "use strict";
   console.log(ko.toJSON(configure.configuration(), null, 2));
@@ -388,7 +383,7 @@ function openMainPageFromConfigure() {
   var description = configure.configuration().instance_description();
   var stringOptions = configure.configuration().stringOptions();
   var integerOptions = configure.configuration().integerOptions();
-  var data = {
+  var dataTo = {
     "type" : name,
     "tag" : tag,
     "description" : description,
@@ -396,47 +391,178 @@ function openMainPageFromConfigure() {
     "integerOptions" : { }
   };
   for (var i = 0, stringlen = stringOptions.length; i < stringlen; i++) {
-    data.stringOptions[stringOptions[i].name()] = stringOptions[i].options()[stringOptions[i].selected()].name;
+    dataTo.stringOptions[stringOptions[i].name()] = stringOptions[i].options()[stringOptions[i].selected()].name;
   }
   for (var j = 0, intlen = integerOptions.length; j < intlen; j++) {
-    data.integerOptions[integerOptions[j].name()] = integerOptions[j].value();
+    dataTo.integerOptions[integerOptions[j].name()] = integerOptions[j].value();
   }
 
-  // TODO: connect to service, create case there and get handle
-  var url = landing.viewModel.services.activeService() + 'cases';
-  console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(data));
+  var url = landing.viewModel.services.activeService().server() + 'cases';
+  console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(dataTo));
 
-  var box2 = document.getElementById('box2');
-  setTimeout(function() {
-    console.log("unlock UI");
-    // hide the grey layer
-    box2.style.display = 'none';
-    // hide GIF
-    // TODO
-    
-    // TODO read handle from the response case_uuid field
-    var handle = "550e8400-e29b-41d4-a716-446655440000";
+  postDataToAPI(url, JSON.stringify(dataTo), function(dataFrom){
+    if (dataFrom===null) {
+      console.error("No data received !");
+      alert("Calculation failed");
+      unlockUI();
+      openLandingPageFromConfigure();
+    } else {
+      var handle = dataFrom.case_uuid;
+      var last_used = Math.round(Date.now() / 1000);
+      configure.addRecent(tag, last_used, description, name, handle);
+      toDownload = 2; // database and svgs
+      downloadCaseAssets(url, handle, function() {
+        downloaded += 1;
+        if (downloaded >= toDownload) {
+          console.log('================================================================================');
+          console.log('done downloading case assets');
 
-    var last_used = Math.round(Date.now() / 1000);
+          main.init(landing.viewModel.services.activeService(), handle, landing.type_property);
 
-    configure.addRecent(tag, last_used, description, name, handle);
+          // hide configure page
+          var configure_page = document.getElementById('configure-page');
+          configure_page.style.display = 'none';
+          // reveal main page
+          var main_page = document.getElementById('main-page');
+          main_page.style.display = 'block';
 
-    // hide configure page
-    var configure_page = document.getElementById('configure-page');
-    configure_page.style.display = 'none';
-    // reveal main page
-    var main_page = document.getElementById('main-page');
-    main_page.style.display = 'block';
+          unlockUI();
+        } // downloaded all files
+      }); // downloadCaseAssets
+    } // received data
+  }); // postDataToAPI
 
-    main.init(landing.viewModel.services.activeService(), handle, landing.type_property);
-  }, 5000); // delay in ms
-
-  console.log("lock UI");
-  // superimpose a grey layer on the configure page
-  // add GIF loader animation on the configure page
-  // TODO
-  box2.style.display = 'block';
+  lockUI();
 } // openMainPageFromConfigure
+
+function downloadCaseAssets(url, handle, callback) {
+  "use strict";
+  console.log("IN DOWNLOAD CASE ASSETS FUNC");
+
+  var dbUrl = url + '/' + handle + '/db';
+  downloadFile(dbUrl, handle, 'persistency.db', callback);
+
+  var svgsUrl = url + '/' + handle + '/svgs';
+  getDataFromAPI(svgsUrl, function(data) {
+    toDownload += data.svgs.length - 1;
+    data.svgs.forEach(
+      function(svg) {
+        var filename = svg.substring(svg.lastIndexOf('/')+1);
+        downloadFile(svg, handle, filename, callback);
+      }
+    );
+  });
+} // downloadCaseAssets
+
+function downloadFile(url, dirName, fileName, callback1) {
+  "use strict";
+  console.log('downloadFile url = ' + url + " dirName = " + dirName + " fileName = " + fileName);
+  var URL = url;
+  
+  window.requestFileSystem(
+    LocalFileSystem.PERSISTENT,
+    0,
+    onRequestFileSystemSuccess,
+    fail
+  );
+
+  function onRequestFileSystemSuccess(fileSystem) {
+    if (dirName === '') {
+      console.log('create ' + fileName + ' in root');
+      fileSystem.root.getFile(fileName,
+        { create: true, exclusive: false},
+        function(fileEntry) {
+          var path = fileEntry.toURL();
+          onGetFileSuccess(path);
+        },
+        fail
+      );
+    } else {
+      console.log('create ' + fileName + ' in ' + dirName);
+      fileSystem.root.getDirectory(
+        dirName,
+        { create: true, exclusive: false},
+        function(dirEntry) {
+          var path = dirEntry.toURL() + fileName;
+          onGetFileSuccess(path);
+        },
+        fail
+      );
+    }
+  }
+          
+  function onGetFileSuccess(path) {
+    console.log("transferring URL " + URL + " to file " + path);
+    var fileTransfer = new FileTransfer();
+    //fileEntry.remove();
+
+    fileTransfer.download(
+      URL,
+      path,
+      function(file) {
+        console.log('download complete: ' + file.toURL());
+        if (callback1)
+          callback1();
+      },
+      function(error) {
+        console.log('download failure for file ' + path + ': ' + JSON.stringify(error));
+      }
+    );
+  }
+} // downloadFile
+
+function fail(e) {
+  "use strict";
+  console.log("FileSystem Error");
+  console.dir(e);
+}
+
+function getDataFromAPI(url, callback) {
+  "use strict";
+  console.log('IN GETDATAFROMAPI FUNC');
+  //get data from given url
+  console.log('connecting to: '+url);
+  try {
+    var request = new XMLHttpRequest();
+    var data;
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400){
+        console.log("request success"+request.responseText);
+        data = JSON.parse(request.responseText);
+        callback(data);
+      } else {
+        console.error('problem in the server: '+url);
+        callback(null);
+      // We reached our target server, but it returned an error
+      }
+    };
+    request.onerror = function(e) {
+      console.error('connection error for URL: '+url + ', error status: ' + e.target.status);
+      callback(null);
+    };
+    request.open('GET', url, true);
+    request.send();
+  } catch(err){
+    console.error('problem in the server: '+err);
+  }
+} // getDataFromAPI
+
+function getFileEntry(dirName, fileName, callback) {
+  "use strict";
+  // https://developer.mozilla.org/en-US/docs/Web/API/LocalFileSystem#requestFileSystem
+  window.requestFileSystem(
+    LocalFileSystem.PERSISTENT,
+    0,
+    onRequestFileSystemSuccess,
+    fail
+  );
+  function onRequestFileSystemSuccess(fileSystem){
+    fileSystem.root.getFile(dirName+fileName, null, function(entry){
+      console.log('entry = ' + entry.toURL());
+      callback(entry);
+    }, fail);
+  }
+} // getFileEntry
 
 function onClickXref() {
   "use strict";
@@ -577,3 +703,94 @@ function openChild() {
   main.change_node(this.id());
 }
 
+function postDataToAPI(url, dataTo, callback) {
+  "use strict";
+  console.log('IN POSTDATATOAPI FUNC');
+  // put dataTo to a given url
+  console.log('connecting to: '+url);
+  try {
+    var request = new XMLHttpRequest();
+    var dataFrom;
+    request.onload = function() {
+      if (request.status >= 200 && request.status < 400){
+        console.log("request success"+request.responseText);
+        dataFrom = JSON.parse(request.responseText);
+        callback(dataFrom);
+      } else {
+        console.error('problem in the server: '+url);
+        callback(null);
+      // We reached our target server, but it returned an error
+      }
+    };
+    request.onerror = function(e) {
+      console.error('connection error for URL: '+url + ', error status: ' + e.target.status);
+      callback(null);
+    };
+    request.open('POST', url);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.send(dataTo);
+  } catch(err){
+    console.error('problem in the server: '+err);
+  }
+} // postDataToAPI
+
+function toggleInputContainer(data, event) {
+  "use strict";
+  var e = document.getElementById('input-box');
+  var div = event.currentTarget.getElementsByTagName('div')[1];
+  if (div && div.id == 'input-box') {
+    close(event.currentTarget);
+  } else if (!e.style.display || e.style.display == 'none') {
+    open1(event.currentTarget);
+  } else {
+    close(e.parentNode);
+    open1(event.currentTarget);
+  }
+}
+
+function close(variabile) {
+  "use strict";
+  var ib = document.getElementById('input-box');
+  // ricopiare il valore dell'input-box nel view-model
+  var id = variabile.id;
+  // console.log("id = " + id);
+  main.setVariable(id, ib.getElementsByTagName('input')[0].value);
+  // nascondere input-box
+  ib.style.display = 'none';
+  // appiccicare input-box da qualche altra parte
+  variabile.parentNode.appendChild(ib);
+  // rivelare il div contenuto nella variabile
+  var div = variabile.getElementsByTagName('div')[0];
+  div.style.display = 'block';
+  // ripristino undo e redo e chiama updateUI
+  updateUI();
+  // riattivo input-search dopo esser tornato sul campo da modificare
+  var is = document.getElementById('input-search');
+  is.disabled = false;
+}
+
+function open1(variabile) {
+  "use strict";
+  // nascondere il div contenuto nella variabile
+  var div = variabile.getElementsByTagName('div')[0];
+  div.style.display = 'none';
+  // rivelare input-box
+  var ib = document.getElementById('input-box');
+  ib.style.display = 'block';
+  // appiccicare input-box dentro a variabile
+  variabile.appendChild(ib);
+  // impostare il valore dell'input-box
+  ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[0].innerHTML;
+  // impostare l'unità di misura
+  ib.getElementsByTagName('span')[0].innerHTML = div.getElementsByTagName('span')[1].innerHTML;
+  // impostare il range al 50%
+  ib.getElementsByTagName('input')[1].value = 50;
+  // disabilita undo e redo
+  btnUndo = document.getElementById('btnUndo');
+  btnUndo.disabled = true;
+  btnRedo = document.getElementById('btnRedo');
+  btnRedo.disabled = true;
+  // disattivo input-search quando faccio una modifica
+  var is = document.getElementById('input-search');
+  is.disabled = true;
+}

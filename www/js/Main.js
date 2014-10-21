@@ -23,7 +23,9 @@ var Main = (function() {
   var viewModelMessages = { };
   var viewModel = { };
   var type_property;
-  
+  // provide access to the function-scope this object in the private functions
+  var THIS = this;
+
   // public variables
   this.case_uuid = '';
 
@@ -32,7 +34,7 @@ var Main = (function() {
     if (first) {
       first = false;
 
-      console.log("initializing Main");
+      console.log("initializing Main with service_uuid = " + activeService.uuid() + " and case_uuid = " + caseUuid);
 
       type_property = typeProperty;
       this.case_uuid = caseUuid;
@@ -115,6 +117,7 @@ var Main = (function() {
         var q = viewModelOutputsFiltered.query_lowercase();
         return ((i.fulltag().toLowerCase().search(q) >= 0) || (i.description().toLowerCase().search(q) >= 0));
       });
+
       // initialize children view-model and view with empty data; these will be actually filled by change_node
       children = {
         "children" : []
@@ -122,36 +125,67 @@ var Main = (function() {
       viewModelChildren = ko.mapping.fromJS(children, mapping);
 
       // sqlite database connection
-      if (window.openDatabase) {
-        db = openDatabase(this.case_uuid + '/persistency.db', '1.0', 'persistency database', 2 * 1024 * 1024);
-        db.transaction(function(tx) {
-          tx.executeSql('SELECT * FROM N', [], function(tx, results) {
-            var len = results.rows.length, i;
-            for ( i = 0; i < len; i++) {
-              console.log(results.rows.item(i).FULLTAG);
-            }
-          }, null);
-        });
-      } else {
-        console.log('Database connection failed');
-      }
+      var dbFile = this.case_uuid + '/persistency.db';
 
-      viewModel = {
-        hasChildren: ko.observable(false),
-        Tag: ko.observable(''),
-        homeText: ko.observable('Home'),
-        action: ko.observable(-1),
-        service_color : ko.observable(activeService.color())
-      };
+// https://groups.google.com/forum/#!topic/Cordova-SQLitePlugin/udnL9ttgBzs
+// I'm looking for the same. I've yet to be convinced it's even a feasible cross-platform scenario due to not being sure where the file must be downloaded. I've been successful with it on Android using file-transfer plugin to download a database to:
+//  cordova.file.applicationStorageDirectory + "databases/xyzzy.db'
+// after which the following will open the database you downloaded:
+//  sqlitePlugin.openDatabase({ name: xyzzy.db' })
 
-      apply();
+      getFileEntry(this.case_uuid, '/persistency.db', function(fileEntry) {
+        // var directory = cordova.file.applicationStorageDirectory + 'databases';
+        var directory = 'databases';
+        console.log('copying database from: ' + fileEntry.toURL() + ' to ' + directory);
+        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
+        function(fileSys) {
+          fileSys.root.getDirectory(directory, {create: true, exclusive: false}, function(directory) {
+            fileEntry.copyTo(directory, "persistency.db", function(entryFile) {
+              var dbName;
+              if (device.platform === 'Android')  {
+                dbName =  'persistency.db';
+              } else {
+                dbName = 'databases/persistency.db';
+              }
+              console.log('-------- loading database from: ' + dbName + ' -----------------');
+              db = window.sqlitePlugin.openDatabase({name: dbName });
+              
+              viewModel = {
+                hasChildren: ko.observable(false),
+                Tag: ko.observable(''),
+                homeText: ko.observable('Home'),
+                action: ko.observable(-1),
+                service_color : ko.observable(activeService.color())
+              };
+
+              // point to the node with database N.ID == 0 and load all data
+              THIS.change_node(0);
+
+              apply();
+            }, fail); // moveTo
+          }, fail); // getDirectory
+        }, fail); // requestFileSystem
+      }); // getFileEntry
+
     } else {
       console.log("updating Main");
     }
-    // point to the node with database N.ID == 0 and load all data
-    this.change_node(0);
   }; // init
 
+  this.setVariable = function(id, val) {
+    viewModelInputsFiltered.inputs()[id].value(val);
+  }; // setVariable
+
+  // update the db
+  this.updateValue = function(target, newValue) {
+    var updatedField = ko.mapping.toJS(target);
+    db.transaction(function(tx) {
+      tx.executeSql('UPDATE Q set VALUE = ' + newValue + ' WHERE ID = ' + updatedField.dbid, [], function(tx, results) {
+        console.log('db updated with new value for ' + updatedField.description);
+      }, null);
+    });
+  }; // updateValue
+  
   // private functions
   function apply() {
     console.log("applying Main");
@@ -232,15 +266,6 @@ var Main = (function() {
         change(target, oldValue, newValue);
     }, this);
   };
-  // update the db
-  function updateValue(target, newValue) {
-    var updatedField = ko.mapping.toJS(target);
-    db.transaction(function(tx) {
-      tx.executeSql('UPDATE Q set VALUE = ' + newValue + ' WHERE ID = ' + updatedField.dbid, [], function(tx, results) {
-        console.log('db updated with new value for ' + updatedField.description);
-      }, null);
-    });
-  }
 
   function ViewModelInputsFiltered() {
     this.query = ko.observable('');
@@ -328,6 +353,7 @@ var Main = (function() {
 
     var inputsArray = [];
     function fillInputs(tx, fullTagLength, query) {
+      console.log('fillInputs');
       tx.executeSql(query, [], function(tx, results) {
         var len = results.rows.length, i;
         for ( i = 0; i < len; i++) {
@@ -339,6 +365,7 @@ var Main = (function() {
             "description" : item.DESCRIPTION,
             "dbid" : item.ID
           };
+          // console.log('parsed input ' + JSON.stringify(obj)); 
           inputsArray.push(obj);
         }
         inputs = {
@@ -350,6 +377,7 @@ var Main = (function() {
 
     var outputsArray = [];
     function fillOutputs(tx, fullTagLength, query) {
+      console.log('fillOutputs');
       tx.executeSql(query, [], function(tx, results) {
         var len = results.rows.length, i;
         for ( i = 0; i < len; i++) {
@@ -360,6 +388,7 @@ var Main = (function() {
             "units" : item.UNIT,
             "description" : item.DESCRIPTION
           };
+          // console.log('parsed output ' + JSON.stringify(obj)); 
           outputsArray.push(obj);
         }
         outputs = {
@@ -371,6 +400,24 @@ var Main = (function() {
 
     change_svg(targetid);
   }; // change_node
+
+  function change_svg(id) {
+    console.log('change_svg(' + id + ')');
+    var svgName = "/" + id + ".svg";
+    console.log('opening file: ' + main.case_uuid + svgName );
+    getFileEntry(main.case_uuid, svgName, function(fileEntry) {
+      fileEntry.file(function(file) {
+        var reader = new FileReader();
+
+        reader.onloadend = function(e) {
+          var svg = this.result;
+          document.getElementById('image-container').innerHTML = svg;
+          overrideXlinks();
+        };
+        reader.readAsText(file);
+      }); // file
+    }); // getFileEntry
+  } // change_svg
 
   // stop event propagation
   function dummy(e) {
@@ -394,64 +441,6 @@ var Main = (function() {
       ib.getElementsByTagName('input')[0].value = this.value / 50.0 - 1.0;
     else
       ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[2].innerHTML * this.value / 50.0;
-  }
-
-  function close(variabile) {
-    var ib = document.getElementById('input-box');
-    // ricopiare il valore dell'input-box nel view-model
-    var id = variabile.id;
-    // console.log("id = " + id);
-    viewModelInputsFiltered.inputs()[id].value(ib.getElementsByTagName('input')[0].value);
-    // nascondere input-box
-    ib.style.display = 'none';
-    // appiccicare input-box da qualche altra parte
-    variabile.parentNode.appendChild(ib);
-    // rivelare il div contenuto nella variabile
-    var div = variabile.getElementsByTagName('div')[0];
-    div.style.display = 'block';
-    // ripristino undo e redo e chiama updateUI
-    updateUI();
-    // riattivo input-search dopo esser tornato sul campo da modificare
-    var is = document.getElementById('input-search');
-    is.disabled = false;
-  }
-
-  function open1(variabile) {
-    // nascondere il div contenuto nella variabile
-    var div = variabile.getElementsByTagName('div')[0];
-    div.style.display = 'none';
-    // rivelare input-box
-    var ib = document.getElementById('input-box');
-    ib.style.display = 'block';
-    // appiccicare input-box dentro a variabile
-    variabile.appendChild(ib);
-    // impostare il valore dell'input-box
-    ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[0].innerHTML;
-    // impostare l'unità di misura
-    ib.getElementsByTagName('span')[0].innerHTML = div.getElementsByTagName('span')[1].innerHTML;
-    // impostare il range al 50%
-    ib.getElementsByTagName('input')[1].value = 50;
-    // disabilita undo e redo
-    btnUndo = document.getElementById('btnUndo');
-    btnUndo.disabled = true;
-    btnRedo = document.getElementById('btnRedo');
-    btnRedo.disabled = true;
-    // disattivo input-search quando faccio una modifica
-    var is = document.getElementById('input-search');
-    is.disabled = true;
-  }
-
-  function toggleInputContainer(data, event) {
-    var e = document.getElementById('input-box');
-    var div = event.currentTarget.getElementsByTagName('div')[1];
-    if (div && div.id == 'input-box') {
-      close(event.currentTarget);
-    } else if (!e.style.display || e.style.display == 'none') {
-      open1(event.currentTarget);
-    } else {
-      close(e.parentNode);
-      open1(event.currentTarget);
-    }
   }
 
 }); // Main namespace

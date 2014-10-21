@@ -39,12 +39,9 @@
       <div id="landing-page">
 
         <div id="logo">
-          <!-- TODO remove this buttons for release version ! -->
+          <!-- TODO remove this button for release version ! -->
           <button type="button" class="btn btn-success" onclick='reset_local_storage();'>
           <span class="glyphicon glyphicon-trash"></span>
-          </button>
-          <button type="button" class="btn btn-success" onclick='show_local_storage();'>
-          <span class="glyphicon glyphicon-list-alt"></span>
           </button>
 
         </div>
@@ -208,17 +205,17 @@
         <div class="container-fluid no-padding box1">
 
           <div data-bind="style: { backgroundColor: service_color }" id="navigation" class="row no-margin">
-            <div class="center col-xs-2 col-sm-2 no-padding">
-              <button id="parent-open-main" type="button" class="btn btn-default" data-bind="click: clickAction">
+            <div class="col-xs-4 col-sm-2 no-padding">
+              <button id="parent-open-main" type="button" class="btn btn-default margin-left" data-bind="click: clickAction">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 <span data-bind="text: homeText"></span>
               </button>
             </div>
-            <div class="center col-xs-8 col-sm-8 no-padding">
+            <div class="center col-xs-4 col-sm-8 no-padding">
               <button id="info-toggle" type="button" class="btn btn-danger" onclick="toggleInfoContainer();" style="outline: none;" data-bind="text: Tag"></button>
             </div>
-            <div class="center col-xs-2 col-sm-2 no-padding">
-              <button id="children-toggle" type="button" class="btn btn-default" data-bind="visible: hasChildren">
+            <div class="col-xs-4 col-sm-2 no-padding" style="text-align: right;">
+              <button id="children-toggle" type="button" class="btn btn-default margin-right" data-bind="visible: hasChildren">
                 <span id="gl-children" class="glyphicon glyphicon-chevron-down"></span>
               </button>
             </div>
@@ -403,18 +400,18 @@
       <div id="configure-page" class="h100">
         <div data-bind="style: { backgroundColor: service_color }" id="navigation-configure" class="row no-margin">
 
-          <div class=" center col-xs-2 col-sm-2 no-padding">
-            <button id="parent-open-configure" type="button" class="btn btn-default" onclick="window.open('index.html','_self')">
+          <div class="col-xs-4 col-sm-2 no-padding">
+            <button id="parent-open-configure" type="button" class="btn btn-default margin-left" onclick="openLandingPageFromConfigure()">
               <span class="glyphicon glyphicon-chevron-left"></span>
               Home
             </button>
           </div>
-          <div class="center col-xs-8 col-sm-8 no-padding">
+          <div class="center col-xs-4 col-sm-8 no-padding">
             <button id="create" type="button" form="configure-form" class="btn btn-default" onclick="openMainPageFromConfigure();">
               Create
             </button>
           </div>
-          <div class=" center col-xs-2 col-sm-2 no-padding"></div>
+          <div class="col-xs-4 col-sm-2 no-padding"></div>
         </div>
         <!-- navigation-configure -->
         <div id="configure-veiling" class="yscroll">
