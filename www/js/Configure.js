@@ -14,8 +14,9 @@ var Configure = (function() {
 
   // public variables
   // view model
-  this.viewModel = { init: false };
-
+  this.viewModel = { };
+  this.initialized = false;
+  
   // public functions
   this.init = function(activeService, d) {
     if (first) {
@@ -23,11 +24,12 @@ var Configure = (function() {
 
       console.log("initializing Configure");
 
+      this.initialized = true;
+
       // initialize configure master view model and view
       this.viewModel = {
-        init : true,
         configuration : ko.observable(null),
-        service_uuid : ko.observable(activeService.uuid()),
+        service_uuid : ko.observable(activeService.service_uuid()),
         service_color : ko.observable(activeService.color())
       };
       
@@ -39,7 +41,7 @@ var Configure = (function() {
       console.log("updating Configure");
 
       this.viewModel.configuration(d);
-      this.viewModel.service_uuid(activeService.uuid());
+      this.viewModel.service_uuid(activeService.service_uuid());
       this.viewModel.service_color(activeService.color());
     }
   }; // init

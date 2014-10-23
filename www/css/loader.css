@@ -1,0 +1,28 @@
+@-webkit-keyframes ajax-loader-rotate {
+0% { -webkit-transform: rotate(0deg); }
+100% { -webkit-transform: rotate(360deg); }
+}
+@-moz-keyframes ajax-loader-rotate {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+@keyframes ajax-loader-rotate {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+
+.ajax-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  opacity: .8;
+  display: block;
+  border-radius: 50%;
+  font-size: 100px;
+  width: .25em;
+  height: .25em;
+  box-shadow: 0 -.4em 0 0 rgba(255,255,255,1), -0.282842em -0.282842em 0 0 rgba(255,255,255,.9), -.4em 0 0 0 rgba(255,255,255,.8), -0.282842em 0.282842em 0 0 rgba(255,255,255,.7), 0 .4em 0 0 rgba(255,255,255,0.6), 0.282842em 0.282842em 0 0 rgba(255,255,255,0.5);
+  -webkit-animation: 1.00s ajax-loader-rotate steps(8) infinite;
+  -moz-animation: 1.00s ajax-loader-rotate steps(8) infinite;
+  animation: 1.00s ajax-loader-rotate steps(8) infinite;
+}

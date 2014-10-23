@@ -28,13 +28,14 @@ var Main = (function() {
 
   // public variables
   this.case_uuid = '';
+  this.initialized = false;
 
   // public functions
   this.init = function(activeService, caseUuid, typeProperty) {
     if (first) {
       first = false;
 
-      console.log("initializing Main with service_uuid = " + activeService.uuid() + " and case_uuid = " + caseUuid);
+      console.log("initializing Main with service_uuid = " + activeService.service_uuid() + " and case_uuid = " + caseUuid);
 
       type_property = typeProperty;
       this.case_uuid = caseUuid;
@@ -125,52 +126,121 @@ var Main = (function() {
       viewModelChildren = ko.mapping.fromJS(children, mapping);
 
       // sqlite database connection
-      var dbFile = this.case_uuid + '/persistency.db';
+      var sqlFile = this.case_uuid + '/persistency.sql';
 
-// https://groups.google.com/forum/#!topic/Cordova-SQLitePlugin/udnL9ttgBzs
-// I'm looking for the same. I've yet to be convinced it's even a feasible cross-platform scenario due to not being sure where the file must be downloaded. I've been successful with it on Android using file-transfer plugin to download a database to:
-//  cordova.file.applicationStorageDirectory + "databases/xyzzy.db'
-// after which the following will open the database you downloaded:
-//  sqlitePlugin.openDatabase({ name: xyzzy.db' })
+      getFileEntry(this.case_uuid, '/persistency.sql', function(fileEntry) {
 
-      getFileEntry(this.case_uuid, '/persistency.db', function(fileEntry) {
-        // var directory = cordova.file.applicationStorageDirectory + 'databases';
-        var directory = 'databases';
-        console.log('copying database from: ' + fileEntry.toURL() + ' to ' + directory);
-        window.requestFileSystem(LocalFileSystem.PERSISTENT, 0,
-        function(fileSys) {
-          fileSys.root.getDirectory(directory, {create: true, exclusive: false}, function(directory) {
-            fileEntry.copyTo(directory, "persistency.db", function(entryFile) {
-              var dbName;
-              if (device.platform === 'Android')  {
-                dbName =  'persistency.db';
-              } else {
-                dbName = 'databases/persistency.db';
+        console.log('--------loading sql from: ' + fileEntry.toURL() + '-----------------');
+        fileEntry.file(function(file) {
+          var reader = new FileReader();
+
+          console.log('-------- opening database: ' + THIS.case_uuid + ' -----------------');
+          db = window.sqlitePlugin.openDatabase({name: THIS.case_uuid });
+
+          reader.onloadend = function (e) {
+            console.log('onreadend');
+            var sql = this.result;
+
+            db.transaction(function(tx) {
+              console.log('start N transaction');
+              tx.executeSql('DROP TABLE IF EXISTS N');
+              tx.executeSql('CREATE TABLE IF NOT EXISTS N (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'TYPE                    character (50),' +
+                            'FULLTAG                 character (255),' +
+                            'UUID                    character (36),' +
+                            'CREATED_AT              datetime,' +
+                            'UPDATED_AT              datetime,' +
+                            'LOCKED_BY               character (50),' +
+                            'LOCKED_UNTIL            datetime,' +
+                            'PARENT                  integer REFERENCES N (ID),' +
+                            'ROOT                    integer REFERENCES N (ID),' +
+                            'RANGE                   integer);');
+              console.log('end N transaction');
+              }, function(e) {
+                console.log("DB ERROR: " + e.message);
+            }); // transaction
+
+            db.transaction(function(tx) {
+              console.log('start I/Q/S transaction');
+              tx.executeSql('DROP TABLE IF EXISTS I');
+              tx.executeSql('DROP TABLE IF EXISTS Q');
+              tx.executeSql('DROP TABLE IF EXISTS S');
+              tx.executeSql('CREATE TABLE IF NOT EXISTS I (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'VALUE                   integer);');
+              tx.executeSql('CREATE TABLE IF NOT EXISTS Q (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'VALUE                   double precision,' +
+                            'UNIT                    character (50),' +
+                            'INPUT                   boolean,' +
+                            'OUTPUT                  boolean);');
+              tx.executeSql('CREATE TABLE IF NOT EXISTS S (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'VALUE                   character (255))');
+              console.log('end I/Q/S transaction');
+              }, function(e) {
+                console.log("DB ERROR: " + e.message);
+            }); // transaction
+
+            db.transaction(function(tx) {
+              console.log('start table fill transaction');
+            
+              var lines = sql.split('\n');
+              for (var i = 0; i < lines.length; i++){
+                if (lines[i].lastIndexOf("INSERT", 0) === 0) {
+                  console.log("executing SQL statement: " + lines[i]);
+                  tx.executeSql(lines[i]);
+                }
               }
-              console.log('-------- loading database from: ' + dbName + ' -----------------');
-              db = window.sqlitePlugin.openDatabase({name: dbName });
-              
-              viewModel = {
-                hasChildren: ko.observable(false),
-                Tag: ko.observable(''),
-                homeText: ko.observable('Home'),
-                action: ko.observable(-1),
-                service_color : ko.observable(activeService.color())
-              };
+              console.log('end table fill transaction');
+            }, function(e) {
+              console.log("DB ERROR in table fill: " + e.message);
+            }); // transaction
 
-              // point to the node with database N.ID == 0 and load all data
-              THIS.change_node(0);
+            THIS.initialized = true;
+        
+            viewModel = {
+              hasChildren: ko.observable(false),
+              Tag: ko.observable(''),
+              homeText: ko.observable('Home'),
+              action: ko.observable(-1),
+              service_color : ko.observable(activeService.color())
+            };
+        
+            // point to the node with database N.ID == 0 and load all data
+            THIS.change_node(0);
+        
+            apply();
+          }; // onloadend
 
-              apply();
-            }, fail); // moveTo
-          }, fail); // getDirectory
-        }, fail); // requestFileSystem
-      }); // getFileEntry
+          reader.readAsText(file);
+        }); // fileEntry
+      }); // gotFileEntry
 
     } else {
       console.log("updating Main");
     }
   }; // init
+
+  function errorCB(err) {
+    alert("Error processing SQL: "+err);
+  }
+
+  function successCB() {
+    alert("success!");
+  }
 
   this.setVariable = function(id, val) {
     viewModelInputsFiltered.inputs()[id].value(val);
@@ -213,6 +283,7 @@ var Main = (function() {
     document.getElementById("number").onchange = updateRange;
     document.getElementById("range").onchange = updateNumber;
     document.getElementById("children-toggle").onclick = toggleChildren;
+
     var input_search_clearer = document.getElementById('input-search-clearer');
     input_search_clearer.onclick = function() {
       clear_field('input-search');

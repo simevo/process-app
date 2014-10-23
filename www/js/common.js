@@ -86,17 +86,17 @@ function sendClick(control) {
 var btnUndo;
 var btnRedo;
 
-function openService(uuid) {
+function openService(service_uuid) {
   "use strict";
   var services_key = "services.json";
   // load value from local storage
   var services_json = localStorage.getItem(services_key);
-  // parse JSON to javascript uuid
+  // parse JSON to javascript service_uuid
   var services = JSON.parse(services_json);
   var color;
   for (var i = 0, len = services.services.length; i < len; i++) {
     var service = services.services[i];
-    if (service.uuid == uuid) {
+    if (service.service_uuid == service_uuid) {
       color = service.color;
       service.active = true;
       service.last_used = Math.round(Date.now() / 1000);
@@ -108,11 +108,13 @@ function openService(uuid) {
   localStorage.setItem(services_key, services_json);
   
   // trick
-  if (configure.viewModel.init) {
-    configure.viewModel.service_uuid(uuid);
+  if (configure.initialized) {
+    configure.viewModel.service_uuid(service_uuid);
     configure.viewModel.service_color(color);
   }
-  main.viewModel.service_color(color);
+  if (main.initialized) {
+    main.viewModel.service_color(color);
+  }
 } // openService
 
 // TODO: delete
@@ -136,7 +138,7 @@ function reset_local_storage() {
 function show_local_storage() {
   "use strict";
   console.log(localStorage.getItem('services.json'));
-  var recent_key = landing.viewModel.services.activeService().uuid() + ".recent.json";
+  var recent_key = landing.viewModel.services.activeService().service_uuid() + ".recent.json";
   console.log(localStorage.getItem(recent_key));
   var types_used_key = "types_used.json";
   console.log(localStorage.getItem(types_used_key));
@@ -234,9 +236,9 @@ function toggleTab() {
 function switchService(data, event) {
   "use strict";
   var current = landing.viewModel.services.activeService();
-  var uuid = event.currentTarget.id;
-  console.log("uuid = " + uuid);
-  openService(uuid);
+  var service_uuid = event.currentTarget.id;
+  console.log("service_uuid = " + service_uuid);
+  openService(service_uuid);
   landing.update();
 } // switchService
 
@@ -397,7 +399,7 @@ function openMainPageFromConfigure() {
     dataTo.integerOptions[integerOptions[j].name()] = integerOptions[j].value();
   }
 
-  var url = landing.viewModel.services.activeService().server() + 'cases';
+  var url = landing.viewModel.services.activeService().url() + 'cases';
   console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(dataTo));
 
   postDataToAPI(url, JSON.stringify(dataTo), function(dataFrom){
@@ -410,7 +412,7 @@ function openMainPageFromConfigure() {
       var handle = dataFrom.case_uuid;
       var last_used = Math.round(Date.now() / 1000);
       configure.addRecent(tag, last_used, description, name, handle);
-      toDownload = 2; // database and svgs
+      toDownload = 2; // database and assets
       downloadCaseAssets(url, handle, function() {
         downloaded += 1;
         if (downloaded >= toDownload) {
@@ -439,13 +441,13 @@ function downloadCaseAssets(url, handle, callback) {
   "use strict";
   console.log("IN DOWNLOAD CASE ASSETS FUNC");
 
-  var dbUrl = url + '/' + handle + '/db';
-  downloadFile(dbUrl, handle, 'persistency.db', callback);
+  var sqlUrl = url + '/' + handle + '/sql';
+  downloadFile(sqlUrl, handle, 'persistency.sql', callback);
 
-  var svgsUrl = url + '/' + handle + '/svgs';
-  getDataFromAPI(svgsUrl, function(data) {
-    toDownload += data.svgs.length - 1;
-    data.svgs.forEach(
+  var assetsUrl = url + '/' + handle + '/assets';
+  getDataFromAPI(assetsUrl, function(data) {
+    toDownload += data.assets.length - 1;
+    data.assets.forEach(
       function(svg) {
         var filename = svg.substring(svg.lastIndexOf('/')+1);
         downloadFile(svg, handle, filename, callback);
@@ -531,9 +533,9 @@ function getDataFromAPI(url, callback) {
         data = JSON.parse(request.responseText);
         callback(data);
       } else {
-        console.error('problem in the server: '+url);
+        console.error('problem in the service: ' + url);
         callback(null);
-      // We reached our target server, but it returned an error
+      // We reached our target service, but it returned an error
       }
     };
     request.onerror = function(e) {
@@ -543,7 +545,7 @@ function getDataFromAPI(url, callback) {
     request.open('GET', url, true);
     request.send();
   } catch(err){
-    console.error('problem in the server: '+err);
+    console.error('problem in the service: ' + err);
   }
 } // getDataFromAPI
 
@@ -717,9 +719,9 @@ function postDataToAPI(url, dataTo, callback) {
         dataFrom = JSON.parse(request.responseText);
         callback(dataFrom);
       } else {
-        console.error('problem in the server: '+url);
+        console.error('problem in the service: ' + url);
         callback(null);
-      // We reached our target server, but it returned an error
+      // We reached our target service, but it returned an error
       }
     };
     request.onerror = function(e) {
@@ -730,7 +732,7 @@ function postDataToAPI(url, dataTo, callback) {
     request.setRequestHeader("Content-Type", "application/json");
     request.send(dataTo);
   } catch(err){
-    console.error('problem in the server: '+err);
+    console.error('problem in the service: ' + err);
   }
 } // postDataToAPI
 
@@ -793,4 +795,12 @@ function open1(variabile) {
   // disattivo input-search quando faccio una modifica
   var is = document.getElementById('input-search');
   is.disabled = true;
+}
+
+function socialShare() {
+  "use strict";
+  var url = 'http://simevo.com/api/process/pasteurize/cases/57b9cfe6-4667-4147-8ac7-f678f81fc17d/html';
+  console.log("sharing link: " + url);
+  var tag = "TAG"; // main.viewModel.Tag()
+  window.plugins.socialsharing.share('simevo process model', tag, null, url);
 }

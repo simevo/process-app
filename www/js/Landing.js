@@ -25,7 +25,7 @@ var Landing = (function() {
   // number of downloaded files
   var downloaded = 0;
   // number of files to download
-  var toDownload = 4;
+  var toDownload = 0;
 
   // public variables
   // view model with child view models
@@ -80,8 +80,7 @@ var Landing = (function() {
     var services_key = "services.json";
     var serviceUrl = "http://simevo.com/api/process.json";
     if (localStorage.getItem(services_key) === null) {
-      console.log("need to update from server");
-      toDownload = 5; // enumerators, types, icon, background
+      console.log("need to discover the services");
       getDataFromAPI(serviceUrl, function(data){
         if (data===null) {
           console.error("No services to discover !");
@@ -89,8 +88,25 @@ var Landing = (function() {
         }
         detailDiscovery(data, function(detailedServices) {
           console.log('detailed services = ' + JSON.stringify(detailedServices));
+          // TODO add logic to elect the active service among those that are alive
+          var len = detailedServices.services.length, i;
+          var foundActive = false;
+          var foundAlive = -1;
+          for ( i = 0; i < len; i++) {
+            if (detailedServices.services[i].active)
+              foundActive = true;
+            if (!detailedServices.services[i].dead)
+              foundAlive = i;
+          }
+          if (!foundActive) {
+            if (foundAlive == -1)
+              alert("Discovery failed");
+            else
+              detailedServices.services[foundAlive].active = true;
+          }
+
           saveToLocal(detailedServices, services_key, function() {
-            console.log("calling download assets for ");
+            console.log("calling download assets");
             downloadAssets(services_key,function(){
               loadFromLocal(services_key, update, callback);
             });
@@ -130,8 +146,8 @@ var Landing = (function() {
   function updateEnumerators(update, callback1, callback2) {
     console.log('updateEnumerators');
 
-    var uuid = THIS.viewModel.services.activeService().uuid();
-    getFileEntry(uuid, '/enumerators.json', function(fileEntry) {
+    var service_uuid = THIS.viewModel.services.activeService().service_uuid();
+    getFileEntry(service_uuid, '/enumerators.json', function(fileEntry) {
       console.log('--------loading enumerators from: ' + fileEntry.toURL() + '-----------------');
       fileEntry.file(function(file) {
         var reader = new FileReader();
@@ -146,6 +162,8 @@ var Landing = (function() {
 
           enumerator_lookup = {};
           for (var i = 0, len = enumerators.enumerators.length; i < len; i++) {
+            // provide default for the default (!)
+            enumerator_default[enumerators.enumerators[i].name] = 0;
             // console.log("adding enumerator_lookup for " + enumerators.enumerators[i].name);
             enumerator_lookup[enumerators.enumerators[i].name] = enumerators.enumerators[i];
             for (var j = 0, len1 = enumerators.enumerators[i].options.length; j < len1; j++) {
@@ -231,8 +249,8 @@ var Landing = (function() {
     // parse JSON to javascript object
     types_used = JSON.parse(types_used_json);
 
-    var uuid = THIS.viewModel.services.activeService().uuid();
-    getFileEntry(uuid, '/types.json', function(fileEntry) {
+    var service_uuid = THIS.viewModel.services.activeService().service_uuid();
+    getFileEntry(service_uuid, '/types.json', function(fileEntry) {
       console.log('--------loading types from: ' + fileEntry.toURL() + '-----------------');
       fileEntry.file(function(file) {
         var reader = new FileReader();
@@ -253,7 +271,7 @@ var Landing = (function() {
               types_instantiatable.types.push(t);
             }
             if (t.icon) {
-              t.icon = THIS.viewModel.prefix() + uuid + "/" + t.icon;
+              t.icon = THIS.viewModel.prefix() + service_uuid + "/" + t.icon;
             } else {
               t.icon = "images/" + t.category + ".svg";
             }
@@ -330,7 +348,7 @@ var Landing = (function() {
 
   function updateRecent(update) {
     console.log('updateRecent');
-    var recent_key = THIS.viewModel.services.activeService().uuid() + ".recent.json";
+    var recent_key = THIS.viewModel.services.activeService().service_uuid() + ".recent.json";
     if (localStorage.getItem(recent_key) === null) {
       // store initial empty recent list in local storage
       try {
@@ -386,11 +404,8 @@ var Landing = (function() {
   function detailDiscovery(data, callback){
     console.log("IN DETAIL_DISCOVERY FUNC");
     var serviceArray = [];
-    var i=0;
+    var i = 0;
     var len = data.services.length;
-
-    // force first service to be active
-    data.services[0].active = true;
 
     data.services.forEach(function(serviceData){
       console.log("discovering " + JSON.stringify(serviceData));  
@@ -400,22 +415,22 @@ var Landing = (function() {
           details = { };
           details.active = false;
           details.dead = true;
-          details.uuid = serviceData.service_uuid;
-          details.server = serviceData.url;
+          details.service_uuid = serviceData.service_uuid;
+          details.url = serviceData.url;
           details.name = "unknown";
           details.description = "";
           details.color = "#000000";
         } else {
           console.log("Adding service status: "+serviceData.status);
-          if (serviceData.status=="active"){
-            details.active = true;
+          if (serviceData.status=="alive"){
             details.dead = false;
-            console.log("Details active: "+details.active);
+            // candidate = i;
           } else {
-            details.active = false;
-            details.dead = false;
-            console.log("Details active: "+details.active);
+            details.dead = true;
           }
+        }
+        if (!details.active) {
+          details.active = false;
         }
         details.last_used = i;
         serviceArray.push(details);
@@ -445,26 +460,30 @@ var Landing = (function() {
     var services_json = localStorage.getItem(services_key);
     services_json = JSON.parse(services_json);
     services_json.services.forEach(function(service) {
-      if (service.active) {
-        var enumUrl = service.server+'enumerators';
-        downloadFile(enumUrl, service.uuid, 'enumerators.json', callback);
+      if (!service.dead) {
+        toDownload += 5;
+        
+        console.log('about to download for ' + service.service_uuid + ' toDownload = ' + toDownload);
 
-        var typesUrl = service.server + 'types';
-        downloadFile(typesUrl, service.uuid, 'types.json', callback);
+        var enumUrl = service.url + 'enumerators';
+        downloadFile(enumUrl, service.service_uuid, 'enumerators.json', callback);
 
-        var iconUrl = service.server + 'icon';
-        downloadFile(iconUrl, service.uuid, 'icon.svg', callback); //icon
+        var typesUrl = service.url + 'types';
+        downloadFile(typesUrl, service.service_uuid, 'types.json', callback);
 
-        var backgroundUrl = service.server + 'background/' + Math.max(window.innerHeight, window.innerWidth);
-        downloadFile(backgroundUrl, service.uuid, 'background.jpg', callback);
+        var iconUrl = service.url + 'icon';
+        downloadFile(iconUrl, service.service_uuid, 'icon.svg', callback); //icon
 
-        var svgsUrl = service.server+'svgs';
-        getDataFromAPI(svgsUrl, function(data) {
-          toDownload += data.svgs.length - 1;
-          data.svgs.forEach(
+        var backgroundUrl = service.url + 'background/' + Math.max(window.innerHeight, window.innerWidth);
+        downloadFile(backgroundUrl, service.service_uuid, 'background.jpg', callback);
+
+        var assetsUrl = service.url + 'assets';
+        getDataFromAPI(assetsUrl, function(data) {
+          toDownload += data.assets.length - 1;
+          data.assets.forEach(
             function(svg) {
               var filename = svg.substring(svg.lastIndexOf('/')+1);
-              downloadFile(svg, service.uuid, filename, callback);
+              downloadFile(svg, service.service_uuid, filename, callback);
             }
           );
         });
@@ -489,15 +508,21 @@ var Landing = (function() {
         });
       });
 
+      vm.aliveService = ko.computed(function() {
+        return ko.utils.arrayFirst(vm.services(), function(item) {
+          return !item.dead();
+        });
+      });
+
       // return our vm that has been mapped and tweaked
       return vm;
     }
   };
 
   function loadFromLocal(services_key, update, callback) {
-    console.log('loadFromLocal');
     downloaded += 1;
-    if (downloaded >= toDownload) {
+    console.log('loadFromLocal downloaded = ' + downloaded + ' toDownload = ' + toDownload);
+    if (downloaded == toDownload) {
       console.log('================================================================================');
       console.log('done downloading assets');
 
@@ -527,13 +552,9 @@ var Landing = (function() {
         return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
       });
 
-      var uuid = THIS.viewModel.services.activeService().uuid();
-      var background_file = THIS.viewModel.prefix() + uuid + '/background.jpg';
+      var service_uuid = THIS.viewModel.services.activeService().service_uuid();
+      var background_file = THIS.viewModel.prefix() + service_uuid + '/background.jpg';
       console.log('--------loading background from: ' + background_file + '-----------------');
-
-      var box = document.getElementById('box');
-      box.style.backgroundImage = 'url(' + background_file + ')';
-      console.log('set background image of div#box to: ' + background_file);
 
       var background = document.getElementById('background');
       background.style.backgroundImage = 'url(' + background_file + ')';

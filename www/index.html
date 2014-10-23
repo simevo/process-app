@@ -7,7 +7,11 @@
 
     <title>Simevo process app</title>
     <link href="css/custom.css" rel="stylesheet"/>
+    <link href="css/loader.css" rel="stylesheet"/>
     <link href="css/overrides.css" rel="stylesheet" />
+
+    <!-- Apache Cordova -->
+    <script type="text/javascript" src="cordova.js"></script>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
@@ -26,22 +30,21 @@
 
   </head>
   <body>
-    <script type="text/javascript" src="cordova.js"></script>
 
     <!-- script src="js/three.min.js"></script -->
     <!-- script src="js/JSONLoader.js"></script -->
     <!-- script src="js/OrbitControls.js"></script -->
     <!-- script src="js/Detector.js"></script -->
     <!-- script src="js/3d.js"></script -->
-    
-    <div id="background" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=')">
+
+    <div id="background" class="yscroll" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=')">
 
       <div id="landing-page">
 
         <div id="logo">
           <!-- TODO remove this button for release version ! -->
           <button type="button" class="btn btn-success" onclick='reset_local_storage();'>
-          <span class="glyphicon glyphicon-trash"></span>
+            <span class="glyphicon glyphicon-trash"></span>
           </button>
 
         </div>
@@ -118,7 +121,7 @@
             <ul id="service-list" class="yscroll list">
               <li>
                 <div data-bind="style: { backgroundColor: services.activeService().color }" class="service-thumb">
-                  <img alt="service thumbnail" data-bind="attr: { src: prefix() + services.activeService().uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: prefix() + services.activeService().service_uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
                 <div class="service-item list-item">
                   <strong><span data-bind='text: services.activeService().name()'>placeholder</span></strong>
@@ -132,17 +135,17 @@
                     <span data-bind='text: services.activeService().description()'>placeholder</span>
                   </p>
                   <p>
-                    <span data-bind='text: services.activeService().server()'>placeholder</span>
+                    <span data-bind='text: services.activeService().url()'>placeholder</span>
                   </p>
                 </div>
               </li>
               <!-- ko foreach: services.services -->
               <!-- ko ifnot: active -->
-              <li class="clearfix" data-bind="attr: { id: uuid }, event: { click: switchService }">
+              <li class="clearfix" data-bind="attr: { id: service_uuid }, event: { click: switchService }">
                 <div data-bind="style: { backgroundColor: color }" class="service-thumb">
-                  <img alt="service thumbnail" data-bind="attr: { src: $root.prefix() + uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
+                  <img alt="service thumbnail" data-bind="attr: { src: $root.prefix() + service_uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.prefix() + uuid()+'/background.jpg); position: relative;'}">
+                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.prefix() + service_uuid()+'/background.jpg); position: relative;'}">
                   <div id="services-veiling"></div>
                   <div style="z-index: 100; position: relative;">
                     <strong style="float: left;"><span data-bind="text: name"></span></strong>
@@ -184,13 +187,13 @@
 
         </div>
         <!-- tab-container -->
-        
+
       </div>
       <!-- landing -->
 
       <div id="main-page">
-        <!-- data-bind="attr: { style: 'background-image: url('+services.activeService().uuid()+'/background.jpg)'}" -->
-        <div id="box" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=')">
+        <!-- data-bind="attr: { style: 'background-image: url('+services.activeService().service_uuid()+'/background.jpg)'}" -->
+        <div id="box">
           <div id="input-open" class="lid-retracted vcenter lefty" onclick="showInputContainer();">
             <span class="glyphicon glyphicon-pencil vcenter"></span>
           </div>
@@ -381,7 +384,7 @@
               <button disabled id="calculate" type="button" class="btn btn-default" onclick="launch_calculation();">
                 <span class="glyphicon glyphicon-play"></span>
               </button>
-              <button type="button" class="btn btn-default">
+              <button id="btnShare" type="button" class="btn btn-default" onclick='socialShare();'> 
                 <span class="glyphicon glyphicon-share"></span>
               </button>
               <button id="btnUndo" type="button" class="btn btn-default" onclick="undoManager.undo();" disabled >
@@ -491,6 +494,8 @@
     </div>
     <!-- background -->
 
-    <div style="background-color: #000000; opacity: 0.6; height: 100%; width: 100%; position: absolute; top: 0px; display: none; z-index: 2000;" id="box2" />
+    <div style="background-color: #000000; opacity: 0.6; height: 100%; width: 100%; position: absolute; text-align: center; top: 0px; display: block; z-index: 2000;" id="box2">
+      <div class="ajax-loader"></div>
+    </div>
   </body>
 </html>

@@ -1,4 +1,4 @@
-simevo process app
+﻿simevo process app
 ==================
 
 The **simevo process app** is a free, open source mobile app to access process simulations hosted in the cloud using **simevo process technology**.
@@ -89,6 +89,12 @@ You should have received a copy of the GNU General Public License along with thi
 
   [http://thenounproject.com/term/undo/14157/](http://thenounproject.com/term/undo/14157/)
 
+- CSS3-only spinning loader animation based on "Ajax Loader" by wimlatour:
+
+  [http://one-div.com/pictos/ajax-loader/](http://one-div.com/pictos/ajax-loader/)
+
+  (unspecified license)
+
 #Building and testing
 
 ##Testing with phonegap developer
@@ -117,6 +123,8 @@ As per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/ho
 
 Testing the app on the device emulators.
 
+The following assumes your layout has the repo process-app sitting next to the working directory process-app-local.
+
 Create an empty phonegap app that we will use for the builds using the [CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface):
 
     phonegap create process-app-local com.simevo.processapp processapp
@@ -128,13 +136,13 @@ Remove the automatically generated www directory:
 
 Link the www and merges directories from the live repo into the *-local build directory:
 
-    ln -s ../process-app-private/www .
-    ln -s ../process-app-private/merges .
+    ln -s ../process-app/www .
+    ln -s ../process-app/merges .
 
 to do that on Windows, open a CMD as admin, browse to process-app-local and:
 
-    mklink /d www ..\process-app-private\www
-    mklink /d merges ..\process-app-private\merges
+    mklink /d www ..\process-app\www
+    mklink /d merges ..\process-app\merges
 
 Now install plugins & build:
 
@@ -142,7 +150,9 @@ Now install plugins & build:
     phonegap local plugin add org.apache.cordova.file
     phonegap local plugin add org.apache.cordova.file-transfer
     phonegap local plugin add org.apache.cordova.splashscreen
+    phonegap local plugin add org.apache.cordova.statusbar
     phonegap local plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
+    phonegap local plugin add https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git
 
 Now start the emulator, one of:
 
@@ -160,9 +170,31 @@ or via android device monitor:
 
     monitor
 
+Looking at the filesystem:
+
+    adb shell
+    run-as com.simevo.processapp
+    ls -l /data/data/com.simevo.processapp
+
+Looking at a sqlite3 database; since the sqlite3 executable is not available on non-rooted, user builds, it is necessary to get it from the emulator **with the same ABI** as the device:
+
+    adb -e pull /system/xbin/sqlite3
+    adb -d push sqlite3 /mnt/sdcard/.
+    adb -d shell
+    cd /mnt/sdcard/.
+    chmod 777 sqlite3
+    run-as com.simevo.processapp
+    cd databases
+    cat /mnt/sdcard/sqlite3 > sqlite3
+    ls -l sqlite3
+    ./sqlite3 persistency.db
+
+Note: this does not seem to work ATM.
+
 ###iOS-specific tips:
 
-Build once with phonegap CLI, then open the process-app-local/platforms/ios/simevo process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap
+Build once with phonegap CLI, then open the process-app-local/platforms/ios/simevo process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap:
+"If you are doing iOS PhoneGap debugging and have the Safari Develop Menu enabled, you can access the currently active session through the built-in Safari Web Inspector. To activate, go to Develop -> (iPad || iPhone) Simulator (normally, the third menu item) and click the active session you want to connect to. Voila!"
 
 It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in process-app-local/platforms/ios/CordovaLib/Classes/CDVViewController.m in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.
 
@@ -176,6 +208,16 @@ The build will succeed but loading to the emulator fails with this error:
 The solution: open the Visual Studio solution process-app-local\platforms\wp8\simevo_process_app.sln then start the debugger in there.
 
 To watch files in the isolated storage, get [Windows Phone Power Tools](http://wptools.codeplex.com/).
+
+To be able to inspect, install [weinre](http://people.apache.org/~pmuellr/weinre/docs/latest/Home.html) by issuing in an administrator command prompt:
+
+    npm -g install weinre
+
+Then insert this line in index.html:
+
+    <script src="http://192.168.0.103:8080/target/target-script-min.js"></script>
+
+and rebuild, reload the app in the emulator. Finally open the address http://192.168.0.103:8080/client and select the 1st target then click on "Elements" in the toolbar.
 
 ##Debugging Cordova hybrid applications on the Android emulator
 
