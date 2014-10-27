@@ -154,7 +154,7 @@ function openMainPageFromLanding(d, e) {
   hideOutputContainer();
   hideInfoContainer();
 
-  main.init(landing.viewModel.services.activeService(), d.handle(), landing.type_property);
+  main.init(landing.viewModel.services.activeService(), d.handle(), landing.viewModel.prefix(), landing.type_property);
 
   // hide landing page
   var landing_page = document.getElementById('landing-page');
@@ -329,20 +329,37 @@ function launch_calculation() {
   for ( i = 0; i < len; i++) {
     var variable_fulltag = undoCommands[i].data.variable;
     var variable = controlled_variable(controlled, variable_fulltag);
-    variable.end = undoCommands[i].data.end;
+    variable.end = parseFloat(undoCommands[i].data.end);
   }
-  var data = JSON.stringify(controlled);
+  var dataTo = JSON.stringify(controlled);
 
-  // TODO: connect to service
-  var url = landing.viewModel.services.activeService() + 'cases/' + main.case_uuid + '/calculate';
-  console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + JSON.stringify(data));
+  var url = landing.viewModel.services.activeService().url() + 'cases/' + main.case_uuid;
+  console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + dataTo);
 
-  setTimeout(function() {
-    unlockUI();
-  }, 5000); // delay in ms
+  postDataToAPI(url, dataTo, function(dataFrom){
+    if (dataFrom===null) {
+      console.error("No data received !");
+      alert("calculation failed - error 1 ");
+      unlockUI();
+    } else {
+      // TODO get handle from service and check it
+      // var handle = dataFrom.case_uuid;
+      // if (handle !== main.case_uuid) {
+      //   alert("calculation failed - error 2");
+      //   unlockUI();
+      // }
+      // TODO assert handle === case_uuid
+      var sqlUrl = url + '/sql';
+      downloadFile(sqlUrl, main.case_uuid, 'persistency.sql', function() {
+        console.log('================================================================================');
+        console.log('done downloading database');
+        main.init(landing.viewModel.services.activeService(), main.case_uuid, landing.viewModel.prefix(), landing.type_property);
+        unlockUI();
+      }); // downloadCaseAssets
+    } // received data
+  }); // postDataToAPI
 
   lockUI();
-
   return false;
 } // launch_calculation
 
@@ -377,11 +394,16 @@ var downloaded = 0;
 // number of files to download
 var toDownload = 4;
 
+var counter = 0;
+
 function openMainPageFromConfigure() {
   "use strict";
   console.log(ko.toJSON(configure.configuration(), null, 2));
   var name = configure.configuration().name();
   var tag = configure.configuration().instance_tag();
+  if (tag === "") {
+    tag = "Case " + counter++;
+  }
   var description = configure.configuration().instance_description();
   var stringOptions = configure.configuration().stringOptions();
   var integerOptions = configure.configuration().integerOptions();
@@ -405,13 +427,13 @@ function openMainPageFromConfigure() {
   postDataToAPI(url, JSON.stringify(dataTo), function(dataFrom){
     if (dataFrom===null) {
       console.error("No data received !");
-      alert("Calculation failed");
+      alert("case creation failed");
       unlockUI();
-      openLandingPageFromConfigure();
     } else {
       var handle = dataFrom.case_uuid;
       var last_used = Math.round(Date.now() / 1000);
       configure.addRecent(tag, last_used, description, name, handle);
+      downloaded = 0; // reset counter !
       toDownload = 2; // database and assets
       downloadCaseAssets(url, handle, function() {
         downloaded += 1;
@@ -419,7 +441,7 @@ function openMainPageFromConfigure() {
           console.log('================================================================================');
           console.log('done downloading case assets');
 
-          main.init(landing.viewModel.services.activeService(), handle, landing.type_property);
+          main.init(landing.viewModel.services.activeService(), handle, landing.viewModel.prefix(), landing.type_property);
 
           // hide configure page
           var configure_page = document.getElementById('configure-page');
@@ -572,17 +594,6 @@ function onClickXref() {
   main.change_node(target_id);
   return false;
 }
-
-function overrideXlinks() {
-  "use strict";
-  // rewire onclick events for xlink:href anchors in the image-container
-  var as = document.getElementById('image-container').getElementsByTagName("a");
-  for (var a = 0; a < as.length; a++) {
-    if (as[a].hasAttribute('xlink:href')) {
-      as[a].onclick = onClickXref;
-    }
-  } // for each anchor
-} // overrideXlinks
 
 // onclick functions for main
 function hide(thing, thing1) {
@@ -799,8 +810,12 @@ function open1(variabile) {
 
 function socialShare() {
   "use strict";
-  var url = 'http://simevo.com/api/process/pasteurize/cases/57b9cfe6-4667-4147-8ac7-f678f81fc17d/html';
+  var url = 'http://simevo.com/api/process/pasteurize/cases/' + main.case_uuid + '/html';
   console.log("sharing link: " + url);
-  var tag = "TAG"; // main.viewModel.Tag()
-  window.plugins.socialsharing.share('simevo process model', tag, null, url);
+  var message = "simevo process model - " + main.viewModel.Type() + " - " + main.viewModel.typeDescription() + "; " + main.viewModel.Tag() + " - " + main.viewModel.Description() + "; created: " + main.viewModel.createdAt() + " modified: " + main.viewModel.modifiedAt();
+  // Message and link
+  window.plugins.socialsharing.share(message, null, null, url);
+  // Message, subject, image and link
+  // var subject = "simevo process model - " + main.viewModel.Type() + " - " + main.viewModel.typeDescription();
+  // window.plugins.socialsharing.share(message, subject, 'http://simevo.com/img/logo64.png', url);
 }

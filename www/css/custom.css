@@ -12,6 +12,7 @@ div#image-container {
   height: -moz-calc(100% - 5em);
   left: 0;
   position: absolute;
+  top: 2.5em;
   width: 100%;
   z-index: 1;
 }
@@ -135,8 +136,15 @@ div#main {
   background-position: center center;
   background-size: 75%;
 }
+
+#info-toggle {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 100%;	
+}
+
 div#info-container {
-  background-color: #FF7F50;
+  background: linear-gradient(to bottom, rgba(228, 228, 228, 1), rgba(228, 228, 228, 0.9));
   display: none;
   margin: 0 2.1em;
   max-height: 100%;
@@ -237,7 +245,7 @@ div#output-container {
 }
 
 div#box {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.3);
   height: calc(100% - 5em);
   height: -webkit-calc(100% - 5em);
   width: 100%;

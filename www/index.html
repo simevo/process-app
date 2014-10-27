@@ -265,45 +265,48 @@
               <div id="info-container" class="yscroll">
                 <dl id="info-list">
                   <dt>
-                    model
+                    <span data-bind="text: Tag"></span>
                   </dt>
                   <dd>
-                    my model - pasteurization plant x y z optimal operation
+                    <span data-bind="text: Description"></span>
                   </dd>
                   <dt>
-                    full tag
+                    <span data-bind="text: Type"></span>
                   </dt>
                   <dd>
-                    A:B:C:my model
+                    <span data-bind="text: typeDescription"></span>
                   </dd>
                   <dt>
-                    type
+                    created:
                   </dt>
                   <dd>
-                    PasteurHTST15_milkWhole - High Temperature Short Time Pasteurization 15 s of whole milk
+                    <span data-bind="text: createdAt"></span>
                   </dd>
                   <dt>
-                    created
+                    last modified:
                   </dt>
                   <dd>
-                    2014-06-30 12:22 CET
+                    <span data-bind="text: modifiedAt"></span>
                   </dd>
                   <dt>
-                    last modified
+                    status:
                   </dt>
                   <dd>
-                    2014-07-02 19:30 CET
-                  </dd>
-                  <dt>
-                    status
-                  </dt>
-                  <dd>
-                    results present with errors
+                  <!-- ko if: errors > 0 -->
+                    <span>results with errors</span>
+                  <!-- /ko -->
+                  <!-- ko if: errors == 0 && warning > 0 -->
+                    <span>results with warnings</span>
+                  <!-- /ko -->
+                  <!-- ko if: errors == 0 && warning == 0 -->
+                    <span>results without warnings or errors</span>
+                  <!-- /ko -->
                   </dd>
 
                 </dl>
                 <!-- info-list -->
 
+                <!-- messages-list
                 <hr/>
 
                 <strong style="padding-left: 18px">Messages:</strong>
@@ -317,7 +320,7 @@
                   </dd>
 
                 </dl>
-                <!-- messages-list -->
+                messages-list -->
 
               </div>
               <!-- info-container -->
@@ -384,7 +387,7 @@
               <button disabled id="calculate" type="button" class="btn btn-default" onclick="launch_calculation();">
                 <span class="glyphicon glyphicon-play"></span>
               </button>
-              <button id="btnShare" type="button" class="btn btn-default" onclick='socialShare();'> 
+              <button id="btnShare" type="button" class="btn btn-default" onclick='socialShare();'>
                 <span class="glyphicon glyphicon-share"></span>
               </button>
               <button id="btnUndo" type="button" class="btn btn-default" onclick="undoManager.undo();" disabled >

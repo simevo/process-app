@@ -119,6 +119,13 @@ As per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/ho
       <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
     </div>
 
+##Debian Android SDK setup
+
+Add these to ~/.profile  and source ~/.profile:
+
+    export ANDROID_EMULATOR_FORCE_32BIT=true
+    export JAVA_HOME=/usr/lib/jvm/default-java
+
 ##Device emulation
 
 Testing the app on the device emulators.
@@ -223,7 +230,7 @@ and rebuild, reload the app in the emulator. Finally open the address http://192
 
 On Android 4.4 (kitkat) and later it is possible to debug from the Chrome / Chromium inspector of the host the HTML / javascript contents of Android WebView of a Cordova hybrid application running inside the Android emulator. 
 
-Enable remote debugging as per [this guide](http://www.thedumbterminal.co.uk/?action=showArticle&articleId=180) adding a few lines in the simevoProcessApp.java file located in process-app-local/platforms/android/src/com/simevo/process_app.
+Enable remote debugging as per [this guide](http://www.thedumbterminal.co.uk/?action=showArticle&articleId=180) adding a few lines in the simevoprocessapp.java file located in process-app-local/platforms/android/src/com/simevo/processapp.
 
 This is the modified file:
 

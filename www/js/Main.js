@@ -21,24 +21,29 @@ var Main = (function() {
   var viewModelOutputs = { };
   var viewModelOutputsFiltered = { };
   var viewModelMessages = { };
-  var viewModel = { };
   var type_property;
+  var service_uuid = '';
+  var prefix = '';
+  var initialized = false;
   // provide access to the function-scope this object in the private functions
   var THIS = this;
 
   // public variables
   this.case_uuid = '';
   this.initialized = false;
+  this.viewModel = { };
 
   // public functions
-  this.init = function(activeService, caseUuid, typeProperty) {
+  this.init = function(activeService, case_uuid_, prefix_, typeProperty) {
+    type_property = typeProperty;
+    this.prefix = prefix_;
+
     if (first) {
       first = false;
+      this.case_uuid = case_uuid_;
+      this.service_uuid = activeService.service_uuid();
 
-      console.log("initializing Main with service_uuid = " + activeService.service_uuid() + " and case_uuid = " + caseUuid);
-
-      type_property = typeProperty;
-      this.case_uuid = caseUuid;
+      console.log("initializing Main with service_uuid = " + this.service_uuid + " and case_uuid = " + case_uuid_);
 
       // define a knockout binding handler to get the selectedIndex property of the select element
       // i.e. to find out the index of the currently selected option
@@ -126,113 +131,156 @@ var Main = (function() {
       viewModelChildren = ko.mapping.fromJS(children, mapping);
 
       // sqlite database connection
-      var sqlFile = this.case_uuid + '/persistency.sql';
-
-      getFileEntry(this.case_uuid, '/persistency.sql', function(fileEntry) {
-
-        console.log('--------loading sql from: ' + fileEntry.toURL() + '-----------------');
-        fileEntry.file(function(file) {
-          var reader = new FileReader();
-
-          console.log('-------- opening database: ' + THIS.case_uuid + ' -----------------');
-          db = window.sqlitePlugin.openDatabase({name: THIS.case_uuid });
-
-          reader.onloadend = function (e) {
-            console.log('onreadend');
-            var sql = this.result;
-
-            db.transaction(function(tx) {
-              console.log('start N transaction');
-              tx.executeSql('DROP TABLE IF EXISTS N');
-              tx.executeSql('CREATE TABLE IF NOT EXISTS N (' +
-                            'ID                      integer PRIMARY KEY,' +
-                            'TAG                     character (50),' +
-                            'DESCRIPTION             character (255),' +
-                            'TYPE                    character (50),' +
-                            'FULLTAG                 character (255),' +
-                            'UUID                    character (36),' +
-                            'CREATED_AT              datetime,' +
-                            'UPDATED_AT              datetime,' +
-                            'LOCKED_BY               character (50),' +
-                            'LOCKED_UNTIL            datetime,' +
-                            'PARENT                  integer REFERENCES N (ID),' +
-                            'ROOT                    integer REFERENCES N (ID),' +
-                            'RANGE                   integer);');
-              console.log('end N transaction');
-              }, function(e) {
-                console.log("DB ERROR: " + e.message);
-            }); // transaction
-
-            db.transaction(function(tx) {
-              console.log('start I/Q/S transaction');
-              tx.executeSql('DROP TABLE IF EXISTS I');
-              tx.executeSql('DROP TABLE IF EXISTS Q');
-              tx.executeSql('DROP TABLE IF EXISTS S');
-              tx.executeSql('CREATE TABLE IF NOT EXISTS I (' +
-                            'ID                      integer PRIMARY KEY,' +
-                            'NID                     integer REFERENCES N (ID),' +
-                            'TAG                     character (50),' +
-                            'DESCRIPTION             character (255),' +
-                            'VALUE                   integer);');
-              tx.executeSql('CREATE TABLE IF NOT EXISTS Q (' +
-                            'ID                      integer PRIMARY KEY,' +
-                            'NID                     integer REFERENCES N (ID),' +
-                            'TAG                     character (50),' +
-                            'DESCRIPTION             character (255),' +
-                            'VALUE                   double precision,' +
-                            'UNIT                    character (50),' +
-                            'INPUT                   boolean,' +
-                            'OUTPUT                  boolean);');
-              tx.executeSql('CREATE TABLE IF NOT EXISTS S (' +
-                            'ID                      integer PRIMARY KEY,' +
-                            'NID                     integer REFERENCES N (ID),' +
-                            'TAG                     character (50),' +
-                            'DESCRIPTION             character (255),' +
-                            'VALUE                   character (255))');
-              console.log('end I/Q/S transaction');
-              }, function(e) {
-                console.log("DB ERROR: " + e.message);
-            }); // transaction
-
-            db.transaction(function(tx) {
-              console.log('start table fill transaction');
-            
-              var lines = sql.split('\n');
-              for (var i = 0; i < lines.length; i++){
-                if (lines[i].lastIndexOf("INSERT", 0) === 0) {
-                  console.log("executing SQL statement: " + lines[i]);
-                  tx.executeSql(lines[i]);
-                }
-              }
-              console.log('end table fill transaction');
-            }, function(e) {
-              console.log("DB ERROR in table fill: " + e.message);
-            }); // transaction
-
-            THIS.initialized = true;
-        
-            viewModel = {
-              hasChildren: ko.observable(false),
-              Tag: ko.observable(''),
-              homeText: ko.observable('Home'),
-              action: ko.observable(-1),
-              service_color : ko.observable(activeService.color())
-            };
-        
-            // point to the node with database N.ID == 0 and load all data
-            THIS.change_node(0);
-        
-            apply();
-          }; // onloadend
-
-          reader.readAsText(file);
-        }); // fileEntry
-      }); // gotFileEntry
+      db = openSql(case_uuid_, function() {
+        THIS.initialized = true;
+    
+        THIS.viewModel = {
+          hasChildren: ko.observable(false),
+          Tag: ko.observable(''),
+          homeText: ko.observable('Home'),
+          action: ko.observable(-1),
+          service_color : ko.observable(activeService.color()),
+          // new:
+          Description: ko.observable(''),
+          Type: ko.observable(''),
+          typeDescription: ko.observable(''),
+          createdAt: ko.observable(''),
+          modifiedAt: ko.observable(''),
+          errors: ko.observable(0),
+          warnings: ko.observable(0)
+        };
+    
+        // point to the node with database N.ID == 0 and load all data
+        THIS.change_node(0);
+    
+        apply();
+      });
 
     } else {
-      console.log("updating Main");
-    }
+      console.log("updating Main with service_uuid = " + this.service_uuid + " and case_uuid = " + case_uuid_);
+
+      this.case_uuid = case_uuid_;
+      this.service_uuid = activeService.service_uuid();
+
+      // sqlite database connection
+      db = openSql(case_uuid_, function() {
+        // point to the node with database N.ID == 0 and load all data
+        THIS.change_node(0);
+      });
+    } // initialized ?
   }; // init
+
+  function openSql(caseUuid, callback) {
+    var sqlFile = caseUuid + '/persistency.sql';
+    console.log('--------loading sql from: ' + sqlFile + '-----------------');
+    getFileEntry(caseUuid, '/persistency.sql', function(fileEntry) {
+
+      fileEntry.file(function(file) {
+        var reader = new FileReader();
+
+        console.log('-------- opening database: ' + THIS.case_uuid + ' -----------------');
+        db = window.sqlitePlugin.openDatabase({name: THIS.case_uuid });
+
+        reader.onloadend = function (e) {
+          console.log('onreadend');
+          var sql = this.result;
+
+          db.transaction(function(tx) {
+            console.log('start N transaction');
+            tx.executeSql('DROP TABLE IF EXISTS N', [], function(tx, res) {
+                console.log('executeSql DROP N done: ' + JSON.stringify(res));
+              });
+            tx.executeSql('CREATE TABLE IF NOT EXISTS N (' +
+                          'ID                      integer PRIMARY KEY,' +
+                          'TAG                     character (50),' +
+                          'DESCRIPTION             character (255),' +
+                          'TYPE                    character (50),' +
+                          'FULLTAG                 character (255),' +
+                          'UUID                    character (36),' +
+                          'CREATED_AT              datetime,' +
+                          'UPDATED_AT              datetime,' +
+                          'LOCKED_BY               character (50),' +
+                          'LOCKED_UNTIL            datetime,' +
+                          'PARENT                  integer REFERENCES N (ID),' +
+                          'ROOT                    integer REFERENCES N (ID),' +
+                          'RANGE                   integer);', [], function(tx, res) {
+                console.log('executeSql CREATE N done: ' + JSON.stringify(res));
+            });
+          }, function(error) {
+            console.log("DB ERROR in N transaction: " + error.message);
+          }, function() {
+            console.log('end N transaction');
+          }); // transaction
+
+          db.transaction(function(tx) {
+            console.log('start I/Q/S transaction');
+            tx.executeSql('DROP TABLE IF EXISTS I', [], function(tx, res) {
+                console.log('executeSql DROP I done: ' + JSON.stringify(res));
+              });
+            tx.executeSql('DROP TABLE IF EXISTS Q', [], function(tx, res) {
+                console.log('executeSql DROP Q done: ' + JSON.stringify(res));
+              });
+            tx.executeSql('DROP TABLE IF EXISTS S', [], function(tx, res) {
+                console.log('executeSql DROP S done: ' + JSON.stringify(res));
+              });
+            tx.executeSql('CREATE TABLE IF NOT EXISTS I (' +
+                          'ID                      integer PRIMARY KEY,' +
+                          'NID                     integer REFERENCES N (ID),' +
+                          'TAG                     character (50),' +
+                          'DESCRIPTION             character (255),' +
+                          'VALUE                   integer);', [], function(tx, res) {
+                console.log('executeSql CREATE I done: ' + JSON.stringify(res));
+              });
+            tx.executeSql('CREATE TABLE IF NOT EXISTS Q (' +
+                          'ID                      integer PRIMARY KEY,' +
+                          'NID                     integer REFERENCES N (ID),' +
+                          'TAG                     character (50),' +
+                          'DESCRIPTION             character (255),' +
+                          'VALUE                   double precision,' +
+                          'UNIT                    character (50),' +
+                          'INPUT                   boolean,' +
+                          'OUTPUT                  boolean);', [], function(tx, res) {
+                console.log('executeSql CREATE Q done: ' + JSON.stringify(res));
+              });
+            tx.executeSql('CREATE TABLE IF NOT EXISTS S (' +
+                          'ID                      integer PRIMARY KEY,' +
+                          'NID                     integer REFERENCES N (ID),' +
+                          'TAG                     character (50),' +
+                          'DESCRIPTION             character (255),' +
+                          'VALUE                   character (255))', [], function(tx, res) {
+                console.log('executeSql CREATE S done: ' + JSON.stringify(res));
+            });
+          }, function(error) {
+            console.log("DB ERROR in I/Q/S transaction: " + error.message);
+          }, function() {
+            console.log('end I/Q/S transaction');
+          }); // transaction
+
+          db.transaction(function(tx) {
+            console.log('start table fill transaction');
+          
+            var lines = sql.split('\n');
+            for (var i = 0; i < lines.length; i++){
+              if (lines[i].lastIndexOf("INSERT", 0) === 0) {
+                // console.log("executing SQL statement: " + lines[i]);
+                tx.executeSql(lines[i]);
+              }
+            }
+          }, function(error) {
+            console.log("DB ERROR in fill transaction: " + error.message);
+          }, function() {
+            console.log('end table fill transaction');
+          }); // transaction
+
+          console.log('-------- call back ! -----------------');
+          callback();
+        }; // onloadend
+
+        reader.readAsText(file);
+      }); // fileEntry
+    }); // gotFileEntry
+    
+  } // openSql
 
   function errorCB(err) {
     alert("Error processing SQL: "+err);
@@ -260,8 +308,8 @@ var Main = (function() {
   function apply() {
     console.log("applying Main");
 
-    var messages_list = document.getElementById('messages-list');
-    ko.applyBindings(viewModelMessages, messages_list);
+    // var messages_list = document.getElementById('messages-list');
+    // ko.applyBindings(viewModelMessages, messages_list);
 
     var input_container = document.getElementById('input-container');
     ko.applyBindings(viewModelInputsFiltered, input_container);
@@ -274,9 +322,11 @@ var Main = (function() {
 
     // apply bindings for info-toggle button
     var navigation = document.getElementById('navigation');
-    ko.applyBindings(viewModel, navigation);
+    ko.applyBindings(THIS.viewModel, navigation);
     var toolbar = document.getElementById('toolbar');
-    ko.applyBindings(viewModel, toolbar);
+    ko.applyBindings(THIS.viewModel, toolbar);
+    var info_container = document.getElementById('info-container');
+    ko.applyBindings(THIS.viewModel, info_container);
     
     // assign onclick events
     document.getElementById('input-box').onclick = dummy;
@@ -355,7 +405,7 @@ var Main = (function() {
   }
 
   this.action = function() {
-    return viewModel.action();
+    return THIS.viewModel.action();
   }; // action
   
   this.change_node = function(targetid) {
@@ -377,9 +427,9 @@ var Main = (function() {
             childArray.push(obj);
           }
           if (len > 0) {
-            viewModel.hasChildren(true);
+            THIS.viewModel.hasChildren(true);
           } else {
-            viewModel.hasChildren(false);
+            THIS.viewModel.hasChildren(false);
             //TODO rimuovere patch
             hideChildren();
           }
@@ -401,30 +451,33 @@ var Main = (function() {
         }, null);
       });
 
-      // change open main button
-      if (targetid > 0) {
-        db.readTransaction(function(tx) {
-          tx.executeSql('SELECT C.TAG as CurrTAG, P.TAG,P.ID FROM N AS C, N AS P WHERE C.ID= ' + targetid + ' AND C.PARENT=P.ID;', [], function(tx, results) {
-            var item = results.rows.item(0);
-            viewModel.action(item.ID);
-            viewModel.homeText(item.TAG);
-            viewModel.Tag(item.CurrTAG);
-          }, null);
-        });
-      } else {
-        db.readTransaction(function(tx) {
-          tx.executeSql('SELECT TAG FROM N WHERE ID =' + targetid, [], function(tx, results) {
-            viewModel.Tag(results.rows.item(0).TAG);
-          }, null);
-        });
-        viewModel.action(-1);
-        viewModel.homeText('Home');
-      }
-    }// if there is a database connection
+      // update viewModel
+      db.readTransaction(function(tx) {
+        tx.executeSql('SELECT C.TAG as CurrTAG,C.DESCRIPTION as CurrDESCRIPTION,C.TYPE as CurrTYPE,C.CREATED_AT as CurrCREATED_AT,C.UPDATED_AT as CurrUPDATED_AT,P.TAG,P.ID FROM N AS C, N AS P WHERE C.ID= ' + targetid + ' AND C.PARENT=P.ID;', [], function(tx, results) {
+          var item = results.rows.item(0);
+          if (targetid === 0) {
+            THIS.viewModel.action(-1);
+            THIS.viewModel.homeText('Home');
+          } else {
+            THIS.viewModel.action(item.ID);
+            THIS.viewModel.homeText(item.TAG);
+          }
+          THIS.viewModel.Tag(item.CurrTAG);
+          THIS.viewModel.Description(item.CurrDESCRIPTION);
+          THIS.viewModel.Type(item.CurrTYPE);
+          THIS.viewModel.typeDescription(type_property(item.CurrTYPE, "description", ""));
+          THIS.viewModel.createdAt(item.CurrCREATED_AT);
+          THIS.viewModel.modifiedAt(item.CurrUPDATED_AT);
+          // errors
+          // warnings
+        }, null);
+      });
+
+    } // if there is a database connection
 
     var inputsArray = [];
     function fillInputs(tx, fullTagLength, query) {
-      console.log('fillInputs');
+      console.log('fillInputs query = ' + query);
       tx.executeSql(query, [], function(tx, results) {
         var len = results.rows.length, i;
         for ( i = 0; i < len; i++) {
@@ -448,7 +501,7 @@ var Main = (function() {
 
     var outputsArray = [];
     function fillOutputs(tx, fullTagLength, query) {
-      console.log('fillOutputs');
+      console.log('fillOutputs query = ' + query);
       tx.executeSql(query, [], function(tx, results) {
         var len = results.rows.length, i;
         for ( i = 0; i < len; i++) {
@@ -489,6 +542,24 @@ var Main = (function() {
       }); // file
     }); // getFileEntry
   } // change_svg
+
+  function overrideXlinks() {
+    // rewire onclick events for xlink:href anchors in the image-container
+    var as = document.getElementById('image-container').getElementsByTagName("a");
+    for (var a = 0; a < as.length; a++) {
+      if (as[a].hasAttribute('xlink:href')) {
+        as[a].onclick = onClickXref;
+      }
+    } // for each anchor
+    // change IRI (Internationalized Resource Identifier) references for all image elements to point to the current service's cache directory
+    var is = document.getElementById('image-container').getElementsByTagName("image");
+    for (var i = 0; i < is.length; i++) {
+      var url = is[i].getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+      var newurl = THIS.prefix + THIS.service_uuid + '/' + url;
+      console.log('rewiring [' + url + '] to [' + newurl + ']');
+      is[i].setAttributeNS('http://www.w3.org/1999/xlink', 'href', newurl); 
+    } // for each image
+  } // overrideXlinks
 
   // stop event propagation
   function dummy(e) {

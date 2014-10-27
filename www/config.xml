@@ -5,7 +5,7 @@
   xmlns:gap="http://phonegap.com/ns/1.0"
   xmlns:cdv="http://cordova.apache.org/ns/1.0"
   id="com.simevo.processapp"
-  version="0.0.5">
+  version="0.0.7">
 
   <name>simevo process app</name>
 
@@ -24,8 +24,9 @@
   -->
   <preference name="permissions" value="none"/>
 
-  <preference name="phonegap-version" value="3.5.0" /> <!-- all: current version of PhoneGap -->
+  <preference name="phonegap-version" value="3.6.3" /> <!-- all: current version of PhoneGap -->
   <preference name="orientation" value="default" /> <!-- all: default means both landscape and portrait are enabled -->
+  <preference name="DisallowOverscroll" value="true"/> <!-- the interface should not display any feedback when users scroll past the beginning or end of content -->
   <preference name="target-device" value="universal" /> <!-- all: possible values handset, tablet, or universal -->
 <!--  <preference name="fullscreen" value="true" /> all: hides the status bar at the top of the screen -->
   <preference name="webviewbounce" value="false" /> <!-- ios: control whether the screen 'bounces' when scrolled beyond the top -->
@@ -66,6 +67,7 @@
   <!-- Third party plugins -->
   <!-- Cordova/PhoneGap SQLitePlugin> https://build.phonegap.com/plugins/977 -->
   <gap:plugin name="com.brodysoft.sqliteplugin" version="1.0.0" />
+  <!-- Eddy Verbruggen SocialSharing PhoneGap Plugin https://build.phonegap.com/plugins/1093 --> 
   <gap:plugin name="nl.x-services.plugins.socialsharing" version="4.3.6" />
 
   <!-- Define app icon for each platform. -->
