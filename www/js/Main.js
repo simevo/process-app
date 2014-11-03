@@ -176,7 +176,7 @@ var Main = (function() {
     getFileEntry(caseUuid, '/persistency.sql', function(fileEntry) {
 
       fileEntry.file(function (file) {
-        var sqliteFile = THIS.case_uuid + '.db';
+        var sqliteFile = THIS.case_uuid // + '.db';
         console.log('-------- opening database: ' + sqliteFile + ' -----------------');
         db = window.sqlitePlugin.openDatabase({name: sqliteFile }, function() {
           console.log('database successfully opened');
