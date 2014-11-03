@@ -354,6 +354,7 @@ function launch_calculation() {
         console.log('================================================================================');
         console.log('done downloading database');
         main.init(landing.viewModel.services.activeService(), main.case_uuid, landing.viewModel.prefix(), landing.type_property);
+        undoManager.clear();
         unlockUI();
       }); // downloadCaseAssets
     } // received data
@@ -638,9 +639,11 @@ function hideInputContainer() {
   "use strict";
   hide('input-container', 'input-open');
   var ib = document.getElementById('input-box');
-  if (ib.parentNode.tagName.toUpperCase() == 'LI') {
-    var v = ib.parentNode.id;
-    close(document.getElementById(v));
+  if (ib.parentNode) {
+    if (ib.parentNode.tagName.toUpperCase() == 'LI') {
+      var v = ib.parentNode.id;
+      close(document.getElementById(v));
+    }
   }
 }
 

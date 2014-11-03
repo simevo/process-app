@@ -78,7 +78,10 @@ var Landing = (function() {
     // uncomment to force reloading each time
     // localStorage.clear();
     var services_key = "services.json";
+    // public servers:
     var serviceUrl = "http://simevo.com/api/process.json";
+    // private servers:
+    // var serviceUrl = "http://simevo.com/api/process-private.json";
     if (localStorage.getItem(services_key) === null) {
       console.log("need to discover the services");
       getDataFromAPI(serviceUrl, function(data){

@@ -198,6 +198,11 @@ Looking at a sqlite3 database; since the sqlite3 executable is not available on 
 
 Note: this does not seem to work ATM.
 
+Installing on device:
+
+    phonegap build android
+    adb -d install ./platforms/android/out/processapp-debug-unaligned.apk
+
 ###iOS-specific tips:
 
 Build once with phonegap CLI, then open the process-app-local/platforms/ios/simevo process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap:
