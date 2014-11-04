@@ -536,6 +536,7 @@ var Main = (function() {
 
         reader.onloadend = function(e) {
           var svg = this.result;
+          document.getElementById('image-container').innerHTML = svg;
           document.getElementById('image-container').firstElementChild.setAttribute("class", "vcenter");
           overrideXlinks();
         };
