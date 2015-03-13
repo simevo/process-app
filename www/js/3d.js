@@ -1,4 +1,6 @@
-"use strict"
+// configuration for jshint
+/* jshint browser: true, devel: true, strict: true */
+/* global THREE */
 
 var Detector;
 if (!Detector.webgl)
@@ -11,12 +13,12 @@ var uniforms;
 var WIDTH = window.innerWidth, HEIGHT = window.innerHeight;
 
 function change_3d(id) {
+  "use strict";
 
   camera = new THREE.PerspectiveCamera(25, WIDTH / HEIGHT, 1, 10000);
-  //camera zoom
+  // camera zoom
   camera.position.z = 1300;
 
-  //  controls = new THREE.TrackballControls(camera);
   controls = new THREE.OrbitControls(camera);
 
   scene = new THREE.Scene();
@@ -45,8 +47,6 @@ function change_3d(id) {
     scene.add(mesh);
   });
 
-  //
-
   renderer = new THREE.WebGLRenderer({
     alpha : true,
     antialias : true
@@ -59,34 +59,28 @@ function change_3d(id) {
   }
   container.appendChild(renderer.domElement);
 
-  //
-
   window.addEventListener('resize', onWindowResize, false);
   animate();
 }
 
 function onWindowResize() {
-
+  "use strict";
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
-
   renderer.setSize(window.innerWidth, window.innerHeight);
-
 }
 
 function animate() {
+  "use strict";
   requestAnimationFrame(animate);
-
   render();
-
 }
 
 function render() {
-
+  "use strict";
   var time = Date.now() * 0.001;
   if (controls) {
     controls.update();
   }
   renderer.render(scene, camera);
 }
-

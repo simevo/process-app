@@ -7,7 +7,7 @@ For more informations visit: [http://simevo.com/process/app.html](http://simevo.
 
 #License
 
-Copyright (C) simevo 2014 [http://simevo.com](http://simevo.com)
+Copyright (C) simevo 2014-2015 [http://simevo.com](http://simevo.com)
 
 HTML5/CCS3/Javascript portions by Francesco Perotti.
 
@@ -121,10 +121,19 @@ As per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/ho
 
 ##Debian Android SDK setup
 
-Add these to ~/.profile  and source ~/.profile:
+- Set up Android Studio on debian 7 wheezy 64-bit: http://wp.libpf.com/?p=856
 
-    export ANDROID_EMULATOR_FORCE_32BIT=true
-    export JAVA_HOME=/usr/lib/jvm/default-java
+- make the Adnroid SDK tools available:
+
+        export PATH="/home/paolog/Android/Sdk/tools:$PATH"
+
+- Install Node.js & NPM on Debian Stable (Wheezy / 7): http://antler.co.za/2014/04/install-node-js-npm-on-debian-stable-wheezy-7/; in summary:
+
+         sudo apt-get -t wheezy-backports install nodejs nodejs-legacy
+
+- special bit if your run on 32-bit linux: add these to ~/.profile and source ~/.profile:
+
+         export ANDROID_EMULATOR_FORCE_32BIT=true
 
 ##Device emulation
 
@@ -153,19 +162,19 @@ to do that on Windows, open a CMD as admin, browse to process-app-local and:
 
 Now install plugins & build:
 
-    phonegap local plugin add org.apache.cordova.device
-    phonegap local plugin add org.apache.cordova.file
-    phonegap local plugin add org.apache.cordova.file-transfer
-    phonegap local plugin add org.apache.cordova.splashscreen
-    phonegap local plugin add org.apache.cordova.statusbar
-    phonegap local plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
-    phonegap local plugin add https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git
+    phonegap plugin add org.apache.cordova.device
+    phonegap plugin add org.apache.cordova.file
+    phonegap plugin add org.apache.cordova.file-transfer
+    phonegap plugin add org.apache.cordova.splashscreen
+    phonegap plugin add org.apache.cordova.statusbar
+    phonegap plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
+    phonegap plugin add https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git
 
 Now start the emulator, one of:
 
-    phonegap local run android
-    phonegap local run wp8
-    phonegap local run ios
+    phonegap run android
+    phonegap run wp8
+    phonegap run ios
 
 ###Android-specific bits:
 
@@ -225,11 +234,15 @@ To be able to inspect, install [weinre](http://people.apache.org/~pmuellr/weinre
 
     npm -g install weinre
 
+Now start weinre:
+
+    weinre
+
 Then insert this line in index.html:
 
-    <script src="http://192.168.0.103:8080/target/target-script-min.js"></script>
+    <script src="http://localhost:8080/target/target-script-min.js"></script>
 
-and rebuild, reload the app in the emulator. Finally open the address http://192.168.0.103:8080/client and select the 1st target then click on "Elements" in the toolbar.
+and rebuild, reload the app in the emulator. Finally open the address http://localhost:8080/client and select the 1st target then click on "Elements" in the toolbar.
 
 ##Debugging Cordova hybrid applications on the Android emulator
 

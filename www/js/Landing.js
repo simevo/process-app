@@ -19,7 +19,7 @@ var Landing = (function() {
   var enumerator_default = {};
   var recent;
   var types_used = [];
-  var first = false;
+  var service_undefined = false;
   // provide access to the function-scope this object in the private functions
   var THIS = this;
   // number of downloaded files
@@ -28,6 +28,7 @@ var Landing = (function() {
   var toDownload = 0;
 
   // public variables
+  this.initialized = false;
   // view model with child view models
   this.viewModel = {
     prefix : ko.observable(''),
@@ -38,23 +39,23 @@ var Landing = (function() {
   };
 
   // public functions
-  this.init = function() {
+  this.init = function(callback) {
     console.log("initializing Landing");
     lockUI();
     // refresh services, types and recent lists
-    updateServices(false, updateOthers);
+    updateServices(false, callback);
   }; // init
 
-  this.update = function() {
+  this.update = function(callback) {
     console.log("updating Landing");
     // refresh services, types and recent lists
-    updateServices(true, updateOthers);
+    updateServices(true, callback);
   }; // update
 
   this.updateRT = function() {
     console.log("updating Landing recent & types");
     // refresh services, types and recent lists
-    updateTypes(true, updateRecent);
+    updateTypes(true, updateRecent); // updateTypes(true); ???
   }; // updateRT
 
   this.type_property = function(type_name, property_name, default_value) {
@@ -125,10 +126,6 @@ var Landing = (function() {
     }
   } // updateServices
 
-  function updateOthers(update) {
-    updateEnumerators(update, updateTypes, updateRecent);
-  } // updateOthers
-
   ///////////////////////////// update enumerators ////////////////////////////
 
   var mappingEnumerators = {
@@ -146,7 +143,7 @@ var Landing = (function() {
     }, this);
   };
 
-  function updateEnumerators(update, callback1, callback2) {
+  function updateEnumerators(update, callback) {
     console.log('updateEnumerators');
 
     var service_uuid = THIS.viewModel.services.activeService().service_uuid();
@@ -182,7 +179,7 @@ var Landing = (function() {
           else
             THIS.viewModel.enumerators = ko.mapping.fromJS(enumerators, mappingEnumerators);
           
-          callback1(update, callback2);
+          updateTypes(update, callback);
         };
         reader.readAsText(file);
       }); // fileEntry
@@ -293,7 +290,7 @@ var Landing = (function() {
             THIS.viewModel.types = ko.mapping.fromJS(types_instantiatable, mappingTypes);
           THIS.viewModel.types.types.sort(sortFunction);
           
-          callback(update);
+          updateRecent(update, callback);
         };
         reader.readAsText(file);
       }); // fileEntry
@@ -349,7 +346,7 @@ var Landing = (function() {
     return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
   };
 
-  function updateRecent(update) {
+  function updateRecent(update, callback) {
     console.log('updateRecent');
     var recent_key = THIS.viewModel.services.activeService().service_uuid() + ".recent.json";
     if (localStorage.getItem(recent_key) === null) {
@@ -372,14 +369,39 @@ var Landing = (function() {
       THIS.viewModel.recent = ko.mapping.fromJS(recent, mappingRecent);
     THIS.viewModel.recent.recent.sort(sortFunction);
     
-    if (!update)
-      apply();
+    service_undefined = apply(service_undefined, update);
 
+    unlockUI();
+    THIS.initialized = true;
+    if (callback)
+      callback();
+  } // updateRecent
+
+  // all DOM manipulations are done by this function 
+  function apply(service_undefined, update) {
     var ts = document.getElementsByClassName("tab");
-    if (first) {
+
+    if (!update) {
+      console.log("applying Landing");
+      var landing_page = document.getElementById('landing-page');
+      ko.applyBindings(THIS.viewModel, landing_page);
+
+      // assign onclick events to the tabs
+      for (var x = 0; x < ts.length; x++) {
+        ts[x].onclick = toggleTab;
+      }
+    }
+
+    var service_uuid = THIS.viewModel.services.activeService().service_uuid();
+    var background_file = THIS.viewModel.prefix() + service_uuid + '/background.jpg';
+    console.log('--------loading background from: ' + background_file + '-----------------');
+    var background = document.getElementById('background');
+    background.style.backgroundImage = 'url(' + background_file + ')';
+    console.log('set background image of div#background to: ' + background_file);
+
+    if (service_undefined) {
       // if the service has not yet been chosen, open the services tab
       sendClick(ts[2]);
-      first = false;
     } else if (THIS.viewModel.recent.recent().length === 0) {
       // if there is no recent, open the new tab
       sendClick(ts[1]);
@@ -387,20 +409,7 @@ var Landing = (function() {
       // else open the recent tab
       sendClick(ts[0]);
     }
-
-    unlockUI();
-  } // updateRecent
-
-  function apply() {
-    console.log("applying Landing");
-    var landing_page = document.getElementById('landing-page');
-    ko.applyBindings(THIS.viewModel, landing_page);
-
-    // assign onclick events
-    var ts = document.getElementsByClassName("tab");
-    for (var x = 0; x < ts.length; x++) {
-      ts[x].onclick = toggleTab;
-    }
+    return false;
   } // apply
 
   // returns detailed service data
@@ -445,11 +454,11 @@ var Landing = (function() {
     });
   } // detailDiscovery
 
-  function saveToLocal(initial_services, services_key,callback){
+  function saveToLocal(initial_services, services_key, callback) {
     console.log('IN SAVE TO LOCAL FUNC');
     try {
       localStorage.setItem(services_key, JSON.stringify(initial_services));
-      first = true;
+      service_undefined = true;
     } catch (e) {
       if (e == "QUOTA_EXCEEDED_ERR") {
         console.log('Web Storage quota exceeded');
@@ -555,15 +564,7 @@ var Landing = (function() {
         return left.last_used() == right.last_used() ? 0 : (left.last_used() > right.last_used() ? -1 : 1);
       });
 
-      var service_uuid = THIS.viewModel.services.activeService().service_uuid();
-      var background_file = THIS.viewModel.prefix() + service_uuid + '/background.jpg';
-      console.log('--------loading background from: ' + background_file + '-----------------');
-
-      var background = document.getElementById('background');
-      background.style.backgroundImage = 'url(' + background_file + ')';
-      console.log('set background image of div#background to: ' + background_file);
-
-      callback(update);
+      updateEnumerators(update, callback);
     }
   } // loadFromLocal
 

@@ -24,7 +24,6 @@ var Main = (function() {
   var type_property;
   var service_uuid = '';
   var prefix = '';
-  var initialized = false;
   // provide access to the function-scope this object in the private functions
   var THIS = this;
 
@@ -175,109 +174,157 @@ var Main = (function() {
     console.log('--------loading sql from: ' + sqlFile + '-----------------');
     getFileEntry(caseUuid, '/persistency.sql', function(fileEntry) {
 
-      fileEntry.file(function(file) {
-        var reader = new FileReader();
-
-        var sqliteFile = caseUuid + '.db';
+      fileEntry.file(function (file) {
+        var sqliteFile = THIS.case_uuid + '.db';
         console.log('-------- opening database: ' + sqliteFile + ' -----------------');
-        db = window.sqlitePlugin.openDatabase({name: sqliteFile });
+        db = window.sqlitePlugin.openDatabase({name: sqliteFile }, function() {
+          console.log('database successfully opened');
+          var reader = new FileReader();
+          reader.onloadend = function (e) {
+            console.log('onreadend');
+            var sql = this.result;
 
-        reader.onloadend = function (e) {
-          console.log('onreadend');
-          var sql = this.result;
+            db.transaction(function(tx) {
+              console.log('start N transaction');
+              tx.executeSql('DROP TABLE IF EXISTS N', [], function(tx, res) {
+                  console.log('executeSql DROP N done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS N (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'TYPE                    character (50),' +
+                            'FULLTAG                 character (255),' +
+                            'UUID                    character (36),' +
+                            'CREATED_AT              datetime,' +
+                            'UPDATED_AT              datetime,' +
+                            'LOCKED_BY               character (50),' +
+                            'LOCKED_UNTIL            datetime,' +
+                            'PARENT                  integer REFERENCES N (ID),' +
+                            'ROOT                    integer REFERENCES N (ID),' +
+                            'RANGE                   integer);', [], function(tx, res) {
+                  console.log('executeSql CREATE N done: ' + JSON.stringify(res));
+              });
+            }, function(error) {
+              console.log("DB ERROR in N transaction: " + error);
+            }, function() {
+              console.log('end N transaction');
+            }); // N transaction
 
-          db.transaction(function(tx) {
-            console.log('start N transaction');
-            tx.executeSql('DROP TABLE IF EXISTS N', [], function(tx, res) {
-                console.log('executeSql DROP N done: ' + JSON.stringify(res));
+            db.transaction(function(tx) {
+              console.log('start I/Q/S transaction');
+              tx.executeSql('DROP TABLE IF EXISTS I', [], function(tx, res) {
+                  console.log('executeSql DROP I done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('DROP TABLE IF EXISTS Q', [], function(tx, res) {
+                  console.log('executeSql DROP Q done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('DROP TABLE IF EXISTS S', [], function(tx, res) {
+                  console.log('executeSql DROP S done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS I (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'VALUE                   integer);', [], function(tx, res) {
+                  console.log('executeSql CREATE I done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS Q (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'VALUE                   double precision,' +
+                            'UNIT                    character (50),' +
+                            'INPUT                   boolean,' +
+                            'OUTPUT                  boolean);', [], function(tx, res) {
+                  console.log('executeSql CREATE Q done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS S (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255),' +
+                            'VALUE                   character (255))', [], function(tx, res) {
+                  console.log('executeSql CREATE S done: ' + JSON.stringify(res));
               });
-            tx.executeSql('CREATE TABLE IF NOT EXISTS N (' +
-                          'ID                      integer PRIMARY KEY,' +
-                          'TAG                     character (50),' +
-                          'DESCRIPTION             character (255),' +
-                          'TYPE                    character (50),' +
-                          'FULLTAG                 character (255),' +
-                          'UUID                    character (36),' +
-                          'CREATED_AT              datetime,' +
-                          'UPDATED_AT              datetime,' +
-                          'LOCKED_BY               character (50),' +
-                          'LOCKED_UNTIL            datetime,' +
-                          'PARENT                  integer REFERENCES N (ID),' +
-                          'ROOT                    integer REFERENCES N (ID),' +
-                          'RANGE                   integer);', [], function(tx, res) {
-                console.log('executeSql CREATE N done: ' + JSON.stringify(res));
-            });
-          }, function(error) {
-            console.log("DB ERROR in N transaction: " + error.message);
-          }, function() {
-            console.log('end N transaction');
-          }); // transaction
+            }, function(error) {
+              console.log("DB ERROR in I/Q/S transaction: " + error);
+            }, function() {
+              console.log('end I/Q/S transaction');
+            }); // I/Q/S transaction
 
-          db.transaction(function(tx) {
-            console.log('start I/Q/S transaction');
-            tx.executeSql('DROP TABLE IF EXISTS I', [], function(tx, res) {
-                console.log('executeSql DROP I done: ' + JSON.stringify(res));
-              });
-            tx.executeSql('DROP TABLE IF EXISTS Q', [], function(tx, res) {
-                console.log('executeSql DROP Q done: ' + JSON.stringify(res));
-              });
-            tx.executeSql('DROP TABLE IF EXISTS S', [], function(tx, res) {
-                console.log('executeSql DROP S done: ' + JSON.stringify(res));
-              });
-            tx.executeSql('CREATE TABLE IF NOT EXISTS I (' +
-                          'ID                      integer PRIMARY KEY,' +
-                          'NID                     integer REFERENCES N (ID),' +
-                          'TAG                     character (50),' +
-                          'DESCRIPTION             character (255),' +
-                          'VALUE                   integer);', [], function(tx, res) {
-                console.log('executeSql CREATE I done: ' + JSON.stringify(res));
-              });
-            tx.executeSql('CREATE TABLE IF NOT EXISTS Q (' +
-                          'ID                      integer PRIMARY KEY,' +
-                          'NID                     integer REFERENCES N (ID),' +
-                          'TAG                     character (50),' +
-                          'DESCRIPTION             character (255),' +
-                          'VALUE                   double precision,' +
-                          'UNIT                    character (50),' +
-                          'INPUT                   boolean,' +
-                          'OUTPUT                  boolean);', [], function(tx, res) {
-                console.log('executeSql CREATE Q done: ' + JSON.stringify(res));
-              });
-            tx.executeSql('CREATE TABLE IF NOT EXISTS S (' +
-                          'ID                      integer PRIMARY KEY,' +
-                          'NID                     integer REFERENCES N (ID),' +
-                          'TAG                     character (50),' +
-                          'DESCRIPTION             character (255),' +
-                          'VALUE                   character (255))', [], function(tx, res) {
-                console.log('executeSql CREATE S done: ' + JSON.stringify(res));
-            });
-          }, function(error) {
-            console.log("DB ERROR in I/Q/S transaction: " + error.message);
-          }, function() {
-            console.log('end I/Q/S transaction');
-          }); // transaction
-
-          db.transaction(function(tx) {
-            console.log('start table fill transaction');
-          
-            var lines = sql.split('\n');
-            for (var i = 0; i < lines.length; i++){
-              if (lines[i].lastIndexOf("INSERT", 0) === 0) {
-                // console.log("executing SQL statement: " + lines[i]);
-                tx.executeSql(lines[i]);
+            db.transaction(function(tx) {
+              console.log('start IV/SV transaction');
+              tx.executeSql('DROP TABLE IF EXISTS IV', [], function(tx, res) {
+                  console.log('executeSql DROP IV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('DROP TABLE IF EXISTS IVV', [], function(tx, res) {
+                  console.log('executeSql DROP IVV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('DROP TABLE IF EXISTS SV', [], function(tx, res) {
+                  console.log('executeSql DROP SV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('DROP TABLE IF EXISTS SVV', [], function(tx, res) {
+                  console.log('executeSql DROP SVV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS IV (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255));', [], function(tx, res) {
+                  console.log('executeSql CREATE IV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS IVV (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'VID                     integer REFERENCES IV (ID),' +
+                            'VALUE                   integer);', [], function(tx, res) {
+                  console.log('executeSql CREATE IV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS SV (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'NID                     integer REFERENCES N (ID),' +
+                            'TAG                     character (50),' +
+                            'DESCRIPTION             character (255));', [], function(tx, res) {
+                  console.log('executeSql CREATE SV done: ' + JSON.stringify(res));
+                });
+              tx.executeSql('CREATE TABLE IF NOT EXISTS SVV (' +
+                            'ID                      integer PRIMARY KEY,' +
+                            'VID                     integer REFERENCES SV (ID),' +
+                            'VALUE                   character (255));', [], function(tx, res) {
+                  console.log('executeSql CREATE SVV done: ' + JSON.stringify(res));
+                });
+            }, function(error) {
+              console.log("DB ERROR in IV/SV transaction: " + error);
+            }, function() {
+              console.log('end IV/SV transaction');
+            }); // IV/SV transaction
+            
+            db.transaction(function(tx) {
+              console.log('start table fill transaction');
+            
+              var lines = sql.split('\n');
+              for (var i = 0; i < lines.length; i++){
+                if (lines[i].lastIndexOf("INSERT", 0) === 0) {
+                  // console.log("executing SQL statement: " + lines[i]);
+                  tx.executeSql(lines[i]);
+                }
               }
-            }
-          }, function(error) {
-            console.log("DB ERROR in fill transaction: " + error.message);
-          }, function() {
-            console.log('end table fill transaction');
-          }); // transaction
+            }, function(error) {
+              console.log("DB ERROR in fill transaction: " + error);
+            }, function() {
+              console.log('end table fill transaction');
+            }); // transaction
 
-          console.log('-------- call back ! -----------------');
-          callback();
-        }; // onloadend
+            console.log('-------- call back ! -----------------');
+            callback();
+          }; // onloadend
+          reader.readAsText(file);
+        }, function(error) {
+          console.log("DB ERROR while opening database: " + error);
+        });
 
-        reader.readAsText(file);
       }); // fileEntry
     }); // gotFileEntry
     
@@ -573,12 +620,14 @@ var Main = (function() {
   }
 
   function updateRange() {
+    /* jshint validthis: true */
     document.getElementById('range').value = 50;
     var div = this.parentNode.parentNode;
     div.getElementsByTagName('span')[2].innerHTML = this.value;
   }
 
   function updateNumber() {
+    /* jshint validthis: true */
     var ib = this.parentNode;
     var div = ib.parentNode;
     if (div.getElementsByTagName('span')[2].innerHTML === 0.0)
