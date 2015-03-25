@@ -42,10 +42,11 @@ var Landing = (function() {
         console.log("removing case " + r.handle());
         removeRecent(r.handle());
         updateRecent(true);
-        yes = window.confirm("Remove case from remote service too ?");
-        if (yes === true) {
-          console.log("removing case " + r.handle() + " from remote service");
-        }
+        // TODO
+        // yes = window.confirm("Remove case from remote service too ?");
+        // if (yes === true) {
+        //   console.log("removing case " + r.handle() + " from remote service");
+        // }
       }
     }
   };
@@ -227,8 +228,11 @@ var Landing = (function() {
   var MyTypesModel = function(data) {
     var self = this;
     ko.mapping.fromJS(data, mappingStringOptions, self);
-    self.instance_tag = ko.observable();
-    self.instance_description = ko.observable();
+    self.instance_tag = ko.observable().extend({ valid: " ,-_{}<>" });
+    self.instance_description = ko.observable().extend({ valid: " ,:-_{}<>[]." });
+    self.isValid = ko.computed(function() {
+      return ( this.instance_tag.isValid() && this.instance_description.isValid() );
+    }, this);
     self.last_used = ko.computed({
       read : function() {
         return type_used(self.name());

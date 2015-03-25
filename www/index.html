@@ -81,7 +81,7 @@
                 <div class="thumb">
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                 </div>
-                <div class="list-item" data-bind="click: function() { }, clickBubble: false">
+                <div class="list-item" data-bind="click: openMainPageFromLanding, clickBubble: false">
                   <strong><span data-bind="text: tag"></span><span> - </span><span data-bind="text: description"></span><span data-bind="visible: description().length == 0, text: format_date(modified_at())"></span></strong>
                   <br />
                   <p class="secondary">
@@ -107,7 +107,7 @@
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                 </div>
                 <div class="list-item">
-                  <strong><span data-bind="text: name"></span></strong><span class="secondary"> - </span><span class="secondary" data-bind="text: description"></span>
+                  <strong><span data-bind="text: name"></span></strong><span class="secondary"> – </span><span class="secondary" data-bind="text: description"></span>
                 </div>
               </li>
 
@@ -208,12 +208,16 @@
           <div data-bind="style: { backgroundColor: service_color }" id="navigation" class="row no-margin">
             <div class="col-xs-4 col-sm-2 no-padding">
               <button id="parent-open-main" type="button" class="btn btn-default margin-left" data-bind="click: clickAction">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-                <span data-bind="text: homeText"></span>
+                <span>
+                  <span class="glyphicon glyphicon-chevron-left"></span>
+                  <span data-bind="text: homeText"></span>
+                </span>
               </button>
             </div>
             <div class="center col-xs-4 col-sm-8 no-padding">
-              <button id="info-toggle" type="button" class="btn btn-default" onclick="toggleInfoContainer();" style="outline: none;" data-bind="text: Tag, style: { backgroundColor: (errors0() > 0 ? 'red' : (warnings0() > 0 ? 'yellow' : 'green')) }"></button>
+              <button id="info-toggle" type="button" class="btn btn-default" onclick="toggleInfoContainer();" style="outline: none;" data-bind="attr: { 'class': (errors0() > 0 ? 'btn btn-danger' : (warnings0() > 0 ? 'btn btn-warning' : 'btn btn-success')) }">
+                <span data-bind="text: Tag"></span>
+              </button>
             </div>
             <div class="col-xs-4 col-sm-2 no-padding" style="text-align: right;">
               <button id="children-toggle" type="button" class="btn btn-default margin-right" data-bind="visible: hasChildren">
@@ -239,17 +243,17 @@
 
               <div id="input-box">
                 <input id="number" type="number" class="form-control number-container" style="width:75%; float: left;">
-                <span class="righty"></span>
+                <span class="righty secondary"></span>
                 <input id="range" type="range">
               </div>
 
               <ul data-bind="foreach: inputs" id="input-list" class="yscroll list">
 
                 <li data-bind="attr: { id: $index() }, event: { click: toggleInputContainer }" class="i">
-                  <strong><span data-bind="text: fulltag"></span> – <span data-bind="text: description"></span></strong>
+                  <strong><span data-bind="text: fulltag"></span></strong><span class="secondary"> – </span><span class="secondary" data-bind="text: description"></span>
                   <div class="ro">
                     <span data-bind="text: value"></span>
-                    <span class="righty" data-bind="text: units"></span>
+                    <span class="righty secondary" data-bind="text: units"></span>
                   </div>
                 </li>
 
@@ -266,13 +270,13 @@
                     <span data-bind="text: fullTag"></span>
                   </dt>
                   <dd>
-                    <span data-bind="text: Description"></span>
+                    <span class="secondary" data-bind="text: Description"></span>
                   </dd>
                   <dt>
                     <span data-bind="text: Type"></span>
                   </dt>
                   <dd>
-                    <span data-bind="text: typeDescription"></span>
+                    <span class="secondary" data-bind="text: typeDescription"></span>
                   </dd>
                   <dt>
                     created:
@@ -304,19 +308,22 @@
                 </dl>
                 <!-- info-list -->
 
+                <!-- ko if: errors() > 0 -->
                 <hr/>
+                <strong style="padding-left: 18px">Error messages:</strong>
+                <ul class="messages" data-bind="foreach: error_messages">
+                  <li class="secondary" data-bind="text: $data"></li>
+                </ul>
+                <!-- /ko -->
 
-                <strong style="padding-left: 18px">Messages:</strong>
-                <dl data-bind="foreach: messages" id="messages-list">
+                <!-- ko if: warnings() > 0 -->
+                <hr/>
+                <strong style="padding-left: 18px">Warning messages:</strong>
+                <ul class="messages" data-bind="foreach: warning_messages">
+                  <li class="secondary" data-bind="text: $data"></li>
+                </ul>
+                <!-- /ko -->
 
-                  <dt>
-                    <span data-bind="text: type"></span>
-                  </dt>
-                  <dd>
-                    <span data-bind="text: message_text"></span>
-                  </dd>
-
-                </dl>
                 <!-- messages-list -->
               </div>
               <!-- info-container -->
@@ -330,9 +337,9 @@
                       <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                     </div>
                     <div class="list-item">
-                      <strong><span data-bind="text: tag"></span> – <span data-bind="text: description"></span></strong>
+                      <strong><span data-bind="text: tag"></span></strong><span> – </span><span data-bind="text: description"></span>
                       <br />
-                      <p>
+                      <p class="secondary">
                         <span data-bind="text: type"></span> - <span data-bind="text: type_description"></span>
                       </p>
                     </div>
@@ -363,10 +370,10 @@
               <ul data-bind="foreach: outputs" id="output-list" class="yscroll list">
 
                 <li class="o">
-                  <strong><span data-bind="text: fulltag"></span> – <span data-bind="text: description"></span></strong>
+                  <strong><span data-bind="text: fulltag"></span></strong><span class="secondary"> – </span><span class="secondary" data-bind="text: description"></span>
                   <div class="ro">
                     <span data-bind="text: value"></span>
-                    <span class="righty" data-bind="text: units"></span>
+                    <span class="righty secondary" data-bind="text: units"></span>
                   </div>
                 </li>
 
@@ -408,8 +415,8 @@
               Home
             </button>
           </div>
-          <div class="center col-xs-4 col-sm-8 no-padding">
-            <button id="create" type="button" form="configure-form" class="btn btn-default" onclick="openMainPageFromConfigure();">
+          <div class="center col-xs-4 col-sm-8 no-padding" data-bind="with: configuration">
+            <button id="create" type="button" form="configure-form" class="btn btn-default" onclick="openMainPageFromConfigure();" data-bind="disable: !isValid()">
               Create
             </button>
           </div>
@@ -421,27 +428,29 @@
 
             <div class="box1">
 
-              <form id="configure-form" class="form-horizontal list" data-bind="with:configuration">
+              <form id="configure-form" class="form-horizontal list" data-bind="with: configuration">
                 <div class="row">
                   <div class="col-sm-8">
-                    <h2 id="type" data-bind="text:name">placeholder</h2>
-                    <h3 data-bind="text:description">placeholder</h3>
+                    <h2 id="type" data-bind="text: name">placeholder</h2>
+                    <h3 data-bind="text: description">placeholder</h3>
                   </div>
                   <div class="col-sm-4">
                     <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb6">
                   </div>
                 </div>
                 <fieldset>
-                  <div class="form-group has-feedback">
+                  <div class="form-group has-feedback" data-bind="attr: { 'class': instance_tag.isValid() ? 'form-group has-feedback' : 'form-group has-feedback has-error' }">                  
                     <div class="col-xs-12 col-sm-12">
                       <input data-bind="value: instance_tag" autofocus required id="tag" type="text" maxlength="50" placeholder="tag" class="form-control">
                       <span data-bind="visible: instance_tag().length > 0" id="tag-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                      <span class="secondary control-label" data-bind="text: instance_tag.validationMessage()"></span>
                     </div>
                   </div>
-                  <div class="form-group has-feedback">
+                  <div class="form-group has-feedback" data-bind="attr: { 'class': instance_description.isValid() ? 'form-group has-feedback' : 'form-group has-feedback has-error' }">
                     <div class="col-xs-12 col-sm-12">
                       <input data-bind="value: instance_description" id="description" type="text" maxlength="255" placeholder="description" class="form-control">
                       <span data-bind="visible: instance_description().length > 0" id="description-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                      <span class="secondary control-label" data-bind="text: instance_description.validationMessage()"></span>
                     </div>
                   </div>
                 </fieldset>

@@ -143,11 +143,6 @@ function openMainPageFromLanding(d, e) {
 
   console.log('openMainPageFromLanding');
 
-  hideChildren();
-  hideInputContainer();
-  hideOutputContainer();
-  hideInfoContainer();
-
   main.init(landing.viewModel.services.activeService(), d.handle(), d.created_at(), d.modified_at(), landing.viewModel.prefix(), landing.type_property);
 
   // hide landing page
@@ -171,10 +166,22 @@ function openLandingPageFromConfigure() {
   landing_page.style.display = 'block';
 }
 
+function hideAll() {
+  "use strict";
+  hideChildren();
+  hideInputContainer();
+  hideOutputContainer();
+  hideInfoContainer();
+}
+
 function openLandingPageFromMain() {
   "use strict";
 
   console.log('openLandingPageFromMain');
+  hideAll();
+  
+  // TODO rather than reset all uncommitted changes, persist them to local storage
+  undoManager.undoAll();
 
   // to make the last-used case appear in the recent list and to update the ordering of the types
   landing.updateRT();
@@ -470,8 +477,10 @@ function onClickXref() {
 }
 
 // onclick functions for main
-function hide(thing, thing1) {
+function hide(thing, thing1, thing2) {
   "use strict";
+  var t3 = document.getElementById(thing2);
+  t3.scrollTop = 0;
   var t = document.getElementById(thing);
   t.style.display = 'none';
   var t1 = document.getElementById(thing1);
@@ -494,33 +503,36 @@ function show(thing, thing1) {
 
 function hideOutputContainer() {
   "use strict";
-  hide('output-container', 'output-open');
+  hide('output-container', 'output-open', 'output-list');
 }
 
-function showOutputContainer() {
+function showOutputContainer(event) {
   "use strict";
   hideChildren();
   hideInputContainer();
   hideInfoContainer();
-
   show('output-container', 'output-open');
   var gd = document.getElementById('gl-children');
   gd.className = "glyphicon glyphicon-chevron-down";
+  event = event || window.event; // cross-browser event
+  event.stopPropagation();
 }
 
 function hideInputContainer() {
   "use strict";
-  hide('input-container', 'input-open');
+  hide('input-container', 'input-open', 'input-list');
   var ib = document.getElementById('input-box');
-  if (ib.parentNode) {
-    if (ib.parentNode.tagName.toUpperCase() == 'LI') {
-      var v = ib.parentNode.id;
-      close(document.getElementById(v));
+  if (ib) {
+    if (ib.parentNode) {
+      if (ib.parentNode.tagName.toUpperCase() == 'LI') {
+        var v = ib.parentNode.id;
+        close(document.getElementById(v));
+      }
     }
   }
 }
 
-function showInputContainer() {
+function showInputContainer(event) {
   "use strict";
   hideOutputContainer();
   hideChildren();
@@ -528,12 +540,15 @@ function showInputContainer() {
   show('input-container', 'input-open');
   var gd = document.getElementById('gl-children');
   gd.className = "glyphicon glyphicon-chevron-down";
+  event = event || window.event; // cross-browser event
+  event.stopPropagation();
 }
 
 function hideChildren() {
   "use strict";
   var gd = document.getElementById('gl-children');
   var t = document.getElementById('children');
+  t.scrollTop = 0;
   t.style.display = 'none';
   document.getElementById('image-container').style.zIndex = 1;
   gd.className = "glyphicon glyphicon-chevron-down";
@@ -562,6 +577,7 @@ function toggleChildren() {
 function hideInfoContainer() {
   "use strict";
   var t = document.getElementById('info-container');
+  t.scrollTop = 0;
   t.style.display = 'none';
   document.getElementById('image-container').style.zIndex = 1;
 }
@@ -665,3 +681,186 @@ function socialShare() {
   // var subject = "simevo process model - " + main.viewModel.Type() + " - " + main.viewModel.typeDescription();
   // window.plugins.socialsharing.share(message, subject, 'http://simevo.com/img/logo64.png', url);
 }
+
+var alpha_range = [
+  /* Latin */
+  ["\u0041", "\u005a"], ["\u0061", "\u007a"], ["\u00c0", "\u00d6"],
+  ["\u00d8", "\u00f6"], ["\u00f8", "\u01f5"], ["\u01fa", "\u0217"],
+  ["\u0250", "\u02a8"],
+
+  /* Greek */
+  ["\u0384", "\u0384"], ["\u0388", "\u038a"], ["\u038c", "\u038c"],
+  ["\u038e", "\u03a1"], ["\u03a3", "\u03ce"], ["\u03d0", "\u03d6"],
+  ["\u03da", "\u03da"], ["\u03dc", "\u03dc"], ["\u03de", "\u03de"],
+  ["\u03e0", "\u03e0"], ["\u03e2", "\u03f3"],
+
+  /* Cyrilic */
+  ["\u0401", "\u040d"], ["\u040f", "\u044f"], ["\u0451", "\u045c"],
+  ["\u045e", "\u0481"], ["\u0490", "\u04c4"], ["\u04c7", "\u04c8"],
+  ["\u04cb", "\u04cc"], ["\u04d0", "\u04eb"], ["\u04ee", "\u04f5"],
+  ["\u04f8", "\u04f9"],
+
+  /* Armenian */
+  ["\u0531", "\u0556"], ["\u0561", "\u0587"],
+
+  /* Hebrew */
+  ["\u05d0", "\u05ea"], ["\u05f0", "\u05f4"],
+
+  /* Arabic */
+  ["\u0621", "\u063a"], ["\u0640", "\u0652"], ["\u0670", "\u06b7"],
+  ["\u06ba", "\u06be"], ["\u06c0", "\u06ce"], ["\u06e5", "\u06e7"],
+
+  /* Devanagari */
+  ["\u0905", "\u0939"], ["\u0958", "\u0962"],
+
+  /* Bengali */
+  ["\u0985", "\u098c"], ["\u098f", "\u0990"], ["\u0993", "\u09a8"],
+  ["\u09aa", "\u09b0"], ["\u09b2", "\u09b2"], ["\u09b6", "\u09b9"],
+  ["\u09dc", "\u09dd"], ["\u09df", "\u09e1"], ["\u09f0", "\u09f1"],
+
+  /* Gurmukhi */
+  ["\u0a05", "\u0a0a"], ["\u0a0f", "\u0a10"], ["\u0a13", "\u0a28"],
+  ["\u0a2a", "\u0a30"], ["\u0a32", "\u0a33"], ["\u0a35", "\u0a36"],
+  ["\u0a38", "\u0a39"], ["\u0a59", "\u0a5c"], ["\u0a5e", "\u0a5e"],
+
+  /* Gujarati */
+  ["\u0a85", "\u0a8b"], ["\u0a8d", "\u0a8d"], ["\u0a8f", "\u0a91"],
+  ["\u0a93", "\u0aa8"], ["\u0aaa", "\u0ab0"], ["\u0ab2", "\u0ab3"],
+  ["\u0ab5", "\u0ab9"], ["\u0ae0", "\u0ae0"],
+
+  /* Oriya */
+  ["\u0b05", "\u0b0c"], ["\u0b0f", "\u0b10"], ["\u0b13", "\u0b28"],
+  ["\u0b2a", "\u0b30"], ["\u0b32", "\u0b33"], ["\u0b36", "\u0b39"],
+  ["\u0b5c", "\u0b5d"], ["\u0b5f", "\u0b61"],
+
+  /* Tamil */
+  ["\u0b85", "\u0b8a"], ["\u0b8e", "\u0b90"], ["\u0b92", "\u0b95"],
+  ["\u0b99", "\u0b9a"], ["\u0b9c", "\u0b9c"], ["\u0b9e", "\u0b9f"],
+  ["\u0ba3", "\u0ba4"], ["\u0ba8", "\u0baa"], ["\u0bae", "\u0bb5"],
+  ["\u0bb7", "\u0bb9"],
+
+  /* Telugu */
+  ["\u0c05", "\u0c0c"], ["\u0c0e", "\u0c10"], ["\u0c12", "\u0c28"],
+  ["\u0c2a", "\u0c33"], ["\u0c35", "\u0c39"], ["\u0c60", "\u0c61"],
+
+  /* Kannada */
+  ["\u0c85", "\u0c8c"], ["\u0c8e", "\u0c90"], ["\u0c92", "\u0ca8"],
+  ["\u0caa", "\u0cb3"], ["\u0cb5", "\u0cb9"], ["\u0ce0", "\u0ce1"],
+
+  /* Malayalam */
+  ["\u0d05", "\u0d0c"], ["\u0d0e", "\u0d10"], ["\u0d12", "\u0d28"],
+  ["\u0d2a", "\u0d39"], ["\u0d60", "\u0d61"],
+
+  /* Thai */
+  ["\u0e01", "\u0e30"], ["\u0e32", "\u0e33"], ["\u0e40", "\u0e46"],
+  ["\u0e4f", "\u0e5b"],
+
+  /* Lao */
+  ["\u0e81", "\u0e82"], ["\u0e84", "\u0e84"], ["\u0e87", "\u0e87"],
+  ["\u0e88", "\u0e88"], ["\u0e8a", "\u0e8a"], ["\u0e8d", "\u0e8d"],
+  ["\u0e94", "\u0e97"], ["\u0e99", "\u0e9f"], ["\u0ea1", "\u0ea3"],
+  ["\u0ea5", "\u0ea5"], ["\u0ea7", "\u0ea7"], ["\u0eaa", "\u0eaa"],
+  ["\u0eab", "\u0eab"], ["\u0ead", "\u0eb0"], ["\u0eb2", "\u0eb2"],
+  ["\u0eb3", "\u0eb3"], ["\u0ebd", "\u0ebd"], ["\u0ec0", "\u0ec4"],
+  ["\u0ec6", "\u0ec6"],
+
+  /* Georgian */
+  ["\u10a0", "\u10c5"], ["\u10d0", "\u10f6"],
+
+  /* Hangul Jamo */
+  ["\u1100", "\u1159"], ["\u1161", "\u11a2"], ["\u11a8", "\u11f9"],
+
+  /* Latin (continued) */
+  ["\u1e00", "\u1e9a"], ["\u1ea0", "\u1ef9"],
+
+  /* Greek (continued) */
+  ["\u1f00", "\u1f15"], ["\u1f18", "\u1f1d"], ["\u1f20", "\u1f45"],
+  ["\u1f48", "\u1f4d"], ["\u1f50", "\u1f57"], ["\u1f59", "\u1f59"],
+  ["\u1f5b", "\u1f5b"], ["\u1f5d", "\u1f5d"], ["\u1f5f", "\u1f7d"],
+  ["\u1f80", "\u1fb4"], ["\u1fb6", "\u1fbc"], ["\u1fc2", "\u1fc4"],
+  ["\u1fc6", "\u1fcc"], ["\u1fd0", "\u1fd3"], ["\u1fd6", "\u1fdb"],
+  ["\u1fe0", "\u1fec"], ["\u1ff2", "\u1ff4"], ["\u1ff6", "\u1ffc"],
+
+  /* Hiragana */
+  ["\u3041", "\u3094"], ["\u309b", "\u309e"],
+
+  /* Katakana */
+  ["\u30a1", "\u30fe"],
+
+  /* Bopomofo */
+  ["\u3105", "\u312c"],
+
+  /* CJK Unified Ideographs */
+  ["\u4e00UL", "\u9fa5UL"],
+
+  /* Hangul Syllables */
+  ["\uAC00", "\uD7A3"],
+];
+
+// only works for codepoints within the BMP
+function alphabetic(codepoint) {
+  "use strict";
+  for (var i=0; i<alpha_range.length; ++i) {
+    if (codepoint < alpha_range[i][0].charCodeAt(0))
+      return false;
+    else if (codepoint <= alpha_range[i][1].charCodeAt(0))
+      return true;
+  }
+  return false;
+}
+
+function alphanumeric(codepoint) {
+  "use strict";
+  if (alphabetic(codepoint))
+    return true;
+  else if (codepoint < "\u0030".charCodeAt(0))
+    return false;
+  else if (codepoint <= "\u0039".charCodeAt(0))
+    return true;
+  else
+    return false;
+}
+
+// based on: http://jsfiddle.net/rniemeyer/p7kxw/
+ko.extenders.valid = function(target, validNonAlpha) {
+  "use strict";
+  // add some sub-observables to our observable
+  target.isValid = ko.observable();
+  target.validationMessage = ko.observable();
+  
+  // define a function to do validation
+  function validate(newValue) {
+    if (!newValue) {
+      target.isValid(true);
+      target.validationMessage("");
+    } else if (!alphabetic(newValue.charCodeAt(0))) {
+      target.isValid(false);
+      target.validationMessage("invalid first character, must be alphabetic");
+    } else {
+      var count = 0;
+      for (var offset = 0; offset < newValue.length; ) {
+        var codepoint = newValue.charCodeAt(offset);
+        var char = String.fromCharCode(codepoint);
+        console.log("looking at " + char);
+        if (!alphanumeric(codepoint) && (validNonAlpha.indexOf(char) == -1)) {
+          target.isValid(false);
+          target.validationMessage("invalid " + (count + 1) + "-th character [" + String.fromCharCode(codepoint) + "]: must be alphanumeric, space or one of" + validNonAlpha);
+          return;
+        }
+        offset += char.length;
+        count += 1;
+      }
+      target.isValid(true);
+      target.validationMessage("");
+    }
+  }
+  
+  // initial validation
+  validate(target());
+
+  // validate whenever the value changes
+  target.subscribe(validate);
+  
+  //return the original observable
+  return target;
+};

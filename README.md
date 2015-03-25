@@ -53,6 +53,10 @@ You should have received a copy of the GNU General Public License along with thi
 
   [https://github.com/ArthurClemens/Javascript-Undo-Manager](https://github.com/ArthurClemens/Javascript-Undo-Manager)
 
+- UNICODE codepoints tables
+
+  Copyright (c) 2002, The Tendra Project, Crown Copyright (c) 1997
+
 #Contains graphic elements and artwork from:
 
 - Biogas fermenter dome icon based on Biogas-Anlage icon Copyright (C) 2014 - Agentur für Erneuerbare Energien
@@ -335,3 +339,10 @@ Websql is supported only in google chrome / chromium; for testing, to manually l
 or on Windows:
 
     c:\Users\username\AppData\Local\Google\Chrome\UserData\Default\databases\http_192.168.0.3_8080\
+
+#Known issues
+
+1. changes to variables whlie editing a case are discarded when closing the case or the app unless they are sent to the server
+
+1. on Android, some graphical asset of the app may become visible in the image gallery
+

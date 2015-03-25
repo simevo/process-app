@@ -13,7 +13,6 @@ var Main = (function() {
   var children;
   var inputs;
   var outputs;
-  var messages;
   var tag;
   var viewModelChildren = { };
   var viewModelInputs = { };
@@ -124,7 +123,8 @@ var Main = (function() {
           warnings: ko.observable(0),
           errors0: ko.observable(0), // errors of node 0
           warnings0: ko.observable(0), // warnings of node 0
-          messages: ko.observable('')
+          warning_messages: ko.observable(''),
+          error_messages: ko.observable('')
         };
 
         // point to the node with database N.ID == 0 and load all data
@@ -453,7 +453,8 @@ var Main = (function() {
     console.log("switching to node " + targetid);
     // update main list of children nodes, update toggle button
     var childArray = [];
-    var messageArray = [];
+    var warningMessagesArray = [];
+    var errorMessagesArray = [];
     if (db) {
       db.readTransaction(function(tx) {
         tx.executeSql('SELECT TAG, DESCRIPTION, TYPE, ID FROM N WHERE PARENT =' + targetid + ' AND ID <>' + targetid, [], function(tx, results) {
@@ -511,13 +512,13 @@ var Main = (function() {
           var len = results.rows.length, i;
           for ( i = 0; i < len; i++) {
             var item = results.rows.item(i);
-            var message = {
-              "type" : item.type,
-              "message_text" : item.message_text
-            };
-            messageArray.push(message);
+            if (item.type === 'errors')
+              errorMessagesArray.push(item.message_text);
+            else
+              warningMessagesArray.push(item.message_text);
           } // for each row
-          ko.mapping.fromJS(messageArray, mapping, THIS.viewModel.messages);
+          ko.mapping.fromJS(errorMessagesArray, mapping, THIS.viewModel.error_messages);
+          ko.mapping.fromJS(warningMessagesArray, mapping, THIS.viewModel.warning_messages);
         }, null);
       });
 
@@ -659,17 +660,17 @@ var Main = (function() {
     /* jshint validthis: true */
     document.getElementById('range').value = 50;
     var div = this.parentNode.parentNode;
-    div.getElementsByTagName('span')[2].innerHTML = this.value;
+    div.getElementsByTagName('span')[3].innerHTML = this.value;
   }
 
   function updateNumber() {
-    /* jshint validthis: true */
+    /* jshint validthis: true, -W041: false */
     var ib = this.parentNode;
     var div = ib.parentNode;
-    if (div.getElementsByTagName('span')[2].innerHTML === 0.0)
+    if (div.getElementsByTagName('span')[3].innerHTML == 0.0) // do not compare with === !
       ib.getElementsByTagName('input')[0].value = this.value / 50.0 - 1.0;
     else
-      ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[2].innerHTML * this.value / 50.0;
+      ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[3].innerHTML * this.value / 50.0;
   }
 
 }); // Main namespace

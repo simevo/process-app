@@ -7,6 +7,7 @@ var UndoManager = function () {
         callback;
 
     function execute(command, action) {
+        /* jshint validthis: true */
         if (!command || typeof command[action] !== "function") {
             return this;
         }
@@ -84,6 +85,11 @@ var UndoManager = function () {
             return this;
         },
 
+        undoAll: function () {
+          while (index >= 0)
+            this.undo();
+        },
+        
         /*
         Clears the memory, losing all stored states.
         */

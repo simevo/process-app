@@ -30,7 +30,7 @@ div#image-container {
   max-width: calc(100% - 72px);
 }
 
-#input-open, #output-open, #info-toggle, #parent-open-main, #children-toggle {
+#input-open, #output-open, #parent-open-main, #children-toggle {
   background-color: rgba(228, 228, 228, 1);
 }
 
@@ -138,9 +138,22 @@ div#main {
 }
 
 #info-toggle {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 100%;	
+  max-width: 90%;
+  min-width: 50%;
+}
+#info-toggle > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+#parent-open-main {
+  max-width: 90%;
+  min-width: 50%;
+}
+#parent-open-main > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 }
 
 div#info-container {
@@ -150,6 +163,7 @@ div#info-container {
   max-height: 100%;
   z-index: 2 !important;
   box-shadow: 1px 2px 10px 0px #000;
+  word-wrap: break-word;
 }
 div#input-box {
   display: none;
@@ -157,6 +171,12 @@ div#input-box {
 }
 .ro {
   padding: 0.5em;
+}
+.i {
+  clear: both;
+}
+.o {
+  clear: both;
 }
 div#toolbar {
   box-shadow: 0px -1px 10px 0px #000;
@@ -195,7 +215,7 @@ div#input-container {
   position: relative;
 }
 input#number {
-  margin: 10px 0 10px 0;
+  margin: 0 0 10px 0;
 }
 #input-open {
   border: 1px solid #ccc;
@@ -357,6 +377,7 @@ img.thumb8 {
   background-color: rgba(255, 255, 255, 0.4);
   padding: 0 0.5em 0 0.5em;
   border-radius: 0.5em 0.5em 0.5em 0.5em;
+  word-wrap: break-word;
 }
 .list-item-configure {
   min-height: 3em;
@@ -373,6 +394,7 @@ img.service-thumb {
   height: 5em;
 }
 .service-item {
+  min-height: 5em;
   margin-left: 5.5em;
   background-size: cover;
   background-repeat: no-repeat;
@@ -500,4 +522,12 @@ fieldset {
 .secondary {
   font-size: medium !important;
   color: #555555;
+}
+ul.messages {
+  margin-left: 9px;
+  list-style: disc;
+}
+hr {
+  margin-top: 0px !important;
+  margin-bottom: 0px !important;
 }
