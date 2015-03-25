@@ -148,7 +148,7 @@ function openMainPageFromLanding(d, e) {
   hideOutputContainer();
   hideInfoContainer();
 
-  main.init(landing.viewModel.services.activeService(), d.handle(), landing.viewModel.prefix(), landing.type_property);
+  main.init(landing.viewModel.services.activeService(), d.handle(), d.created_at(), d.modified_at(), landing.viewModel.prefix(), landing.type_property);
 
   // hide landing page
   var landing_page = document.getElementById('landing-page');
@@ -337,23 +337,24 @@ function launch_calculation() {
   console.log('will connect to URL ' + url + ' with with verb POST and this JSON in the request: ' + dataTo);
 
   postDataToAPI(url, dataTo, function(dataFrom){
-    if (dataFrom===null) {
+    if (dataFrom === null) {
       console.error("No data received !");
-      alert("calculation failed - error 1 ");
+      alert("Service error: calculation failed");
       unlockUI();
     } else {
-      // TODO get handle from service and check it
-      // var handle = dataFrom.case_uuid;
+      var handle = dataFrom.case_uuid;
+      var created_at = dataFrom.created_at;
+      var modified_at = dataFrom.modified_at;
+      // TODO check handle from service
       // if (handle !== main.case_uuid) {
-      //   alert("calculation failed - error 2");
+      //   console.error("Inconsistent case_uuid received );
       //   unlockUI();
       // }
-      // TODO assert handle === case_uuid
       var sqlUrl = url + '/sql';
       downloadFile(sqlUrl, main.case_uuid, 'persistency.sql', function() {
         console.log('================================================================================');
         console.log('done downloading database');
-        main.init(landing.viewModel.services.activeService(), main.case_uuid, landing.viewModel.prefix(), landing.type_property);
+        main.init(landing.viewModel.services.activeService(), main.case_uuid, created_at, modified_at, landing.viewModel.prefix(), landing.type_property);
         undoManager.clear();
         unlockUI();
       }); // downloadCaseAssets
@@ -415,7 +416,7 @@ function openMainPageFromConfigure() {
     "integerOptions" : { }
   };
   for (var i = 0, stringlen = stringOptions.length; i < stringlen; i++) {
-    dataTo.stringOptions[stringOptions[i].name()] = stringOptions[i].options()[stringOptions[i].selected()].name;
+    dataTo.stringOptions[stringOptions[i].name()] = stringOptions[i].selected();
   }
   for (var j = 0, intlen = integerOptions.length; j < intlen; j++) {
     dataTo.integerOptions[integerOptions[j].name()] = integerOptions[j].value();
@@ -427,12 +428,13 @@ function openMainPageFromConfigure() {
   postDataToAPI(url, JSON.stringify(dataTo), function(dataFrom){
     if (dataFrom===null) {
       console.error("No data received !");
-      alert("case creation failed");
+      alert("Service error: case creation failed");
       unlockUI();
     } else {
       var handle = dataFrom.case_uuid;
-      var last_used = Math.round(Date.now() / 1000);
-      configure.addRecent(tag, last_used, description, name, handle);
+      var created_at = dataFrom.created_at;
+      var modified_at = dataFrom.modified_at;
+      configure.addRecent(tag, description, name, handle, created_at, modified_at);
       downloaded = 0; // reset counter !
       toDownload = 2; // database and assets
       downloadCaseAssets(url, handle, function() {
@@ -441,7 +443,7 @@ function openMainPageFromConfigure() {
           console.log('================================================================================');
           console.log('done downloading case assets');
 
-          main.init(landing.viewModel.services.activeService(), handle, landing.viewModel.prefix(), landing.type_property);
+          main.init(landing.viewModel.services.activeService(), handle, created_at, modified_at, landing.viewModel.prefix(), landing.type_property);
 
           // hide configure page
           var configure_page = document.getElementById('configure-page');
@@ -654,7 +656,7 @@ function open1(variabile) {
 
 function socialShare() {
   "use strict";
-  var url = 'http://simevo.com/api/process/pasteurize/cases/' + main.case_uuid + '/html';
+  var url = landing.viewModel.services.activeService().url() + 'cases/' + main.case_uuid + '/html';
   console.log("sharing link: " + url);
   var message = "simevo process model - " + main.viewModel.Type() + " - " + main.viewModel.typeDescription() + "; " + main.viewModel.Tag() + " - " + main.viewModel.Description() + "; created: " + main.viewModel.createdAt() + " modified: " + main.viewModel.modifiedAt();
   // Message and link

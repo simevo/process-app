@@ -20,7 +20,6 @@ var Main = (function() {
   var viewModelInputsFiltered = { };
   var viewModelOutputs = { };
   var viewModelOutputsFiltered = { };
-  var viewModelMessages = { };
   var type_property;
   var service_uuid = '';
   var prefix = '';
@@ -33,16 +32,18 @@ var Main = (function() {
   this.viewModel = { };
 
   // public functions
-  this.init = function(activeService, case_uuid_, prefix_, typeProperty) {
+  this.init = function(activeService, case_uuid_, created_at, modified_at, prefix_, typeProperty) {
     type_property = typeProperty;
     this.prefix = prefix_;
 
+    var createdAt = format_date(created_at);
+    var modifiedAt = format_date(modified_at);
+    this.case_uuid = case_uuid_;
+    this.service_uuid = activeService.service_uuid();
     if (first) {
-      first = false;
-      this.case_uuid = case_uuid_;
-      this.service_uuid = activeService.service_uuid();
-
       console.log("initializing Main with service_uuid = " + this.service_uuid + " and case_uuid = " + case_uuid_);
+
+      first = false;
 
       // define a knockout binding handler to get the selectedIndex property of the select element
       // i.e. to find out the index of the currently selected option
@@ -73,33 +74,6 @@ var Main = (function() {
           element.selectedIndex = value;
         }
       };
-
-      // initialize messages view-model and view
-      messages = {
-        "messages": [
-          {
-            "fulltag": "FC",
-            "message_text": "fuel inlet too low",
-            "type": "warning"
-          },
-          {
-            "fulltag": "FC:stacks",
-            "message_text": "maximum temperature too high",
-            "type": "error"
-          },
-          {
-            "fulltag": "FC:BLOWER",
-            "message_text": "surge limit approaching",
-            "type": "warning"
-          },
-          {
-            "fulltag": "C101:S01:Tphase",
-            "message_text": "zero total flow",
-            "type": "warning"
-          }
-        ]
-      };
-      viewModelMessages = ko.mapping.fromJS(messages, mapping);
 
       // initialize input view-model and view with empty data; these will be actually filled by change_node
       inputs = {
@@ -136,6 +110,7 @@ var Main = (function() {
         THIS.viewModel = {
           hasChildren: ko.observable(false),
           Tag: ko.observable(''),
+          fullTag: ko.observable(''),
           homeText: ko.observable('Home'),
           action: ko.observable(-1),
           service_color : ko.observable(activeService.color()),
@@ -143,12 +118,15 @@ var Main = (function() {
           Description: ko.observable(''),
           Type: ko.observable(''),
           typeDescription: ko.observable(''),
-          createdAt: ko.observable(''),
-          modifiedAt: ko.observable(''),
+          createdAt: ko.observable(createdAt.toString()),
+          modifiedAt: ko.observable(modifiedAt.toString()),
           errors: ko.observable(0),
-          warnings: ko.observable(0)
+          warnings: ko.observable(0),
+          errors0: ko.observable(0), // errors of node 0
+          warnings0: ko.observable(0), // warnings of node 0
+          messages: ko.observable('')
         };
-    
+
         // point to the node with database N.ID == 0 and load all data
         THIS.change_node(0);
     
@@ -158,16 +136,42 @@ var Main = (function() {
     } else {
       console.log("updating Main with service_uuid = " + this.service_uuid + " and case_uuid = " + case_uuid_);
 
-      this.case_uuid = case_uuid_;
-      this.service_uuid = activeService.service_uuid();
-
       // sqlite database connection
       db = openSql(case_uuid_, function() {
         // point to the node with database N.ID == 0 and load all data
         THIS.change_node(0);
+        THIS.viewModel.createdAt(createdAt.toString());
+        THIS.viewModel.modifiedAt(modifiedAt.toString());
+        updateRecent(case_uuid_, created_at, modified_at);
       });
     } // initialized ?
   }; // init
+
+  function updateRecent(handle, created_at, modified_at) {
+    console.log("updateRecent: " + handle);
+    var recent_key = THIS.service_uuid + ".recent.json";
+    if (localStorage.getItem(recent_key) !== null) {
+      // load value from local storage
+      var recent_json = localStorage.getItem(recent_key);
+      // parse JSON to javascript object
+      var recent = JSON.parse(recent_json);
+      var found = false;
+      for (var i = 0, len = recent.recent.length; i < len; i++) {
+        var problem = recent.recent[i];
+        if (problem.handle == handle) {
+          problem.last_used = Math.round(Date.now() / 1000);
+          problem.created_at = created_at;
+          problem.modified_at = modified_at;
+          console.log(JSON.stringify(problem));
+          found = true;
+        } // found it
+      } // for each recent
+      if (found) {
+        recent_json = JSON.stringify(recent);
+        localStorage.setItem(recent_key, recent_json);
+      } // found it
+    } // key is in local storage
+  } // updateRecent
 
   function openSql(caseUuid, callback) {
     var sqlFile = caseUuid + '/persistency.sql';
@@ -181,13 +185,13 @@ var Main = (function() {
           console.log('database successfully opened');
           var reader = new FileReader();
           reader.onloadend = function (e) {
-            console.log('onreadend');
+            // console.log('onreadend');
             var sql = this.result;
 
             db.transaction(function(tx) {
-              console.log('start N transaction');
+              // console.log('start N transaction');
               tx.executeSql('DROP TABLE IF EXISTS N', [], function(tx, res) {
-                  console.log('executeSql DROP N done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP N done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS N (' +
                             'ID                      integer PRIMARY KEY,' +
@@ -203,21 +207,21 @@ var Main = (function() {
                             'PARENT                  integer REFERENCES N (ID),' +
                             'ROOT                    integer REFERENCES N (ID),' +
                             'RANGE                   integer);', [], function(tx, res) {
-                  console.log('executeSql CREATE N done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE N done: ' + JSON.stringify(res));
               });
             }, function(error) {
-              console.log("DB ERROR in N transaction: " + error);
+              console.error("DB ERROR in N transaction: " + error);
             }, function() {
-              console.log('end N transaction');
+              // console.log('end N transaction');
             }); // N transaction
 
             db.transaction(function(tx) {
-              console.log('start I/Q/S transaction');
+              // console.log('start I/Q/S transaction');
               tx.executeSql('DROP TABLE IF EXISTS I', [], function(tx, res) {
-                  console.log('executeSql DROP I done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP I done: ' + JSON.stringify(res));
                 });
               tx.executeSql('DROP TABLE IF EXISTS Q', [], function(tx, res) {
-                  console.log('executeSql DROP Q done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP Q done: ' + JSON.stringify(res));
                 });
               tx.executeSql('DROP TABLE IF EXISTS S', [], function(tx, res) {
                   console.log('executeSql DROP S done: ' + JSON.stringify(res));
@@ -228,7 +232,7 @@ var Main = (function() {
                             'TAG                     character (50),' +
                             'DESCRIPTION             character (255),' +
                             'VALUE                   integer);', [], function(tx, res) {
-                  console.log('executeSql CREATE I done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE I done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS Q (' +
                             'ID                      integer PRIMARY KEY,' +
@@ -239,7 +243,7 @@ var Main = (function() {
                             'UNIT                    character (50),' +
                             'INPUT                   boolean,' +
                             'OUTPUT                  boolean);', [], function(tx, res) {
-                  console.log('executeSql CREATE Q done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE Q done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS S (' +
                             'ID                      integer PRIMARY KEY,' +
@@ -247,58 +251,58 @@ var Main = (function() {
                             'TAG                     character (50),' +
                             'DESCRIPTION             character (255),' +
                             'VALUE                   character (255))', [], function(tx, res) {
-                  console.log('executeSql CREATE S done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE S done: ' + JSON.stringify(res));
               });
             }, function(error) {
-              console.log("DB ERROR in I/Q/S transaction: " + error);
+              console.error("DB ERROR in I/Q/S transaction: " + error);
             }, function() {
-              console.log('end I/Q/S transaction');
+              // console.log('end I/Q/S transaction');
             }); // I/Q/S transaction
 
             db.transaction(function(tx) {
-              console.log('start IV/SV transaction');
+              // console.log('start IV/SV transaction');
               tx.executeSql('DROP TABLE IF EXISTS IV', [], function(tx, res) {
-                  console.log('executeSql DROP IV done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP IV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('DROP TABLE IF EXISTS IVV', [], function(tx, res) {
-                  console.log('executeSql DROP IVV done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP IVV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('DROP TABLE IF EXISTS SV', [], function(tx, res) {
-                  console.log('executeSql DROP SV done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP SV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('DROP TABLE IF EXISTS SVV', [], function(tx, res) {
-                  console.log('executeSql DROP SVV done: ' + JSON.stringify(res));
+                  // console.log('executeSql DROP SVV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS IV (' +
                             'ID                      integer PRIMARY KEY,' +
                             'NID                     integer REFERENCES N (ID),' +
                             'TAG                     character (50),' +
                             'DESCRIPTION             character (255));', [], function(tx, res) {
-                  console.log('executeSql CREATE IV done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE IV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS IVV (' +
                             'ID                      integer PRIMARY KEY,' +
                             'VID                     integer REFERENCES IV (ID),' +
                             'VALUE                   integer);', [], function(tx, res) {
-                  console.log('executeSql CREATE IV done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE IV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS SV (' +
                             'ID                      integer PRIMARY KEY,' +
                             'NID                     integer REFERENCES N (ID),' +
                             'TAG                     character (50),' +
                             'DESCRIPTION             character (255));', [], function(tx, res) {
-                  console.log('executeSql CREATE SV done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE SV done: ' + JSON.stringify(res));
                 });
               tx.executeSql('CREATE TABLE IF NOT EXISTS SVV (' +
                             'ID                      integer PRIMARY KEY,' +
                             'VID                     integer REFERENCES SV (ID),' +
                             'VALUE                   character (255));', [], function(tx, res) {
-                  console.log('executeSql CREATE SVV done: ' + JSON.stringify(res));
+                  // console.log('executeSql CREATE SVV done: ' + JSON.stringify(res));
                 });
             }, function(error) {
-              console.log("DB ERROR in IV/SV transaction: " + error);
+              console.error("DB ERROR in IV/SV transaction: " + error);
             }, function() {
-              console.log('end IV/SV transaction');
+              // console.log('end IV/SV transaction');
             }); // IV/SV transaction
             
             db.transaction(function(tx) {
@@ -312,7 +316,7 @@ var Main = (function() {
                 }
               }
             }, function(error) {
-              console.log("DB ERROR in fill transaction: " + error);
+              console.error("DB ERROR in fill transaction: " + error);
             }, function() {
               console.log('end table fill transaction');
             }); // transaction
@@ -322,21 +326,13 @@ var Main = (function() {
           }; // onloadend
           reader.readAsText(file);
         }, function(error) {
-          console.log("DB ERROR while opening database: " + error);
+          console.error("DB ERROR while opening database: " + error);
         });
 
       }); // fileEntry
     }); // gotFileEntry
     
   } // openSql
-
-  function errorCB(err) {
-    alert("Error processing SQL: "+err);
-  }
-
-  function successCB() {
-    alert("success!");
-  }
 
   this.setVariable = function(id, val) {
     viewModelInputsFiltered.inputs()[id].value(val);
@@ -347,7 +343,7 @@ var Main = (function() {
     var updatedField = ko.mapping.toJS(target);
     db.transaction(function(tx) {
       tx.executeSql('UPDATE Q set VALUE = ' + newValue + ' WHERE ID = ' + updatedField.dbid, [], function(tx, results) {
-        console.log('db updated with new value for ' + updatedField.description);
+        // console.log('db updated with new value for ' + updatedField.description);
       }, null);
     });
   }; // updateValue
@@ -355,9 +351,6 @@ var Main = (function() {
   // private functions
   function apply() {
     console.log("applying Main");
-
-    // var messages_list = document.getElementById('messages-list');
-    // ko.applyBindings(viewModelMessages, messages_list);
 
     var input_container = document.getElementById('input-container');
     ko.applyBindings(viewModelInputsFiltered, input_container);
@@ -460,22 +453,34 @@ var Main = (function() {
     console.log("switching to node " + targetid);
     // update main list of children nodes, update toggle button
     var childArray = [];
+    var messageArray = [];
     if (db) {
       db.readTransaction(function(tx) {
         tx.executeSql('SELECT TAG, DESCRIPTION, TYPE, ID FROM N WHERE PARENT =' + targetid + ' AND ID <>' + targetid, [], function(tx, results) {
           var len = results.rows.length, i;
           for ( i = 0; i < len; i++) {
             var item = results.rows.item(i);
-            var obj = {
-              "tag" : item.TAG,
-              "description" : item.DESCRIPTION,
-              "type" : item.TYPE,
-              "id" : item.ID
-            };
-            childArray.push(obj);
-          }
+            if ( (item.TAG.toLowerCase() !== 'source') && (item.TAG.toLowerCase() !== 'sink') ) {
+              var obj = {
+                "tag" : item.TAG,
+                "description" : item.DESCRIPTION,
+                "type" : item.TYPE,
+                "id" : item.ID
+              };
+              childArray.push(obj);
+            } // if not source or sink
+          } // for each row
           if (len > 0) {
             THIS.viewModel.hasChildren(true);
+            childArray.sort(function (a, b) {
+              if (a.tag > b.tag) {
+                return 1;
+              } else if (a.tag < b.tag) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
           } else {
             THIS.viewModel.hasChildren(false);
             //TODO rimuovere patch
@@ -488,20 +493,37 @@ var Main = (function() {
         }, null);
       });
 
-      // fill inputs and outputs
+      // fill inputs, outputs and messages
       db.readTransaction(function(tx) {
         tx.executeSql('SELECT FULLTAG,RANGE FROM N WHERE ID=' + targetid, [], function(tx, results) {
           var range = results.rows.item(0).RANGE;
-          var fullTagLength = results.rows.item(0).FULLTAG.length;
-          var query = 'SELECT N.FULLTAG||\'.\'||Q.TAG AS FULLTAG, Q.VALUE, Q.UNIT, Q.DESCRIPTION, Q.ID, Q.DESCRIPTION FROM N JOIN Q ON N.ID = Q.NID WHERE N.ID >=' + targetid + ' AND N.ID < ' + (targetid + range) + ' AND';
-          fillInputs(tx, fullTagLength, query + ' Q.INPUT=' + 1);
-          fillOutputs(tx, fullTagLength, query + ' Q.OUTPUT=' + 1);
+          var tag0Length = results.rows.item(0).FULLTAG.indexOf(":");
+          tag0Length = tag0Length >= 0 ? tag0Length : results.rows.item(0).FULLTAG.length;
+          // show variables for the current node and all its descendants
+          // var query = 'SELECT N.FULLTAG||\'.\'||Q.TAG AS FULLTAG, Q.VALUE, Q.UNIT, Q.DESCRIPTION, Q.ID, Q.DESCRIPTION FROM N JOIN Q ON N.ID = Q.NID WHERE N.ID >=' + targetid + ' AND N.ID < ' + (targetid + range) + ' AND';
+          // only show variables for the current node:
+          var query = 'SELECT N.FULLTAG||\'.\'||Q.TAG AS FULLTAG, Q.VALUE, Q.UNIT, Q.DESCRIPTION, Q.ID, Q.DESCRIPTION FROM N JOIN Q ON N.ID = Q.NID WHERE N.ID =' + targetid + ' AND';
+          fillInputs(tx, tag0Length, query + ' Q.INPUT=' + 1);
+          fillOutputs(tx, tag0Length, query + ' Q.OUTPUT=' + 1);
+        }, null);
+
+        tx.executeSql('SELECT sv.tag as type, svv.value as message_text from svv inner join sv on sv.id = svv.vid where sv.nid = ' + targetid, [], function(tx, results) {
+          var len = results.rows.length, i;
+          for ( i = 0; i < len; i++) {
+            var item = results.rows.item(i);
+            var message = {
+              "type" : item.type,
+              "message_text" : item.message_text
+            };
+            messageArray.push(message);
+          } // for each row
+          ko.mapping.fromJS(messageArray, mapping, THIS.viewModel.messages);
         }, null);
       });
 
       // update viewModel
       db.readTransaction(function(tx) {
-        tx.executeSql('SELECT C.TAG as CurrTAG,C.DESCRIPTION as CurrDESCRIPTION,C.TYPE as CurrTYPE,C.CREATED_AT as CurrCREATED_AT,C.UPDATED_AT as CurrUPDATED_AT,P.TAG,P.ID FROM N AS C, N AS P WHERE C.ID= ' + targetid + ' AND C.PARENT=P.ID;', [], function(tx, results) {
+        tx.executeSql('SELECT C.TAG as CurrTAG,C.FULLTAG as CurrFULLTAG,C.DESCRIPTION as CurrDESCRIPTION,C.TYPE as CurrTYPE,P.TAG,P.ID FROM N AS C, N AS P WHERE C.ID= ' + targetid + ' AND C.PARENT=P.ID;', [], function(tx, results) {
           var item = results.rows.item(0);
           if (targetid === 0) {
             THIS.viewModel.action(-1);
@@ -511,27 +533,41 @@ var Main = (function() {
             THIS.viewModel.homeText(item.TAG);
           }
           THIS.viewModel.Tag(item.CurrTAG);
+          THIS.viewModel.fullTag(item.CurrFULLTAG);
           THIS.viewModel.Description(item.CurrDESCRIPTION);
           THIS.viewModel.Type(item.CurrTYPE);
           THIS.viewModel.typeDescription(type_property(item.CurrTYPE, "description", ""));
-          THIS.viewModel.createdAt(item.CurrCREATED_AT);
-          THIS.viewModel.modifiedAt(item.CurrUPDATED_AT);
-          // errors
-          // warnings
         }, null);
       });
-
+      db.readTransaction(function(tx) {
+        tx.executeSql('select count(*) as count from svv inner join sv on sv.id = svv.vid where sv.nid=' + targetid + ' and sv.tag=\'errors\';', [], function(tx, results) {
+          var item = results.rows.item(0);
+          THIS.viewModel.errors(item.count);
+          if (targetid === 0) {
+            THIS.viewModel.errors0(item.count);
+          } // if node 0
+        }, null);
+      });
+      db.readTransaction(function(tx) {
+        tx.executeSql('select count(*) as count from svv inner join sv on sv.id = svv.vid where sv.nid=' + targetid + ' and sv.tag=\'warnings\';', [], function(tx, results) {
+          var item = results.rows.item(0);
+          THIS.viewModel.warnings(item.count);
+          if (targetid === 0) {
+            THIS.viewModel.warnings0(item.count);
+          } // if node 0
+        }, null);
+      });
     } // if there is a database connection
 
     var inputsArray = [];
-    function fillInputs(tx, fullTagLength, query) {
+    function fillInputs(tx, tag0Length, query) {
       console.log('fillInputs query = ' + query);
       tx.executeSql(query, [], function(tx, results) {
         var len = results.rows.length, i;
         for ( i = 0; i < len; i++) {
           var item = results.rows.item(i);
           var obj = {
-            "fulltag" : item.FULLTAG.substring(fullTagLength + 1),
+            "fulltag" : item.FULLTAG.substring(tag0Length + 1),
             "value" : item.VALUE,
             "units" : item.UNIT,
             "description" : item.DESCRIPTION,
@@ -548,14 +584,14 @@ var Main = (function() {
     }
 
     var outputsArray = [];
-    function fillOutputs(tx, fullTagLength, query) {
+    function fillOutputs(tx, tag0Length, query) {
       console.log('fillOutputs query = ' + query);
       tx.executeSql(query, [], function(tx, results) {
         var len = results.rows.length, i;
         for ( i = 0; i < len; i++) {
           var item = results.rows.item(i);
           var obj = {
-            "fulltag" : item.FULLTAG.substring(fullTagLength + 1),
+            "fulltag" : item.FULLTAG.substring(tag0Length + 1),
             "value" : item.VALUE,
             "units" : item.UNIT,
             "description" : item.DESCRIPTION

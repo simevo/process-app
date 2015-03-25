@@ -14,7 +14,7 @@ var Configure = (function() {
 
   // public variables
   // view model
-  this.viewModel = { };
+  THIS.viewModel = { };
   this.initialized = false;
   
   // public functions
@@ -27,54 +27,51 @@ var Configure = (function() {
       this.initialized = true;
 
       // initialize configure master view model and view
-      this.viewModel = {
+      THIS.viewModel = {
         configuration : ko.observable(null),
         service_uuid : ko.observable(activeService.service_uuid()),
         service_color : ko.observable(activeService.color())
       };
       
       // pass the selected node to the configure form
-      this.viewModel.configuration(d);
+      THIS.viewModel.configuration(d);
 
       apply();
     } else {
       console.log("updating Configure");
 
-      this.viewModel.configuration(d);
-      this.viewModel.service_uuid(activeService.service_uuid());
-      this.viewModel.service_color(activeService.color());
+      THIS.viewModel.configuration(d);
+      THIS.viewModel.service_uuid(activeService.service_uuid());
+      THIS.viewModel.service_color(activeService.color());
     }
+
+    // activating field clearer
+    var tag_clearer = document.getElementById('tag-clearer');
+    tag_clearer.onclick = function() {
+      console.log('clearing tag');
+      THIS.viewModel.configuration().instance_tag('');
+    };
+    var description_clearer = document.getElementById('description-clearer');
+    description_clearer.onclick = function() {
+      console.log('clearing description');
+      THIS.viewModel.configuration().instance_description('');
+    };
   }; // init
   
   this.configuration = function() {
-    return this.viewModel.configuration();
+    return THIS.viewModel.configuration();
   };
 
   // private stuff
   
   function apply() {
     console.log("applying Configure");
-
-    var recent_search_clearer = document.getElementById('recent-search-clearer');
-    recent_search_clearer.onclick = function() {
-      clear_field('recent-search');
-    };
-
-    var tag_clearer = document.getElementById('tag-clearer');
-    tag_clearer.onclick = function() {
-      THIS.viewModel.configuration().instance_tag('');
-    };
-    var description_clearer = document.getElementById('description-clearer');
-    description_clearer.onclick = function() {
-      THIS.viewModel.configuration().instance_description('');
-    };
-
     var configure_page = document.getElementById('configure-page');
     ko.applyBindings(THIS.viewModel, configure_page);
   } // apply
-  
-  this.addRecent = function(tag, last_used, description, type, handle) {
-    var recent_key = this.viewModel.service_uuid() + ".recent.json";
+
+  this.addRecent = function(tag, description, type, handle, created_at, modified_at) {
+    var recent_key = THIS.viewModel.service_uuid() + ".recent.json";
     if (localStorage.getItem(recent_key) === null) {
       // store initial empty recent list in local storage
       try {
@@ -91,10 +88,12 @@ var Configure = (function() {
     var recent = JSON.parse(recent_json);
     var new_problem = {
       "tag" : tag,
-      "last_used" : last_used,
+      "last_used" : Math.round(Date.now() / 1000),
       "description" : description,
       "type" : type,
-      "handle" : handle
+      "handle" : handle,
+      "created_at": created_at,
+      "modified_at": modified_at
     };
     console.log(JSON.stringify(new_problem));
     recent.recent.push(new_problem);

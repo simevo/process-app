@@ -17,17 +17,17 @@
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
 
     <!-- Third-party JS -->
-    <script type='text/javascript' src='js/knockout-3.1.0.js'></script>
-    <script type='text/javascript' src='js/knockout.mapping.js'></script>
-    <script type='text/javascript' src='js/knockout-projections.min.js'></script>
-    <script type='text/javascript' src='js/undomanager.js'></script>
+    <script type="text/javascript" src="js/knockout-3.1.0.js"></script>
+    <script type="text/javascript" src="js/knockout.mapping.js"></script>
+    <script type="text/javascript" src="js/knockout-projections.min.js"></script>
+    <script type="text/javascript" src="js/undomanager.js"></script>
 
     <!-- Simevo-specific JS -->
-    <script type='text/javascript' src='js/Landing.js'></script>
-    <script type='text/javascript' src='js/Configure.js'></script>
-    <script type='text/javascript' src='js/Main.js'></script>
-    <script type='text/javascript' src='js/common.js'></script>
-    <script type='text/javascript' src='js/index.js'></script>
+    <script type="text/javascript" src="js/Landing.js"></script>
+    <script type="text/javascript" src="js/Configure.js"></script>
+    <script type="text/javascript" src="js/Main.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
 
   </head>
   <body>
@@ -44,7 +44,7 @@
 
         <div id="logo">
           <!-- TODO remove this button for release version ! -->
-          <button type="button" class="btn btn-success" onclick='reset_local_storage();'>
+          <button type="button" class="btn btn-success" onclick="reset_local_storage();">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
 
@@ -53,44 +53,42 @@
 
         <div id="tab-container">
           <ul class="nav nav-tabs">
-            <li>
-              <a id="recent-open" class="tab"><strong>Recent</strong></a>
+            <li  class="active">
+              <a id="service-open" class="tab"><strong>Services</strong></a>
             </li>
             <li>
               <a id="new-open" class="tab"><strong>New</strong></a>
             </li>
-            <li  class="active">
-              <a id="service-open" class="tab"><strong>Services</strong></a>
+            <li data-bind="visible: recent.recent().length > 0">
+              <a id="recent-open" class="tab"><strong>Recent</strong></a>
             </li>
           </ul>
           <!-- navigation -->
 
-          <div id="recent-container" class="rns-container">
+          <div id="recent-container" class="rns-container" data-bind="visible: recent.recent().length > 0">
             <div id="container-recent-search" class="container">
               <form class="form">
                 <div class="form-group has-feedback">
                   <input id="recent-search" type="text" class="form-control" placeholder="filter" data-bind="value: recent.query, valueUpdate: 'keyup'" autocomplete="off">
                   <input type="text" class="display-none form-control" placeholder="filter">
-                  <!-- data-bind="visible: recent.query().length > 0" -->
-                  <span id="recent-search-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
+                  <span id="recent-search-clearer" class="glyphicon glyphicon-remove form-control-feedback" data-bind="visible: recent.query().length > 0"></span>
                 </div>
               </form>
             </div>
 
             <ul data-bind="foreach: recent.recentFiltered" id="recent-list" class="yscroll list">
-              <li style="position: relative;" data-bind="attr: { id: 'r'+$index() }, event: { click: openMainPageFromLanding }" >
+              <li style="position: relative;" data-bind="attr: { id: 'r'+$index() }, click: openMainPageFromLanding" >
                 <div class="thumb">
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                 </div>
-                <div class="list-item">
-                  <strong><span data-bind="text: tag"></span> - <span data-bind='text: description'></span></strong>
+                <div class="list-item" data-bind="click: function() { }, clickBubble: false">
+                  <strong><span data-bind="text: tag"></span><span> - </span><span data-bind="text: description"></span><span data-bind="visible: description().length == 0, text: format_date(modified_at())"></span></strong>
                   <br />
-                  <p>
-                    <span data-bind='text: type'></span> - <span data-bind='text: type_description'></span>
+                  <p class="secondary">
+                    <span data-bind="text: type"></span> - <span data-bind="text: type_description"></span>
                   </p>
-                  <button type="button" class="btn btn-default disabled" style="position: absolute; right: 0.5em; top: 0.5em;">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                  </button>
+                  
+                  <span class="glyphicon glyphicon-remove-circle" style="position: absolute; right: 0.5em; top: 0.5em;" data-bind="click: $root.remove_recent, clickBubble: false"></span>
                 </div>
               </li>
 
@@ -109,7 +107,7 @@
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                 </div>
                 <div class="list-item">
-                  <strong><span data-bind="text: name"></span> - <span data-bind='text: description'></span></strong>
+                  <strong><span data-bind="text: name"></span></strong><span class="secondary"> - </span><span class="secondary" data-bind="text: description"></span>
                 </div>
               </li>
 
@@ -125,18 +123,18 @@
                   <img alt="service thumbnail" data-bind="attr: { src: prefix() + services.activeService().service_uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
                 <div class="service-item list-item">
-                  <strong><span data-bind='text: services.activeService().name()'>placeholder</span></strong>
+                  <strong><span data-bind="text: services.activeService().name()">placeholder</span></strong>
                   <!-- ko if: services.activeService().dead -->
                   <div style="position: absolute; right: 1.5em; top: 2em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
                     <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
                   </div>
                   <!-- /ko -->
                   <br />
-                  <p>
-                    <span data-bind='text: services.activeService().description()'>placeholder</span>
+                  <p class="secondary">
+                    <span data-bind="text: services.activeService().description()">placeholder</span>
                   </p>
-                  <p>
-                    <span data-bind='text: services.activeService().url()'>placeholder</span>
+                  <p class="secondary">
+                    <span data-bind="text: services.activeService().url()">placeholder</span>
                   </p>
                 </div>
               </li>
@@ -159,8 +157,8 @@
                     </div>
                     <!-- /ko -->
                     <br />
-                    <p>
-                      <span data-bind='text: description'></span>
+                    <p class="secondary">
+                      <span data-bind="text: description"></span>
                     </p>
                   </div>
                 </div>
@@ -174,10 +172,9 @@
                 <div class="service-item list-item" style="background-color: #007878;">
                   <strong>[ Your own service here ... ]</strong>
                   <br />
-                  <p>
-                    To find out how to access your own models from the <strong>simevo process app</strong>, please <a href="mailto:info@simevo.com">contact us</a>.
+                  <p class="secondary">
+                    To find out how please <a href="mailto:info@simevo.com">contact us</a>
                   </p>
-                  <br />
                 </div>
               </li>
             </ul>
@@ -216,7 +213,7 @@
               </button>
             </div>
             <div class="center col-xs-4 col-sm-8 no-padding">
-              <button id="info-toggle" type="button" class="btn btn-danger" onclick="toggleInfoContainer();" style="outline: none;" data-bind="text: Tag"></button>
+              <button id="info-toggle" type="button" class="btn btn-default" onclick="toggleInfoContainer();" style="outline: none;" data-bind="text: Tag, style: { backgroundColor: (errors0() > 0 ? 'red' : (warnings0() > 0 ? 'yellow' : 'green')) }"></button>
             </div>
             <div class="col-xs-4 col-sm-2 no-padding" style="text-align: right;">
               <button id="children-toggle" type="button" class="btn btn-default margin-right" data-bind="visible: hasChildren">
@@ -249,7 +246,7 @@
               <ul data-bind="foreach: inputs" id="input-list" class="yscroll list">
 
                 <li data-bind="attr: { id: $index() }, event: { click: toggleInputContainer }" class="i">
-                  <strong><span data-bind="text: fulltag"></span> – <span data-bind='text: description'></span></strong>
+                  <strong><span data-bind="text: fulltag"></span> – <span data-bind="text: description"></span></strong>
                   <div class="ro">
                     <span data-bind="text: value"></span>
                     <span class="righty" data-bind="text: units"></span>
@@ -266,7 +263,7 @@
               <div id="info-container" class="yscroll">
                 <dl id="info-list">
                   <dt>
-                    <span data-bind="text: Tag"></span>
+                    <span data-bind="text: fullTag"></span>
                   </dt>
                   <dd>
                     <span data-bind="text: Description"></span>
@@ -293,13 +290,13 @@
                     status:
                   </dt>
                   <dd>
-                  <!-- ko if: errors > 0 -->
+                  <!-- ko if: errors() > 0 -->
                     <span>results with errors</span>
                   <!-- /ko -->
-                  <!-- ko if: errors == 0 && warning > 0 -->
+                  <!-- ko if: errors() == 0 && warnings() > 0 -->
                     <span>results with warnings</span>
                   <!-- /ko -->
-                  <!-- ko if: errors == 0 && warning == 0 -->
+                  <!-- ko if: errors() == 0 && warnings() == 0 -->
                     <span>results without warnings or errors</span>
                   <!-- /ko -->
                   </dd>
@@ -307,22 +304,20 @@
                 </dl>
                 <!-- info-list -->
 
-                <!-- messages-list
                 <hr/>
 
                 <strong style="padding-left: 18px">Messages:</strong>
                 <dl data-bind="foreach: messages" id="messages-list">
 
                   <dt>
-                    <span data-bind="text: type"></span> – <span data-bind="text: message_text"></span>
+                    <span data-bind="text: type"></span>
                   </dt>
                   <dd>
-                    <span data-bind="text: fulltag"></span>
+                    <span data-bind="text: message_text"></span>
                   </dd>
 
                 </dl>
-                messages-list -->
-
+                <!-- messages-list -->
               </div>
               <!-- info-container -->
 
@@ -335,10 +330,10 @@
                       <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                     </div>
                     <div class="list-item">
-                      <strong><span data-bind="text: tag"></span> – <span data-bind='text: description'></span></strong>
+                      <strong><span data-bind="text: tag"></span> – <span data-bind="text: description"></span></strong>
                       <br />
                       <p>
-                        <span data-bind='text: type'></span> - <span data-bind='text: type_description'></span>
+                        <span data-bind="text: type"></span> - <span data-bind="text: type_description"></span>
                       </p>
                     </div>
                   </li>
@@ -368,7 +363,7 @@
               <ul data-bind="foreach: outputs" id="output-list" class="yscroll list">
 
                 <li class="o">
-                  <strong><span data-bind="text: fulltag"></span> – <span data-bind='text: description'></span></strong>
+                  <strong><span data-bind="text: fulltag"></span> – <span data-bind="text: description"></span></strong>
                   <div class="ro">
                     <span data-bind="text: value"></span>
                     <span class="righty" data-bind="text: units"></span>
@@ -388,7 +383,7 @@
               <button disabled id="calculate" type="button" class="btn btn-default" onclick="launch_calculation();">
                 <span class="glyphicon glyphicon-play"></span>
               </button>
-              <button id="btnShare" type="button" class="btn btn-default" onclick='socialShare();'>
+              <button id="btnShare" type="button" class="btn btn-default" onclick="socialShare();">
                 <span class="glyphicon glyphicon-share"></span>
               </button>
               <button id="btnUndo" type="button" class="btn btn-default" onclick="undoManager.undo();" disabled >
@@ -458,9 +453,8 @@
                   <div class="form-group list-item-configure">
                     <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
                     <div class="col-sm-10 col-xs-12">
-                      <select data-bind="attr: { id: 'string-option'+$index() }, foreach: options, selectedIndex: selected" class="form-control">
+                      <select data-bind="attr: { id: 'string-option'+$index() }, foreach: options, value: selected" class="form-control">
                         <option data-bind="text: name">option</option>
-                        <!-- attr: {selected: selected},  -->
                       </select>
                     </div>
                     <small class="col-sm-2 col-xs-12" data-bind="text: description"></small>

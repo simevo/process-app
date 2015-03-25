@@ -30,7 +30,7 @@ div#image-container {
   max-width: calc(100% - 72px);
 }
 
-#input-open, #output-open {
+#input-open, #output-open, #info-toggle, #parent-open-main, #children-toggle {
   background-color: rgba(228, 228, 228, 1);
 }
 
@@ -355,7 +355,7 @@ img.thumb8 {
   min-height: 3em;
   margin-left: 4em;
   background-color: rgba(255, 255, 255, 0.4);
-  padding: 0 0 0 0.5em;
+  padding: 0 0.5em 0 0.5em;
   border-radius: 0.5em 0.5em 0.5em 0.5em;
 }
 .list-item-configure {
@@ -373,7 +373,6 @@ img.service-thumb {
   height: 5em;
 }
 .service-item {
-  min-height: 5em;
   margin-left: 5.5em;
   background-size: cover;
   background-repeat: no-repeat;
@@ -396,6 +395,9 @@ ul#service-list li {
 .nav {
   padding-bottom: 0em !important;
 }
+.nav-tabs {
+  border-bottom: 0px !important;
+}
 .nav-tabs li {
   margin-left: 0.25em;
   background: rgba(255, 255, 255, 0.7);
@@ -410,6 +412,7 @@ ul#service-list li {
 }
 #new-container {
   display: none;
+  padding-top: 5px;
 }
 #service-container {
   display: none;
@@ -493,4 +496,8 @@ fieldset {
   height: 0;
   clear: both;
   visibility: hidden;
+}
+.secondary {
+  font-size: medium !important;
+  color: #555555;
 }

@@ -35,7 +35,19 @@ var Landing = (function() {
     services : [],
     recent : [],
     types : [],
-    enumerators : []
+    enumerators : [],
+    remove_recent: function(r) {
+      var yes = window.confirm("Remove case " + r.tag() + " of type " + r.type() + " last used on " + format_date(r.modified_at()) + " ?");
+      if (yes === true) {
+        console.log("removing case " + r.handle());
+        removeRecent(r.handle());
+        updateRecent(true);
+        yes = window.confirm("Remove case from remote service too ?");
+        if (yes === true) {
+          console.log("removing case " + r.handle() + " from remote service");
+        }
+      }
+    }
   };
 
   // public functions
@@ -55,7 +67,7 @@ var Landing = (function() {
   this.updateRT = function() {
     console.log("updating Landing recent & types");
     // refresh services, types and recent lists
-    updateTypes(true, updateRecent); // updateTypes(true); ???
+    updateTypes(true);
   }; // updateRT
 
   this.type_property = function(type_name, property_name, default_value) {
@@ -79,9 +91,10 @@ var Landing = (function() {
     // uncomment to force reloading each time
     // localStorage.clear();
     var services_key = "services.json";
-    // public servers:
+    // public services:
     var serviceUrl = "http://simevo.com/api/process.json";
-    // private servers:
+    // private services:
+    // var serviceUrl = "http://192.168.0.1/process.json";
     // var serviceUrl = "http://simevo.com/api/process-private.json";
     if (localStorage.getItem(services_key) === null) {
       console.log("need to discover the services");
@@ -104,7 +117,7 @@ var Landing = (function() {
           }
           if (!foundActive) {
             if (foundAlive == -1)
-              alert("Discovery failed");
+              alert("Service error: discovery failed");
             else
               detailedServices.services[foundAlive].active = true;
           }
@@ -153,11 +166,25 @@ var Landing = (function() {
         var reader = new FileReader();
 
         reader.onloadend = function(e) {
+          if (this.result === null) {
+            console.error("enumerators.json null");
+          }
+          if (this.result === undefined) {
+            console.error("enumerators.json undefined");
+          }
           console.log("raw file enumerators.JSON = " + this.result);
-          if (typeof this.result === 'object')
+          if (typeof this.result === 'object') {
             enumerators = this.result;
-          else
+          } else if (typeof this.result === 'string') {
+            console.log("enumerators string length = " + this.result.length);
+            if (this.result.length === 0) {
+              console.error("enumerators.json empty");
+              alert("Internal app error: try clearing the cache");
+            }
             enumerators = JSON.parse(this.result);
+          } else {
+            console.error("enumerators.json has unexpected type");
+          }
           console.log("enumerators = " + JSON.stringify(enumerators.enumerators));
 
           enumerator_lookup = {};
@@ -166,7 +193,9 @@ var Landing = (function() {
             enumerator_default[enumerators.enumerators[i].name] = 0;
             // console.log("adding enumerator_lookup for " + enumerators.enumerators[i].name);
             enumerator_lookup[enumerators.enumerators[i].name] = enumerators.enumerators[i];
+            enumerator_lookup[enumerators.enumerators[i].name].option = {}; // store descriptions
             for (var j = 0, len1 = enumerators.enumerators[i].options.length; j < len1; j++) {
+              enumerator_lookup[enumerators.enumerators[i].name].option[enumerators.enumerators[i].options[j].name] = enumerators.enumerators[i].options[j].description;
               if (enumerators.enumerators[i].options[j].default) {
                 enumerator_default[enumerators.enumerators[i].name] = j;
               }
@@ -222,7 +251,7 @@ var Landing = (function() {
     this.selected = ko.observable(enumerator_default[this.enumerator()]);
     this.selected_description = ko.computed(function() {
       console.log('looking for the description of option ' + this.selected() + ' in enumerator ' + this.enumerator());
-      return enumerator_lookup[this.enumerator()].options[this.selected()].description;
+      return enumerator_lookup[this.enumerator()].option[this.selected()];
     }, this);
     this.options = ko.computed(function() {
       console.log('returning options for enumerator ' + this.enumerator());
@@ -256,12 +285,25 @@ var Landing = (function() {
         var reader = new FileReader();
 
         reader.onloadend = function (e) {
-          if (typeof this.result === 'object')
+          if (this.result === null) {
+            console.error("types.json null");
+          }
+          if (this.result === undefined) {
+            console.error("types.json undefined");
+          }
+          console.log("raw file types.JSON = " + this.result);
+          if (typeof this.result === 'object') {
             types = this.result;
-          else
+          } else if (typeof this.result === 'string') {
+            console.log("types string length = " + this.result.length);
+            if (this.result.length === 0) {
+              console.error("types.json empty");
+              alert("Internal app error: try clearing the cache");
+            }
             types = JSON.parse(this.result);
-          console.log("types = " + JSON.stringify(types.types));
-
+          } else {
+            console.error("types.json has unexpected type");
+          }
           var types_instantiatable = {
             'types' : []
           };
@@ -363,19 +405,49 @@ var Landing = (function() {
     var recent_json = localStorage.getItem(recent_key);
     // parse JSON to javascript object
     var recent = JSON.parse(recent_json);
-    if (update)
+    if (update) {
       ko.mapping.fromJS(recent, mappingRecent, THIS.viewModel.recent);
-    else
+      THIS.viewModel.recent.query("");
+    } else {
       THIS.viewModel.recent = ko.mapping.fromJS(recent, mappingRecent);
+    }
     THIS.viewModel.recent.recent.sort(sortFunction);
     
     service_undefined = apply(service_undefined, update);
+
+    // activating field clearer
+    var recent_search_clearer = document.getElementById('recent-search-clearer');
+    recent_search_clearer.onclick = function() {
+      clear_field('recent-search');
+    };
 
     unlockUI();
     THIS.initialized = true;
     if (callback)
       callback();
   } // updateRecent
+
+  function removeRecent(handle) {
+    console.log("removeRecent " + handle);
+    var recent_key = THIS.viewModel.services.activeService().service_uuid() + ".recent.json";
+    console.log("recent_key = " + recent_key);
+    if (localStorage.getItem(recent_key) !== null) {
+      // load value from local storage
+      var recent_json = localStorage.getItem(recent_key);
+      // parse JSON to javascript object
+      var recent = JSON.parse(recent_json);
+      console.log("found " + recent.recent.length + " items");
+      for(var i = recent.recent.length - 1; i >= 0; i--) {
+        console.log("looking at " + recent.recent[i].handle);
+        if(recent.recent[i].handle === handle) {
+          console.log("found it: " + JSON.stringify(recent.recent[i]));
+          recent.recent.splice(i, 1);
+        } // match handle
+      } // for each item
+      recent_json = JSON.stringify(recent);
+      localStorage.setItem(recent_key, recent_json);
+    }
+  } // removeRecent
 
   // all DOM manipulations are done by this function 
   function apply(service_undefined, update) {
@@ -401,13 +473,13 @@ var Landing = (function() {
 
     if (service_undefined) {
       // if the service has not yet been chosen, open the services tab
-      sendClick(ts[2]);
+      sendClick(ts[0]);
     } else if (THIS.viewModel.recent.recent().length === 0) {
       // if there is no recent, open the new tab
       sendClick(ts[1]);
     } else {
       // else open the recent tab
-      sendClick(ts[0]);
+      sendClick(ts[2]);
     }
     return false;
   } // apply

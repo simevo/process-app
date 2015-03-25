@@ -5,6 +5,12 @@
 // this module has the auxiliary functions for Landing, Configure and Main
 // it should not directly use the DOM
 
+function format_date(timestamp) {
+  "use strict";
+  var date = new Date(timestamp * 1000.0);
+  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+}
+
 function downloadCaseAssets(url, handle, callback) {
   "use strict";
   console.log("IN DOWNLOAD CASE ASSETS FUNC");
@@ -75,7 +81,7 @@ function downloadFile(url, dirName, fileName, callback1) {
           callback1();
       },
       function(error) {
-        console.log('download failure for file ' + path + ': ' + JSON.stringify(error));
+        console.error('download failure for file ' + path + ': ' + JSON.stringify(error));
       }
     );
   }
@@ -83,7 +89,7 @@ function downloadFile(url, dirName, fileName, callback1) {
 
 function fail(e) {
   "use strict";
-  console.log("FileSystem Error");
+  console.error("FileSystem Error");
   console.dir(e);
 }
 
