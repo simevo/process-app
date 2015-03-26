@@ -42,13 +42,7 @@
 
       <div id="landing-page">
 
-        <div id="logo">
-          <!-- TODO remove this button for release version ! -->
-          <button type="button" class="btn btn-success" onclick="reset_local_storage();">
-            <span class="glyphicon glyphicon-trash"></span>
-          </button>
-
-        </div>
+        <div id="logo"></div>
         <!-- logo -->
 
         <div id="tab-container">
@@ -87,7 +81,7 @@
                   <p class="secondary">
                     <span data-bind="text: type"></span> – <span data-bind="text: type_description"></span>
                   </p>
-                  
+
                   <span class="glyphicon glyphicon-remove-circle" style="position: absolute; right: 0.5em; top: 0.5em;" data-bind="click: $root.remove_recent, clickBubble: false"></span>
                 </div>
               </li>
@@ -136,6 +130,7 @@
                   <p class="secondary">
                     <span data-bind="text: services.activeService().url()">placeholder</span>
                   </p>
+                  <span class="glyphicon glyphicon-trash" style="opacity: 0.2; position: absolute; top: 30px; right: 9%;" onclick="reset_local_storage();"></span>
                 </div>
               </li>
               <!-- ko foreach: services.services -->
@@ -144,13 +139,10 @@
                 <div data-bind="style: { backgroundColor: color }" class="service-thumb">
                   <img alt="service thumbnail" data-bind="attr: { src: $root.prefix() + service_uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.prefix() + service_uuid()+'/background.jpg); position: relative;'}">
+                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.prefix() + service_uuid()+'/background.jpg); position: relative;'}, clickBubble: false">
                   <div id="services-veiling"></div>
                   <div style="z-index: 100; position: relative;">
                     <strong style="float: left;"><span data-bind="text: name"></span></strong>
-                    <button type="button" class="btn btn-default disabled" style="position: absolute; right: 0.5em; top: 0.5em;">
-                      <span class="glyphicon glyphicon-remove-circle"></span>
-                    </button>
                     <!-- ko if: dead -->
                     <div style="position: absolute; right: 0.5em; top: 3em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
                       <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
@@ -161,6 +153,7 @@
                       <span data-bind="text: description"></span>
                     </p>
                   </div>
+                  <span class="glyphicon glyphicon-remove-circle" style="position: absolute; right: 0.5em; top: 0.5em; z-index: 200;" data-bind="click: function() { removeService(service_uuid(), name()); }, clickBubble: false"></span>
                 </div>
               </li>
               <!-- /ko -->

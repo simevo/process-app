@@ -346,3 +346,4 @@ or on Windows:
 
 1. on Android, some graphical asset of the app may become visible in the image gallery
 
+1. only tested on Android 4.4 ATM

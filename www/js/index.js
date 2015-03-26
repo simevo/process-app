@@ -111,6 +111,30 @@ function openService(service_uuid) {
   }
 } // openService
 
+function removeService(service_uuid, name) {
+  "use strict";
+  var yes = window.confirm("Remove service " + name + " ?");
+  if (yes === true) {
+    var services_key = "services.json";
+    // load value from local storage
+    var services_json = localStorage.getItem(services_key);
+    // parse JSON to javascript service_uuid
+    var services = JSON.parse(services_json);
+    for (var i = 0, len = services.services.length; i < len; i++) {
+      var service = services.services[i];
+      if (service.service_uuid == service_uuid) {
+        console.log("removing service " + i);
+        services.services.splice(i, 1);
+        services_json = JSON.stringify(services);
+        localStorage.setItem(services_key, services_json);
+        landing.update();
+        return;
+      }
+    }
+    console.error("service " + service_uuid + " not found");
+  }
+} // removeService
+
 // TODO: delete
 // used for testing
 function pause(ms) {
@@ -123,10 +147,13 @@ function pause(ms) {
 // index-specific code
 function reset_local_storage() {
   "use strict";
-  lockUI("reset_local_storage");
-  localStorage.clear();
-  landing.update();
-  sendClick(document.getElementsByClassName("tab")[1]);
+  var yes = window.confirm("Reset app ? This will refresh the services list and clear all locally saved data !");
+  if (yes === true) {
+    lockUI("reset_local_storage");
+    localStorage.clear();
+    landing.update();
+    sendClick(document.getElementsByClassName("tab")[1]);
+  }
 }// reset
 
 function show_local_storage() {

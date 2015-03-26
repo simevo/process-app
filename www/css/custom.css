@@ -141,6 +141,7 @@ dl.info-list {
 #info-toggle {
   max-width: 90%;
   min-width: 50%;
+  height: 39px;
 }
 #info-toggle > span {
   overflow: hidden;
