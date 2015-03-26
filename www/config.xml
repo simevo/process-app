@@ -5,7 +5,7 @@
   xmlns:gap="http://phonegap.com/ns/1.0"
   xmlns:cdv="http://cordova.apache.org/ns/1.0"
   id="com.simevo.processapp"
-  version="0.0.13">
+  version="0.0.14">
 
   <name>simevo process app</name>
 

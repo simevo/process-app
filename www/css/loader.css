@@ -18,11 +18,19 @@
   opacity: .8;
   display: block;
   border-radius: 50%;
-  font-size: 100px;
+  font-size: 50px;
   width: .25em;
   height: .25em;
   box-shadow: 0 -.4em 0 0 rgba(255,255,255,1), -0.282842em -0.282842em 0 0 rgba(255,255,255,.9), -.4em 0 0 0 rgba(255,255,255,.8), -0.282842em 0.282842em 0 0 rgba(255,255,255,.7), 0 .4em 0 0 rgba(255,255,255,0.6), 0.282842em 0.282842em 0 0 rgba(255,255,255,0.5);
-  -webkit-animation: 1.00s ajax-loader-rotate steps(8) infinite;
-  -moz-animation: 1.00s ajax-loader-rotate steps(8) infinite;
-  animation: 1.00s ajax-loader-rotate steps(8) infinite;
+}
+
+.ajax-loader-slow {
+  -webkit-animation: 3.0s ajax-loader-rotate steps(8) infinite;
+  -moz-animation: 3.0s ajax-loader-rotate steps(8) infinite;
+  animation: 3.0s ajax-loader-rotate steps(8) infinite;
+}
+.ajax-loader-fast {
+  -webkit-animation: 1.0s ajax-loader-rotate steps(8) infinite;
+  -moz-animation: 1.0s ajax-loader-rotate steps(8) infinite;
+  animation: 1.50s ajax-loader-rotate steps(8) infinite;
 }

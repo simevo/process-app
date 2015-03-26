@@ -82,10 +82,10 @@
                   <img alt="model thumbnail" data-bind="attr: { src: icon }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="thumb3">
                 </div>
                 <div class="list-item" data-bind="click: openMainPageFromLanding, clickBubble: false">
-                  <strong><span data-bind="text: tag"></span><span> - </span><span data-bind="text: description"></span><span data-bind="visible: description().length == 0, text: format_date(modified_at())"></span></strong>
+                  <strong><span data-bind="text: tag"></span><span> – </span><span data-bind="text: description"></span><span data-bind="visible: description().length == 0, text: format_date(modified_at())"></span></strong>
                   <br />
                   <p class="secondary">
-                    <span data-bind="text: type"></span> - <span data-bind="text: type_description"></span>
+                    <span data-bind="text: type"></span> – <span data-bind="text: type_description"></span>
                   </p>
                   
                   <span class="glyphicon glyphicon-remove-circle" style="position: absolute; right: 0.5em; top: 0.5em;" data-bind="click: $root.remove_recent, clickBubble: false"></span>
@@ -233,7 +233,7 @@
               <div id="input-close" class="lid-extended vcenter righty" onclick="hideInputContainer();">
                 <span class="glyphicon glyphicon-pencil vcenter"></span>
               </div>
-              <form class="form" style="margin: 0.5em;">
+              <form class="form" style="margin: 0.5em;" data-bind="visible: inputs().length > 0">
                 <div class="form-group has-feedback">
                   <input id="input-search" type="text" class="form-control" placeholder="filter" autocomplete="off" data-bind="value: query, valueUpdate: 'keyup'">
                   <input type="text" class="display-none form-control" autocomplete="off" data-bind="value: query, valueUpdate: 'keyup'">
@@ -247,6 +247,8 @@
                 <input id="range" type="range">
               </div>
 
+              <div class="secondary" style="margin: 0.5em; padding: 0.5em;" data-bind="visible: inputs().length == 0">No inputs for current object</div>
+  
               <ul data-bind="foreach: inputs" id="input-list" class="yscroll list">
 
                 <li data-bind="attr: { id: $index() }, event: { click: toggleInputContainer }" class="i">
@@ -265,46 +267,56 @@
 
             <div id="center" class="col-xs-12 col-sm-12">
               <div id="info-container" class="yscroll">
-                <dl id="info-list">
-                  <dt>
-                    <span data-bind="text: fullTag"></span>
-                  </dt>
+                <!-- ko if: currentId() > 0 -->
+                <dl class="info-list">
+                  <dt>Top-level object:</dt>
                   <dd>
-                    <span class="secondary" data-bind="text: Description"></span>
+                    <span data-bind="text: Tag0"></span><span class="secondary" data-bind="visible: Description0().length > 0"> – </span><span class="secondary" data-bind="text: Description0"></span>
+                  </dd>
+                  <dt>Type:</dt>
+                  <dd>
+                    <span data-bind="text: Type0"></span><span class="secondary"> – </span><span class="secondary" data-bind="text: typeDescription0"></span>
+                  </dd>
+                </dl>
+                <!-- info-list -->
+                <hr/>
+                <!-- /ko -->
+
+                <dl class="info-list">
+                  <dt>Current object:</dt>
+                  <dd>
+                    <span data-bind="text: fullTag"></span><span class="secondary" data-bind="visible: Description().length > 0"> – </span><span class="secondary" data-bind="text: Description"></span>
+                  </dd>
+                  <dt>Type:</dt>
+                  <dd>
+                    <span data-bind="text: Type"></span><span class="secondary"> – </span><span class="secondary" data-bind="text: typeDescription"></span>
                   </dd>
                   <dt>
-                    <span data-bind="text: Type"></span>
+                    Created:
                   </dt>
                   <dd>
-                    <span class="secondary" data-bind="text: typeDescription"></span>
+                    <span data-bind="text: createdAt" class="secondary"></span>
                   </dd>
                   <dt>
-                    created:
+                    Last modified:
                   </dt>
                   <dd>
-                    <span data-bind="text: createdAt"></span>
+                    <span data-bind="text: modifiedAt" class="secondary"></span>
                   </dd>
                   <dt>
-                    last modified:
-                  </dt>
-                  <dd>
-                    <span data-bind="text: modifiedAt"></span>
-                  </dd>
-                  <dt>
-                    status:
+                    Status:
                   </dt>
                   <dd>
                   <!-- ko if: errors() > 0 -->
-                    <span>results with errors</span>
+                    <span class="secondary">has errors</span>
                   <!-- /ko -->
                   <!-- ko if: errors() == 0 && warnings() > 0 -->
-                    <span>results with warnings</span>
+                    <span class="secondary">has warnings</span>
                   <!-- /ko -->
                   <!-- ko if: errors() == 0 && warnings() == 0 -->
-                    <span>results without warnings or errors</span>
+                    <span class="secondary">no warnings or errors</span>
                   <!-- /ko -->
                   </dd>
-
                 </dl>
                 <!-- info-list -->
 
@@ -340,7 +352,7 @@
                       <strong><span data-bind="text: tag"></span></strong><span> – </span><span data-bind="text: description"></span>
                       <br />
                       <p class="secondary">
-                        <span data-bind="text: type"></span> - <span data-bind="text: type_description"></span>
+                        <span data-bind="text: type"></span> – <span data-bind="text: type_description"></span>
                       </p>
                     </div>
                   </li>
@@ -359,13 +371,15 @@
                 <span class="glyphicon glyphicon-list-alt vcenter"></span>
               </div>
 
-              <form class="form" style="margin: 0.5em;">
+              <form class="form" style="margin: 0.5em;" data-bind="visible: outputs().length > 0">
                 <div class="form-group has-feedback">
                   <input id="output-search" type="text" class="form-control" placeholder="filter" autocomplete="off" data-bind="value: query, valueUpdate: 'keyup'">
                   <input type="text" class="display-none form-control" placeholder="filter" autocomplete="off" data-bind="value: query, valueUpdate: 'keyup'">
                   <span id="output-search-clearer" data-bind="visible: query().length > 0" class="glyphicon glyphicon-remove form-control-feedback"></span>
                 </div>
               </form>
+
+              <div class="secondary" style="margin: 0.5em; padding: 0.5em;" data-bind="visible: outputs().length == 0">No outputs for current object</div>
 
               <ul data-bind="foreach: outputs" id="output-list" class="yscroll list">
 
@@ -482,7 +496,7 @@
                       <input data-bind="attr: { id: 'integer-option'+$index(), min: min, max: max, value: value }" type="number"
                       step="1" class="form-control" />
                     </div>
-                    <small class="col-sm-12 col-xs-12"> <span data-bind="text: description"></span> - minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
+                    <small class="col-sm-12 col-xs-12"> <span data-bind="text: description"></span> – minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
                   </div>
                   <!-- /ko -->
                 </fieldset>
@@ -501,8 +515,13 @@
     </div>
     <!-- background -->
 
-    <div style="background-color: #000000; opacity: 0.6; height: 100%; width: 100%; position: absolute; text-align: center; top: 0px; display: block; z-index: 2000;" id="box2">
-      <div class="ajax-loader"></div>
+    <div id="lock-ui-slow">
+      <div style="opacity: 0.667" class="lock-veiling"></div>
+      <div class="ajax-loader ajax-loader-slow"></div>
+    </div>
+    <div id="lock-ui-fast">
+      <div style="opacity: 0.333;" class="lock-veiling"></div>
+      <div class="ajax-loader ajax-loader-fast"></div>
     </div>
   </body>
 </html>

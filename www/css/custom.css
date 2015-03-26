@@ -92,9 +92,6 @@ ul {
   list-style: none;
   padding: 1em;
 }
-dl {
-  padding: 1em;
-}
 div#center {
   height: 100%;
   z-index: 0;
@@ -136,7 +133,11 @@ div#main {
   background-position: center center;
   background-size: 75%;
 }
-
+dl.info-list {
+/*  margin-left: 18px;*/
+  padding: 1em;
+  margin-bottom: 0px !important;
+}
 #info-toggle {
   max-width: 90%;
   min-width: 50%;
@@ -207,7 +208,7 @@ ul#service-list {
 }
 div#input-container {
   background: linear-gradient(to left, rgba(228, 228, 228, 1), rgba(228, 228, 228, 0.9));
-  border-right: 1px solid #ccc;
+  border-right: 0px;
   box-shadow: 1px 0px 10px 0px #000;
   height: 100%;
   display: none;
@@ -224,7 +225,7 @@ input#number {
 }
 #input-close {
   border: 1px solid #ccc;
-  border-left: 0px;
+  border-left: 0px !important;
   background-color: rgba(228, 228, 228, 1);
   margin-right: -2em;
   border-radius: 0em 0.5em 0.5em 0em;
@@ -284,7 +285,7 @@ div#box {
 }
 .lid-extended {
   z-index: 1;
-  width: 2em;
+  width: 37px; /* 2em + 1px to avoid the dim vertical border visible between *put-container and *put-close */
   height: 10em;
   text-align: center;
 }
@@ -524,10 +525,27 @@ fieldset {
   color: #555555;
 }
 ul.messages {
-  margin-left: 9px;
+  margin-left: 18px;
   list-style: disc;
 }
 hr {
   margin-top: 0px !important;
-  margin-bottom: 0px !important;
+  margin-bottom: 20px !important;
+}
+
+#lock-ui-fast, #lock-ui-slow {
+  height: 100%;
+  width: 100%;
+  display: block;
+  z-index: 2000;
+  position: absolute;
+  top: 0px;
+}
+.lock-veiling {
+  background-color: #000000;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  text-align: center;
+  top: 0px;
 }

@@ -26,7 +26,7 @@ var Main = (function() {
   var THIS = this;
 
   // public variables
-  this.case_uuid = '';
+  this.case_uuid = "";
   this.initialized = false;
   this.viewModel = { };
 
@@ -109,14 +109,18 @@ var Main = (function() {
         THIS.viewModel = {
           hasChildren: ko.observable(false),
           Tag: ko.observable(''),
+          Tag0: ko.observable(''),
           fullTag: ko.observable(''),
           homeText: ko.observable('Home'),
           action: ko.observable(-1),
           service_color : ko.observable(activeService.color()),
-          // new:
           Description: ko.observable(''),
+          Description0: ko.observable(''),
           Type: ko.observable(''),
+          Type0: ko.observable(''),
           typeDescription: ko.observable(''),
+          typeDescription0: ko.observable(''),
+          currentId: ko.observable(''),
           createdAt: ko.observable(createdAt.toString()),
           modifiedAt: ko.observable(modifiedAt.toString()),
           errors: ko.observable(0),
@@ -129,10 +133,8 @@ var Main = (function() {
 
         // point to the node with database N.ID == 0 and load all data
         THIS.change_node(0);
-    
         apply();
       });
-
     } else {
       console.log("updating Main with service_uuid = " + this.service_uuid + " and case_uuid = " + case_uuid_);
 
@@ -451,10 +453,12 @@ var Main = (function() {
   
   this.change_node = function(targetid) {
     console.log("switching to node " + targetid);
+    var todo = 9;
     // update main list of children nodes, update toggle button
     var childArray = [];
     var warningMessagesArray = [];
     var errorMessagesArray = [];
+    THIS.viewModel.currentId(targetid);
     if (db) {
       db.readTransaction(function(tx) {
         tx.executeSql('SELECT TAG, DESCRIPTION, TYPE, ID FROM N WHERE PARENT =' + targetid + ' AND ID <>' + targetid, [], function(tx, results) {
@@ -491,10 +495,12 @@ var Main = (function() {
             "children" : childArray
           };
           ko.mapping.fromJS(children, mapping, viewModelChildren);
+          if (--todo === 0) unlockUI("children transaction in change_node");
+          else console.log("todo = " + todo + " from: children transaction in change_node");
         }, null);
       });
 
-      // fill inputs, outputs and messages
+      // fill inputs and outputs
       db.readTransaction(function(tx) {
         tx.executeSql('SELECT FULLTAG,RANGE FROM N WHERE ID=' + targetid, [], function(tx, results) {
           var range = results.rows.item(0).RANGE;
@@ -506,6 +512,8 @@ var Main = (function() {
           var query = 'SELECT N.FULLTAG||\'.\'||Q.TAG AS FULLTAG, Q.VALUE, Q.UNIT, Q.DESCRIPTION, Q.ID, Q.DESCRIPTION FROM N JOIN Q ON N.ID = Q.NID WHERE N.ID =' + targetid + ' AND';
           fillInputs(tx, tag0Length, query + ' Q.INPUT=' + 1);
           fillOutputs(tx, tag0Length, query + ' Q.OUTPUT=' + 1);
+          if (--todo === 0) unlockUI("inputs / outputs transaction in change_node");
+          else console.log("todo = " + todo + " from: inputs / outputs transaction in change_node");
         }, null);
 
         tx.executeSql('SELECT sv.tag as type, svv.value as message_text from svv inner join sv on sv.id = svv.vid where sv.nid = ' + targetid, [], function(tx, results) {
@@ -519,6 +527,8 @@ var Main = (function() {
           } // for each row
           ko.mapping.fromJS(errorMessagesArray, mapping, THIS.viewModel.error_messages);
           ko.mapping.fromJS(warningMessagesArray, mapping, THIS.viewModel.warning_messages);
+          if (--todo === 0) unlockUI("messages transaction in change_node");
+          else console.log("todo = " + todo + " from: messages transaction in change_node");
         }, null);
       });
 
@@ -529,6 +539,10 @@ var Main = (function() {
           if (targetid === 0) {
             THIS.viewModel.action(-1);
             THIS.viewModel.homeText('Home');
+            THIS.viewModel.Tag0(item.CurrTAG);
+            THIS.viewModel.Description0(item.CurrDESCRIPTION);
+            THIS.viewModel.Type0(item.CurrTYPE);
+            THIS.viewModel.typeDescription0(type_property(item.CurrTYPE, "description", ""));
           } else {
             THIS.viewModel.action(item.ID);
             THIS.viewModel.homeText(item.TAG);
@@ -538,6 +552,8 @@ var Main = (function() {
           THIS.viewModel.Description(item.CurrDESCRIPTION);
           THIS.viewModel.Type(item.CurrTYPE);
           THIS.viewModel.typeDescription(type_property(item.CurrTYPE, "description", ""));
+          if (--todo === 0) unlockUI("main viewModel transaction in change_node");
+          else console.log("todo = " + todo + " from: main viewModel transaction in change_node");
         }, null);
       });
       db.readTransaction(function(tx) {
@@ -547,6 +563,8 @@ var Main = (function() {
           if (targetid === 0) {
             THIS.viewModel.errors0(item.count);
           } // if node 0
+          if (--todo === 0) unlockUI("error count transaction in change_node");
+          else console.log("todo = " + todo + " from: error count transaction in change_node");
         }, null);
       });
       db.readTransaction(function(tx) {
@@ -556,6 +574,8 @@ var Main = (function() {
           if (targetid === 0) {
             THIS.viewModel.warnings0(item.count);
           } // if node 0
+          if (--todo === 0) unlockUI("warning count transaction in change_node");
+          else console.log("todo = " + todo + " from: warning count transaction in change_node");
         }, null);
       });
     } // if there is a database connection
@@ -581,8 +601,10 @@ var Main = (function() {
           "inputs" : inputsArray
         };
         ko.mapping.fromJS(inputs, mapping, viewModelInputs);
+        if (--todo === 0) unlockUI("fillInputs");
+        else console.log("todo = " + todo + " from: fillInputs");
       }, null);
-    }
+    } // fillInputs
 
     var outputsArray = [];
     function fillOutputs(tx, tag0Length, query) {
@@ -604,30 +626,35 @@ var Main = (function() {
           "outputs" : outputsArray
         };
         ko.mapping.fromJS(outputs, mapping, viewModelOutputs);
+        if (--todo === 0) unlockUI("fillOutputs");
+        else console.log("todo = " + todo + " from: fillOutputs");
       }, null);
-    }
+    } // fillOutputs
+    
+    function change_svg(id) {
+      console.log('change_svg(' + id + ')');
+      var svgName = "/" + id + ".svg";
+      console.log('opening file: ' + main.case_uuid + svgName );
+      getFileEntry(main.case_uuid, svgName, function(fileEntry) {
+        fileEntry.file(function(file) {
+          var reader = new FileReader();
+
+          reader.onloadend = function(e) {
+            var svg = this.result;
+            document.getElementById('image-container').innerHTML = svg;
+            document.getElementById('image-container').firstElementChild.setAttribute("class", "vcenter");
+            overrideXlinks();
+          };
+          reader.readAsText(file);
+          if (--todo === 0) unlockUI("change_svg");
+          else console.log("todo = " + todo + " from: change_svg");
+        }); // file
+      }); // getFileEntry
+    } // change_svg
+
 
     change_svg(targetid);
   }; // change_node
-
-  function change_svg(id) {
-    console.log('change_svg(' + id + ')');
-    var svgName = "/" + id + ".svg";
-    console.log('opening file: ' + main.case_uuid + svgName );
-    getFileEntry(main.case_uuid, svgName, function(fileEntry) {
-      fileEntry.file(function(file) {
-        var reader = new FileReader();
-
-        reader.onloadend = function(e) {
-          var svg = this.result;
-          document.getElementById('image-container').innerHTML = svg;
-          document.getElementById('image-container').firstElementChild.setAttribute("class", "vcenter");
-          overrideXlinks();
-        };
-        reader.readAsText(file);
-      }); // file
-    }); // getFileEntry
-  } // change_svg
 
   function overrideXlinks() {
     // rewire onclick events for xlink:href anchors in the image-container

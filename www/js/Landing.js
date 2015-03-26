@@ -54,7 +54,7 @@ var Landing = (function() {
   // public functions
   this.init = function(callback) {
     console.log("initializing Landing");
-    lockUI();
+    lockUI("Landing.init");
     // refresh services, types and recent lists
     updateServices(false, callback);
   }; // init
@@ -425,7 +425,7 @@ var Landing = (function() {
       clear_field('recent-search');
     };
 
-    unlockUI();
+    unlockUI("updateRecent");
     THIS.initialized = true;
     if (callback)
       callback();

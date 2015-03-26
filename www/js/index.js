@@ -123,7 +123,7 @@ function pause(ms) {
 // index-specific code
 function reset_local_storage() {
   "use strict";
-  lockUI();
+  lockUI("reset_local_storage");
   localStorage.clear();
   landing.update();
   sendClick(document.getElementsByClassName("tab")[1]);
@@ -143,7 +143,10 @@ function openMainPageFromLanding(d, e) {
 
   console.log('openMainPageFromLanding');
 
-  main.init(landing.viewModel.services.activeService(), d.handle(), d.created_at(), d.modified_at(), landing.viewModel.prefix(), landing.type_property);
+  if (d.handle() != main.case_uuid) {
+    lockUIfast("openMainPageFromLanding");
+    main.init(landing.viewModel.services.activeService(), d.handle(), d.created_at(), d.modified_at(), landing.viewModel.prefix(), landing.type_property);
+  }
 
   // hide landing page
   var landing_page = document.getElementById('landing-page');
@@ -347,7 +350,7 @@ function launch_calculation() {
     if (dataFrom === null) {
       console.error("No data received !");
       alert("Service error: calculation failed");
-      unlockUI();
+      unlockUI("failed postDataToAPI in launch_calculation");
     } else {
       var handle = dataFrom.case_uuid;
       var created_at = dataFrom.created_at;
@@ -355,7 +358,8 @@ function launch_calculation() {
       // TODO check handle from service
       // if (handle !== main.case_uuid) {
       //   console.error("Inconsistent case_uuid received );
-      //   unlockUI();
+      //   alert("Service error: internal error");
+      //   unlockUI("internal error in launch_calculation");
       // }
       var sqlUrl = url + '/sql';
       downloadFile(sqlUrl, main.case_uuid, 'persistency.sql', function() {
@@ -363,27 +367,38 @@ function launch_calculation() {
         console.log('done downloading database');
         main.init(landing.viewModel.services.activeService(), main.case_uuid, created_at, modified_at, landing.viewModel.prefix(), landing.type_property);
         undoManager.clear();
-        unlockUI();
+        lockUIfast("launch_calculation");
       }); // downloadCaseAssets
     } // received data
   }); // postDataToAPI
 
-  lockUI();
+  lockUI("launch_calculation");
   return false;
 } // launch_calculation
 
-function unlockUI() {
+function unlockUI(from) {
   "use strict";
-  console.log("unlock UI");
-  var box2 = document.getElementById('box2');
-  box2.style.display = 'none';
+  console.log("unlock UI from: " + from);
+  var lock_ui_slow = document.getElementById('lock-ui-slow');
+  lock_ui_slow.style.display = 'none';
+  var lock_ui_fast = document.getElementById('lock-ui-fast');
+  lock_ui_fast.style.display = 'none';
 }
 
-function lockUI() {
+function lockUI(from) {
   "use strict";
-  console.log("lock UI");
-  var box2 = document.getElementById('box2');
-  box2.style.display = 'block';
+  console.log("lock UI from: " + from);
+  var lock_ui_slow = document.getElementById('lock-ui-slow');
+  lock_ui_slow.style.display = 'block';
+}
+
+function lockUIfast(from) {
+  "use strict";
+  console.log("lock UI fast from: " + from);
+  var lock_ui_slow = document.getElementById('lock-ui-slow');
+  lock_ui_slow.style.display = 'none';
+  var lock_ui_fast = document.getElementById('lock-ui-fast');
+  lock_ui_fast.style.display = 'block';
 }
 
 function updateUI() {
@@ -436,7 +451,7 @@ function openMainPageFromConfigure() {
     if (dataFrom===null) {
       console.error("No data received !");
       alert("Service error: case creation failed");
-      unlockUI();
+      unlockUI("failed postDataToAPI in openMainPageFromConfigure");
     } else {
       var handle = dataFrom.case_uuid;
       var created_at = dataFrom.created_at;
@@ -459,13 +474,13 @@ function openMainPageFromConfigure() {
           var main_page = document.getElementById('main-page');
           main_page.style.display = 'block';
 
-          unlockUI();
+          lockUIfast("openMainPageFromConfigure");
         } // downloaded all files
       }); // downloadCaseAssets
     } // received data
   }); // postDataToAPI
 
-  lockUI();
+  lockUI("openMainPageFromConfigure");
 } // openMainPageFromConfigure
 
 function onClickXref() {
