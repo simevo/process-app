@@ -214,11 +214,11 @@ Note: this does not seem to work ATM.
 Installing on device:
 
     phonegap build android
-    adb -d install ./platforms/android/out/processapp-debug-unaligned.apk
+    ~/Android/Sdk/platform-tools/adb -d install ./platforms/android/ant-build/CordovaApp-debug.apk
 
 ###iOS-specific tips:
 
-Build once with phonegap CLI, then open the process-app-local/platforms/ios/simevo process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap:
+Build once with phonegap CLI, then open the process-app-local/platforms/ios/process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap:
 "If you are doing iOS PhoneGap debugging and have the Safari Develop Menu enabled, you can access the currently active session through the built-in Safari Web Inspector. To activate, go to Develop -> (iPad || iPhone) Simulator (normally, the third menu item) and click the active session you want to connect to. Voila!"
 
 It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in process-app-local/platforms/ios/CordovaLib/Classes/CDVViewController.m in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.

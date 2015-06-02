@@ -117,20 +117,22 @@
                   <img alt="service thumbnail" data-bind="attr: { src: prefix() + services.activeService().service_uuid() +'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
                 <div class="service-item list-item">
-                  <strong><span data-bind="text: services.activeService().name()">placeholder</span></strong>
-                  <!-- ko if: services.activeService().dead -->
-                  <div style="position: absolute; right: 1.5em; top: 2em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
-                    <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
+                  <div style="z-index: 100; position: relative;">
+                    <strong><span data-bind="text: services.activeService().name()">placeholder</span></strong>
+                    <!-- ko if: services.activeService().dead -->
+                    <div style="position: absolute; right: 0.5em; top: 2em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
+                      <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
+                    </div>
+                    <!-- /ko -->
+                    <br />
+                    <p class="secondary">
+                      <span data-bind="text: services.activeService().description()">placeholder</span>
+                    </p>
+                    <p class="secondary">
+                      <span data-bind="text: services.activeService().url()">placeholder</span>
+                    </p>
+                    <span class="glyphicon glyphicon-trash" style="opacity: 0.2; position: absolute; top: 0.5em; right: 0.5em;" onclick="reset_local_storage();"></span>
                   </div>
-                  <!-- /ko -->
-                  <br />
-                  <p class="secondary">
-                    <span data-bind="text: services.activeService().description()">placeholder</span>
-                  </p>
-                  <p class="secondary">
-                    <span data-bind="text: services.activeService().url()">placeholder</span>
-                  </p>
-                  <span class="glyphicon glyphicon-trash" style="opacity: 0.2; position: absolute; top: 30px; right: 9%;" onclick="reset_local_storage();"></span>
                 </div>
               </li>
               <!-- ko foreach: services.services -->

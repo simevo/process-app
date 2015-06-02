@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" id="Слой_1" enable-background="new 0 0 91.974 93.801" xml:space="preserve" height="100" viewBox="0 0 100 99.999997" width="100" version="1.1" y="0px" x="0px">
-  <path id="path7" d="m40.088 19.604c0.31324-0.76867 0.51791-1.5608 0.51791-2.421 0-3.756-3.089-6.7892-7.0773-6.7892h-17.355c-4.2666 0-7.7155 3.0332-7.7156 6.7892l-0.000358 63.436h83.217l-0.000356-61.015z" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="3" fill="#fff"/>
-  <polyline id="polyline11" transform="matrix(1.0641 0 0 1.0661 -6.25 -.0000023256)" stroke="#1d1d1b" points="81.597 6.981 52.647 6.981 52.647 26.026" stroke-miterlimit="10" stroke-width="4.6945" fill="none"/>
-  <polygon id="polygon13" points="79.554 0 91.644 6.981 79.554 13.962" fill="#1d1d1b" transform="matrix(1.0641 0 0 1.0661 -6.25 -.0000023256)"/>
-  <polyline id="polyline15" transform="matrix(1.0641 0 0 1.0661 -6.25 -.0000023256)" stroke="#1d1d1b" points="81.572 86.82 52.622 86.82 52.622 67.776" stroke-miterlimit="10" stroke-width="4.6945" fill="none"/>
-  <polygon id="polygon17" points="79.529 79.84 91.618 86.82 79.529 93.801" fill="#1d1d1b" transform="matrix(1.0641 0 0 1.0661 -6.25 -.0000023256)"/>
-  <g id="g4373" stroke="#1d1d1b" stroke-miterlimit="10" transform="translate(-3.75 2.2379e-7)">
-    <polygon id="polygon9" transform="matrix(1.0641 0 0 1.0661 -2.5 -.0000025494)" points="73.511 26.026 73.511 67.751 31.796 67.751 31.796 26.026 52.647 26.026" stroke-width="4.6945" fill="#fff"/>
-    <line id="line19" stroke-width="3" y2="72.228" y1="27.746" x2="75.721" x1="31.333" fill="none"/>
-    <line id="line21" stroke-width="3" y2="72.228" y1="27.746" x2="31.333" x1="75.721" fill="none"/>
-  </g>
-  <path id="line23" d="m17.115 49.988h-17.115" stroke="#1d1d1b" stroke-miterlimit="0" stroke-width="5" fill="none"/>
-  <polygon id="polygon25" points="32.004 46.889 19.915 53.87 19.915 39.908" fill="#1d1d1b" transform="matrix(1.0641 0 0 1.0661 -8.25 -.0000023256)"/>
+<svg xmlns="http://www.w3.org/2000/svg" height="100" viewBox="0 0 100 99.999997" width="100">
+    <path d="M40.088 19.604c.313-.77.518-1.56.518-2.42 0-3.757-3.09-6.79-7.077-6.79H16.173c-4.267 0-7.716 3.033-7.716 6.79v63.435h83.217V19.603z" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="3" fill="#fff"/>
+    <path transform="matrix(1.064 0 0 1.066 -6.25 0)" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="4.694" fill="none" d="M81.597 6.98h-28.95v19.046"/>
+    <path fill="#1d1d1b" d="M78.403 0l12.865 7.442-12.865 7.443"/>
+    <path transform="matrix(1.064 0 0 1.066 -6.25 0)" stroke="#1d1d1b" stroke-miterlimit="10" stroke-width="4.694" fill="none" d="M81.572 86.82h-28.95V67.776"/>
+    <path fill="#1d1d1b" d="M78.377 85.117L91.24 92.56 78.378 100"/>
+    <g stroke="#1d1d1b" stroke-miterlimit="10">
+        <path transform="matrix(1.064 0 0 1.066 -6.25 0)" stroke-width="4.694" fill="#fff" d="M73.51 26.026V67.75H31.797V26.027h20.85z"/>
+        <path stroke-width="3" fill="none" d="M27.583 27.746L71.97 72.228M71.97 27.746L27.584 72.228"/>
+    </g>
+    <path d="M17.115 49.988H0" stroke="#1d1d1b" stroke-miterlimit="0" stroke-width="5" fill="none"/>
+    <path fill="#1d1d1b" d="M25.805 49.988L12.942 57.43V42.547"/>
 </svg>

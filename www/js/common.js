@@ -97,7 +97,7 @@ function getDataFromAPI(url, callback) {
   "use strict";
   console.log('IN GETDATAFROMAPI FUNC');
   // get data from given url
-  console.log('connecting to: '+url);
+  console.log('connecting to: ' + url);
   try {
     var request = new XMLHttpRequest();
     var dataFrom;
@@ -116,7 +116,9 @@ function getDataFromAPI(url, callback) {
       console.error('connection error for URL: '+url + ', error status: ' + e.target.status);
       callback(null);
     };
-    request.open('GET', url, true);
+    // request.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2005 00:00:00 GMT");
+    var url_nocache = url + "?timestamp=" + new Date().getTime();
+    request.open('GET', url_nocache, true);
     request.send();
     console.log('LEAVING GETDATAFROMAPI FUNC');
   } catch(err){
