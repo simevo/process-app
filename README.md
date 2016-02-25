@@ -148,6 +148,7 @@ Now install plugins:
     phonegap plugin add cordova-plugin-splashscreen
     phonegap plugin add cordova-plugin-statusbar
     phonegap plugin add cordova-sqlite-ext
+    phonegap plugin add cordova-plugin-dialogs
     phonegap plugin add cordova-plugin-x-socialsharing
 
 ##Testing in the browser

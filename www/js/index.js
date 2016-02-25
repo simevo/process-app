@@ -154,6 +154,9 @@ function reset_local_storage() {
     function(buttonIndex) {
       if (buttonIndex === 1) {
         lockUI("reset_local_storage");
+        if (device.platform === 'Android') {
+          navigator.app.clearCache();
+        }
         localStorage.clear();
         landing.update();
         sendClick(document.getElementsByClassName("tab")[1]);
@@ -871,6 +874,16 @@ function alphanumeric(codepoint) {
     return true;
   else
     return false;
+}
+
+// based on: http://stackoverflow.com/a/18919588
+function openUrl(url) {
+  "use strict";
+  if (device.platform === 'Android') {
+    navigator.app.loadUrl(url, {openExternal:true});
+  } else {
+    window.open(url, '_system');
+  }
 }
 
 // based on: http://jsfiddle.net/rniemeyer/p7kxw/

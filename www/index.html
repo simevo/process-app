@@ -125,11 +125,11 @@
                       <span data-bind="text: services.activeService().description()">placeholder</span>
                     </p>
                     <p class="secondary">
-                      <a data-bind="attr: { href: services.activeService().info_url() }" href="" target="_blank"  >
+                      <a href="#" data-bind="click: function() { openUrl(services.activeService().info_url()); }" target="_blank">
                         <span data-bind="text: services.activeService().info_url()">placeholder</span>
                       </a>
                     </p>
-                    <span class="glyphicon glyphicon-trash" style="opacity: 0.2; position: absolute; top: 0.5em; right: 0.5em;" onclick="reset_local_storage();"></span>
+                    <span class="glyphicon glyphicon-trash" style="opacity: 0.2; position: absolute; top: 0.5em; right: 0em;" onclick="reset_local_storage();"></span>
                   </div>
                 </div>
               </li>
@@ -400,7 +400,7 @@
                 <span class="glyphicon glyphicon-play"></span>
               </button>
               <button id="btnShare" type="button" class="btn btn-default" onclick="socialShare();">
-                <img src="images/share.png" alt="undo" class="icon" />
+                <img src="images/share_new.png" alt="undo" class="icon" />
               </button>
               <button id="btnUndo" type="button" class="btn btn-default" onclick="undoManager.undo();" disabled >
                 <img src="images/undo.png" alt="undo" class="icon" />
