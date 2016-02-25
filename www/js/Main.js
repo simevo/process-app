@@ -183,7 +183,10 @@ var Main = (function() {
       fileEntry.file(function (file) {
         var sqliteFile = THIS.case_uuid + '.db';
         console.log('-------- opening database: ' + sqliteFile + ' -----------------');
-        db = window.sqlitePlugin.openDatabase({name: sqliteFile }, function() {
+        // production:
+        db = window.sqlitePlugin.openDatabase({name: sqliteFile, location: 1}, function() {
+        // testing in the browser
+        // db = window.openDatabase(sqliteFile, '1.0', 'Offline document storage', 5*1024*1024, function() {
           console.log('database successfully opened');
           var reader = new FileReader();
           reader.onloadend = function (e) {

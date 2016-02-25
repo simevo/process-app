@@ -18,8 +18,6 @@ function init() {
   "use strict";
   
   console.log("initting");
-  StatusBar.overlaysWebView(false);
-  StatusBar.backgroundColorByName("black");
 
   // import Landing module
   Landing.call(landing);
@@ -36,7 +34,10 @@ function init() {
   var configure_page = document.getElementById('configure-page');
   configure_page.style.display = 'none';
   
-  landing.init(function() { console.log("initted"); });
+  landing.init(function() {
+    console.log("initted");
+    navigator.splashscreen.hide();
+  });
 } // init
 
 function clickAction() {
@@ -113,26 +114,28 @@ function openService(service_uuid) {
 
 function removeService(service_uuid, name) {
   "use strict";
-  var yes = window.confirm("Remove service " + name + " ?");
-  if (yes === true) {
-    var services_key = "services.json";
-    // load value from local storage
-    var services_json = localStorage.getItem(services_key);
-    // parse JSON to javascript service_uuid
-    var services = JSON.parse(services_json);
-    for (var i = 0, len = services.services.length; i < len; i++) {
-      var service = services.services[i];
-      if (service.service_uuid == service_uuid) {
-        console.log("removing service " + i);
-        services.services.splice(i, 1);
-        services_json = JSON.stringify(services);
-        localStorage.setItem(services_key, services_json);
-        landing.update();
-        return;
+  navigator.notification.confirm("This will clear all locally saved data !",
+    function(buttonIndex) {
+      if (buttonIndex === 1) {
+        var services_key = "services.json";
+        // load value from local storage
+        var services_json = localStorage.getItem(services_key);
+        // parse JSON to javascript service_uuid
+        var services = JSON.parse(services_json);
+        for (var i = 0, len = services.services.length; i < len; i++) {
+          var service = services.services[i];
+          if (service.service_uuid == service_uuid) {
+            console.log("removing service " + i);
+            services.services.splice(i, 1);
+            services_json = JSON.stringify(services);
+            localStorage.setItem(services_key, services_json);
+            landing.update();
+            return;
+          }
+        }
+        console.error("service " + service_uuid + " not found");
       }
-    }
-    console.error("service " + service_uuid + " not found");
-  }
+    }, "Confirm removal of service " + name);
 } // removeService
 
 // TODO: delete
@@ -147,13 +150,15 @@ function pause(ms) {
 // index-specific code
 function reset_local_storage() {
   "use strict";
-  var yes = window.confirm("Reset app ? This will refresh the services list and clear all locally saved data !");
-  if (yes === true) {
-    lockUI("reset_local_storage");
-    localStorage.clear();
-    landing.update();
-    sendClick(document.getElementsByClassName("tab")[1]);
-  }
+  navigator.notification.confirm("This will refresh the services list and clear all locally saved data !",
+    function(buttonIndex) {
+      if (buttonIndex === 1) {
+        lockUI("reset_local_storage");
+        localStorage.clear();
+        landing.update();
+        sendClick(document.getElementsByClassName("tab")[1]);
+      }
+    }, "Confirm app reset");
 }// reset
 
 function show_local_storage() {
@@ -376,8 +381,9 @@ function launch_calculation() {
   postDataToAPI(url, dataTo, function(dataFrom){
     if (dataFrom === null) {
       console.error("No data received !");
-      alert("Service error: calculation failed");
-      unlockUI("failed postDataToAPI in launch_calculation");
+      navigator.notification.alert("Calculation failed",
+                                   function() { unlockUI("failed postDataToAPI in launch_calculation"); },
+                                   "Service error", "OK");
     } else {
       var handle = dataFrom.case_uuid;
       var created_at = dataFrom.created_at;
@@ -386,7 +392,9 @@ function launch_calculation() {
       // if (handle !== main.case_uuid) {
       //   console.error("Inconsistent case_uuid received );
       //   alert("Service error: internal error");
-      //   unlockUI("internal error in launch_calculation");
+      //   navigator.notification.alert("Internal error",
+      //                                function() { unlockUI("internal error in launch_calculation"); },
+      //                                "Service error", "OK");
       // }
       var sqlUrl = url + '/sql';
       downloadFile(sqlUrl, main.case_uuid, 'persistency.sql', function() {
@@ -477,8 +485,9 @@ function openMainPageFromConfigure() {
   postDataToAPI(url, JSON.stringify(dataTo), function(dataFrom){
     if (dataFrom===null) {
       console.error("No data received !");
-      alert("Service error: case creation failed");
-      unlockUI("failed postDataToAPI in openMainPageFromConfigure");
+      navigator.notification.alert("Case creation failed",
+                                   function() { unlockUI("failed postDataToAPI in openMainPageFromConfigure"); },
+                                   "Service error", "OK");
     } else {
       var handle = dataFrom.case_uuid;
       var created_at = dataFrom.created_at;
@@ -593,8 +602,8 @@ function hideChildren() {
   t.scrollTop = 0;
   t.style.display = 'none';
   document.getElementById('image-container').style.zIndex = 1;
+  document.getElementById('hide-all').style.zIndex = 1;
   gd.className = "glyphicon glyphicon-chevron-down";
-
 }
 
 function toggleChildren() {
@@ -610,6 +619,7 @@ function toggleChildren() {
     e.style.display = "block";
     gd.className = "glyphicon glyphicon-chevron-up";
     document.getElementById('image-container').style.zIndex = 0;
+    document.getElementById('hide-all').style.zIndex = 0;
   } else {
     // Altrimenti lo nascondo
     hideChildren();
@@ -622,6 +632,7 @@ function hideInfoContainer() {
   t.scrollTop = 0;
   t.style.display = 'none';
   document.getElementById('image-container').style.zIndex = 1;
+  document.getElementById('hide-all').style.zIndex = 1;
 }
 
 function toggleInfoContainer() {
@@ -636,11 +647,10 @@ function toggleInfoContainer() {
     hideChildren();
     e.style.display = 'block';
     document.getElementById('image-container').style.zIndex = 0;
-  }
-  // Altrimenti lo nascondo
-  else {
-    document.getElementById('image-container').style.zIndex = 1;
-    e.style.display = 'none';
+    document.getElementById('hide-all').style.zIndex = 0;
+  } else {
+    // Altrimenti lo nascondo
+    hideInfoContainer();
   }
 }
 

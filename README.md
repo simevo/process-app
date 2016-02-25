@@ -7,7 +7,7 @@ For more informations visit: [http://simevo.com/process/app.html](http://simevo.
 
 #License
 
-Copyright (C) simevo 2014-2015 [http://simevo.com](http://simevo.com)
+The simevo process app (C) Copyright 2014-2016 Paolo Greppi [simevo s.r.l.](http://simevo.com).
 
 HTML5/CCS3/Javascript portions by Francesco Perotti.
 
@@ -37,11 +37,27 @@ You should have received a copy of the GNU General Public License along with thi
 
   [http://knockoutjs.com/](http://knockoutjs.com/)
 
+- Knockout Mapping plugin
+
+  MIT License
+
+  (c) 2013 Steven Sanderson, Roy Jacobs
+
+  [http://knockoutjs.com/documentation/plugins-mapping.html](http://knockoutjs.com/documentation/plugins-mapping.html)
+
+- knockout-projections plugin
+
+  Apache 2.0 License
+
+  Copyright (c) Microsoft Corporation
+
+  [https://github.com/stevesanderson/knockout-projections](https://github.com/stevesanderson/knockout-projections)
+
 - Bootstrap HTML, CSS, and JS framework 
 
   MIT License
 
-  Copyright 2011-2014 Twitter, Inc.
+  Copyright (c) 2011-2016 Twitter, Inc.
 
   [http://getbootstrap.com/](http://getbootstrap.com/)
 
@@ -49,7 +65,7 @@ You should have received a copy of the GNU General Public License along with thi
 
   MIT License
 
-  Copyright (c) 2010-2014 Arthur Clemens, arthurclemens@gmail.com
+  Copyright (c) 2010-2015 Arthur Clemens, arthurclemens@gmail.com
 
   [https://github.com/ArthurClemens/Javascript-Undo-Manager](https://github.com/ArthurClemens/Javascript-Undo-Manager)
 
@@ -99,60 +115,19 @@ You should have received a copy of the GNU General Public License along with thi
 
   (unspecified license)
 
-#Building and testing
-
-##Testing with phonegap developer
-
-work round issue https://github.com/phonegap/phonegap-app-developer/issues/187 !
-
-added an empty the file www/__api__/register with an empty json document:
-
-    {}
-
-now move to repo with the terminal and type:
-
-    cordova serve
-
-the app is accessible from: http://localhost:8000/android/www/
-
-##Debugging knockout.js
-
-As per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs):
-
-    <div>
-      <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
-    </div>
-
-##Debian Android SDK setup
-
-- Set up Android Studio on debian 7 wheezy 64-bit: http://wp.libpf.com/?p=856
-
-- make the Adnroid SDK tools available:
-
-        export PATH="/home/paolog/Android/Sdk/tools:$PATH"
-
-- Install Node.js & NPM on Debian Stable (Wheezy / 7): http://antler.co.za/2014/04/install-node-js-npm-on-debian-stable-wheezy-7/; in summary:
-
-         sudo apt-get -t wheezy-backports install nodejs nodejs-legacy
-
-- special bit if your run on 32-bit linux: add these to ~/.profile and source ~/.profile:
-
-         export ANDROID_EMULATOR_FORCE_32BIT=true
-
-##Device emulation
-
-Testing the app on the device emulators.
+#Testing
 
 The following assumes your layout has the repo process-app sitting next to the working directory process-app-local.
 
-Create an empty phonegap app that we will use for the builds using the [CLI](http://docs.phonegap.com/en/3.0.0/guide_cli_index.md.html#The%20Command-line%20Interface):
+Create an empty phonegap app that we will use for the builds using the [CLI](http://docs.phonegap.com/references/phonegap-cli/create/):
 
     phonegap create process-app-local com.simevo.processapp processapp
     cd process-app-local
 
-Remove the automatically generated www directory:
+Remove the automatically generated www directory and config.xml file:
 
     rm -rf www
+    rm config.xml
 
 Link the www and merges directories from the live repo into the *-local build directory:
 
@@ -164,23 +139,88 @@ to do that on Windows, open a CMD as admin, browse to process-app-local and:
     mklink /d www ..\process-app\www
     mklink /d merges ..\process-app\merges
 
-Now install plugins & build:
+Now install plugins:
 
-    phonegap plugin add org.apache.cordova.device
-    phonegap plugin add org.apache.cordova.file
-    phonegap plugin add org.apache.cordova.file-transfer
-    phonegap plugin add org.apache.cordova.splashscreen
-    phonegap plugin add org.apache.cordova.statusbar
-    phonegap plugin add https://github.com/brodysoft/Cordova-SQLitePlugin.git
-    phonegap plugin add https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin.git
+    phonegap plugin add cordova-plugin-device
+    phonegap plugin add cordova-plugin-whitelist
+    phonegap plugin add cordova-plugin-file
+    phonegap plugin add cordova-plugin-file-transfer
+    phonegap plugin add cordova-plugin-splashscreen
+    phonegap plugin add cordova-plugin-statusbar
+    phonegap plugin add cordova-sqlite-legacy
+    phonegap plugin add cordova-plugin-x-socialsharing
 
-Now start the emulator, one of:
+##Testing in the browser
+
+Check the line 187/189 in www/js/Main.js, the window.openDatabase variant should be active.
+
+Now build & serve:
+
+    phonegap platform add browser
+    phonegap build browser
+    phonegap serve
+
+Then open http://localhost:3000 in Chrome / Chromium.
+
+To access the sandboxed filesystem in Chrome, go to chrome://flags and enable "Enable Developer Tools experiments", then go to the Settings panel, Experiments tab in Developer Tools and turn on "FileSystem Inspection"
+
+##Debugging knockout.js
+
+As per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs):
+
+    <div>
+      <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
+    </div>
+
+##Testing on emulated deviced
+
+To start the emulator, one of:
 
     phonegap run android
-    phonegap run wp8
+    phonegap run windows
     phonegap run ios
 
-###Android-specific bits:
+###Debian Android SDK setup
+
+- Set up Android Studio on Debian 7 (Wheezy( or 8 (Jessie) 64-bit: http://wp.libpf.com/?p=856
+
+- make the Adnroid SDK tools available:
+
+        export PATH="/home/`id -un`/Android/Sdk/tools:$PATH"
+
+- Install Node.js & NPM
+
+  - on Debian 7 (Wheezy) as per http://antler.co.za/2014/04/install-node-js-npm-on-debian-stable-wheezy-7/; in summary:
+
+           sudo apt-get -t wheezy-backports install nodejs nodejs-legacy
+
+  - on Debian 8 (Wheezy):
+
+           sudo apt-get install nodejs nodejs-legacy
+
+- special bit if your run on 32-bit linux: add these to ~/.profile and source ~/.profile:
+
+         export ANDROID_EMULATOR_FORCE_32BIT=true
+
+- enable hardware acceleration for the Android emulator:
+
+         sudo apt-get install qemu-kvm libvirt-bin
+         sudo adduser `id -un` libvirt
+         newgrp libvirt
+
+  switch to kvm:
+
+         sudo rmmod vboxpci
+         sudo rmmod vboxnetadp
+         sudo rmmod vboxnetflt
+         sudo rmmod vboxdrv
+
+  if you wish to switch back to virtualbox:
+
+         sudo rmmod kvm_intel
+         sudo rmmod kvm
+
+###General Android-specific bits:
 
 Looking at the OS console (inclusing the webview console):
 
@@ -214,7 +254,7 @@ Note: this does not seem to work ATM.
 Installing on device:
 
     phonegap build android
-    ~/Android/Sdk/platform-tools/adb -d install ./platforms/android/ant-build/CordovaApp-debug.apk
+    /opt/Android/Sdk/platform-tools/adb -d install ./platforms/android/build/outputs/apk/android-debug.apk
 
 ###iOS-specific tips:
 
@@ -228,9 +268,9 @@ It is easy to loose the early console.log messages because the webkit session is
 The build will succeed but loading to the emulator fails with this error:
 
     CordovaDeploy.exe not found, attempting to build CordovaDeploy.exe...
-    ..\process-app-local\platforms\wp8\cordova\lib\deploy.js(96, 5) WshShell.Exec: The system cannot find the file specified.
+    ..\process-app-local\platforms\windows\cordova\lib\deploy.js(96, 5) WshShell.Exec: The system cannot find the file specified.
 
-The solution: open the Visual Studio solution process-app-local\platforms\wp8\simevo_process_app.sln then start the debugger in there.
+The solution: open the Visual Studio solution process-app-local\platforms\windows\simevo_process_app.sln then start the debugger in there.
 
 To watch files in the isolated storage, get [Windows Phone Power Tools](http://wptools.codeplex.com/).
 
@@ -301,34 +341,6 @@ Then follow [this guide](https://developer.chrome.com/devtools/docs/remote-debug
 - Go to chrome://inspect to get a list of debuggable WebViews
 
 - Click inspect on the WebView you wish to debug and use the inspector as you would for a remote browser tab.
-
-##Ripple Emulation
-
-**ripple emulation was useful in the early stages of the app development, it is less so now that we use phonegap apis**
-
-To use Ripple on Google Chrome or Firefox we have followed this procedure:
-
-We have changed this tag into the body of index.html:
-
-    <script type="text/javascript" src="phonegap.js"></script>
-
-changing phonegap.js with cordova.js
-
-    <script type="text/javascript" src="cordova.js"></script>
-
-After this, we have followed the [instructions on Raymond Camden's blog](http://www.raymondcamden.com/2013/11/5/Ripple-is-Reborn). To be more precise we have typed these commands into console:
-
-    npm install -g ripple-emulator
-    cordova plugin add org.apache.cordova.device org.apache.cordova.file org.apache.cordova.splashscreen
-    cordova platform add android
-    cordova prepare
-    mkdir -p platforms/android/assets/www/platforms
-
-Each time the app source code is changed restart the emulator:
-
-    ripple emulate --path platforms/android/assets/www
-
-At launch of this last command, your Google Chrome should open with Ripple at the last version of Cordova (3.0.0) giving no errors when you open console with your inspector / firebug.
 
 ##Websql tweak
 

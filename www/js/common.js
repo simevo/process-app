@@ -90,7 +90,7 @@ function downloadFile(url, dirName, fileName, callback1) {
 function fail(e) {
   "use strict";
   console.error("FileSystem Error");
-  console.dir(e);
+  console.log(e);
 }
 
 function getDataFromAPI(url, callback) {

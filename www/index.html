@@ -4,23 +4,25 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; img-src * filesystem: data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
 
     <title>Simevo process app</title>
-    <link href="css/custom.css" rel="stylesheet"/>
-    <link href="css/loader.css" rel="stylesheet"/>
-    <link href="css/overrides.css" rel="stylesheet" />
 
     <!-- Apache Cordova -->
     <script type="text/javascript" src="cordova.js"></script>
 
+    <!-- CSS -->
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="css/custom.css" rel="stylesheet"/>
+    <link href="css/loader.css" rel="stylesheet"/>
+    <link href="css/overrides.css" rel="stylesheet" />
 
     <!-- Third-party JS -->
-    <script type="text/javascript" src="js/knockout-3.1.0.js"></script>
-    <script type="text/javascript" src="js/knockout.mapping.js"></script>
-    <script type="text/javascript" src="js/knockout-projections.min.js"></script>
-    <script type="text/javascript" src="js/undomanager.js"></script>
+    <script type="text/javascript" src="js.3rdparty/knockout-3.4.0.js"></script>
+    <script type="text/javascript" src="js.3rdparty/knockout.mapping-2.4.1.js"></script>
+    <script type="text/javascript" src="js.3rdparty/knockout-projections-1.1.0.js"></script>
+    <script type="text/javascript" src="js.3rdparty/undomanager.js"></script>
 
     <!-- Simevo-specific JS -->
     <script type="text/javascript" src="js/Landing.js"></script>
@@ -32,12 +34,6 @@
   </head>
   <body>
 
-    <!-- script src="js/three.min.js"></script -->
-    <!-- script src="js/JSONLoader.js"></script -->
-    <!-- script src="js/OrbitControls.js"></script -->
-    <!-- script src="js/Detector.js"></script -->
-    <!-- script src="js/3d.js"></script -->
-
     <div id="background" class="yscroll" style="background-image: url('data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=')">
 
       <div id="landing-page">
@@ -47,17 +43,17 @@
 
         <div id="tab-container">
           <ul class="nav nav-tabs">
-            <li  class="active">
+            <li role="presentation"  class="active">
               <a id="service-open" class="tab"><strong>Services</strong></a>
             </li>
-            <li>
+            <li role="presentation" >
               <a id="new-open" class="tab"><strong>New</strong></a>
             </li>
-            <li data-bind="visible: recent.recent().length > 0">
+            <li role="presentation" data-bind="visible: recent.recent().length > 0">
               <a id="recent-open" class="tab"><strong>Recent</strong></a>
             </li>
           </ul>
-          <!-- navigation -->
+          <!-- nav-tabs -->
 
           <div id="recent-container" class="rns-container" data-bind="visible: recent.recent().length > 0">
             <div id="container-recent-search" class="container">
@@ -129,7 +125,9 @@
                       <span data-bind="text: services.activeService().description()">placeholder</span>
                     </p>
                     <p class="secondary">
-                      <span data-bind="text: services.activeService().url()">placeholder</span>
+                      <a data-bind="attr: { href: services.activeService().info_url() }" href="" target="_blank"  >
+                        <span data-bind="text: services.activeService().info_url()">placeholder</span>
+                      </a>
                     </p>
                     <span class="glyphicon glyphicon-trash" style="opacity: 0.2; position: absolute; top: 0.5em; right: 0.5em;" onclick="reset_local_storage();"></span>
                   </div>
@@ -195,6 +193,8 @@
           </div>
         </div>
         <!-- box -->
+
+        <div id="hide-all" style="width: 100vw; height: 100vh; z-index: 1; position: absolute;" onclick="hideAll();" ></div>
 
         <div id="image-container" class="center"></div>
 
@@ -400,7 +400,7 @@
                 <span class="glyphicon glyphicon-play"></span>
               </button>
               <button id="btnShare" type="button" class="btn btn-default" onclick="socialShare();">
-                <span class="glyphicon glyphicon-share"></span>
+                <img src="images/share.png" alt="undo" class="icon" />
               </button>
               <button id="btnUndo" type="button" class="btn btn-default" onclick="undoManager.undo();" disabled >
                 <img src="images/undo.png" alt="undo" class="icon" />
@@ -463,35 +463,35 @@
                     </div>
                   </div>
                 </fieldset>
-                <fieldset data-bind="visible: stringOptions().length > 0">
+                <fieldset data-bind="visible: stringOptions().length + integerOptions().length > 0">
                   <legend>
-                    String options:
+                    Options:
                   </legend>
                   <!-- ko foreach: stringOptions -->
                   <div class="form-group list-item-configure">
-                    <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
-                    <div class="col-sm-10 col-xs-12">
+                    <div class="col-sm-4 col-xs-12">
+                      <label data-bind="text: name, attr: { for: 'string-option'+$index() }" class="control-label"></label>
+                      <small class="option_description" data-bind="text: description"></small>
+                    </div>
+                    <div class="col-sm-8 col-xs-12">
                       <select data-bind="attr: { id: 'string-option'+$index() }, foreach: options, value: selected" class="form-control">
                         <option data-bind="text: name">option</option>
                       </select>
+                      <small class="option_description" data-bind="text: selected_description"></small>
                     </div>
-                    <small class="col-sm-2 col-xs-12" data-bind="text: description"></small>
-                    <small class="col-sm-10 col-xs-12" data-bind="text: selected_description"></small>
                   </div>
                   <!-- /ko -->
-                </fieldset>
-                <fieldset data-bind="visible: integerOptions().length > 0">
-                  <legend>
-                    Integer options:
-                  </legend>
                   <!-- ko foreach: integerOptions -->
                   <div class="form-group list-item-configure">
-                    <label data-bind="text: name, attr: { for: 'integer-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
-                    <div class="col-sm-10 col-xs-12">
+                    <div class="col-sm-4 col-xs-12">
+                      <label data-bind="text: name, attr: { for: 'integer-option'+$index() }" class="col-sm-2 col-xs-12 control-label"></label>
+                      <small class="option_description" data-bind="text: description"></small>
+                    </div>
+                    <div class="col-sm-8 col-xs-12">
                       <input data-bind="attr: { id: 'integer-option'+$index(), min: min, max: max, value: value }" type="number"
                       step="1" class="form-control" />
+                      <small class="option_description">minimum: <span data-bind="text: min"></span> – maximum: <span data-bind="text: max"></span></small>
                     </div>
-                    <small class="col-sm-12 col-xs-12"> <span data-bind="text: description"></span> – minimum: <span data-bind="text: min"></span> maximum: <span data-bind="text: max"></span> </small>
                   </div>
                   <!-- /ko -->
                 </fieldset>

@@ -37,18 +37,23 @@ var Landing = (function() {
     types : [],
     enumerators : [],
     remove_recent: function(r) {
-      var yes = window.confirm("Remove case " + r.tag() + " of type " + r.type() + " last used on " + format_date(r.modified_at()) + " ?");
-      if (yes === true) {
-        console.log("removing case " + r.handle());
-        removeRecent(r.handle());
-        updateRecent(true);
-        // TODO
-        // yes = window.confirm("Remove case from remote service too ?");
-        // if (yes === true) {
-        //   console.log("removing case " + r.handle() + " from remote service");
-        // }
+      var c = r.tag() + " of type " + r.type() + " last used on " + format_date(r.modified_at());
+      navigator.notification.confirm("This will clear all locally saved data for case " + c + " !",
+        function(buttonIndex) {
+          if (buttonIndex === 1) {
+            console.log("removing case " + r.handle());
+            removeRecent(r.handle());
+            updateRecent(true);
+            // TODO
+            // navigator.notification.confirm("This will clear all remotely saved data for case " + c + " !",
+            //   function(buttonIndex) {
+            //     if (buttonIndex === 1) {
+            //       console.log("removing case " + r.handle() + " from remote service");
+            //     }
+            //   }, "Confirm remote removal");
+          }
+        }, "Confirm local removal");
       }
-    }
   };
 
   // public functions
@@ -118,14 +123,15 @@ var Landing = (function() {
           }
           if (!foundActive) {
             if (foundAlive == -1)
-              alert("Service error: discovery failed");
+              navigator.notification.alert("Discovery failed", function() { }, "Service error", "OK");
             else
               detailedServices.services[foundAlive].active = true;
           }
 
           saveToLocal(detailedServices, services_key, function() {
             console.log("calling download assets");
-            downloadAssets(services_key,function(){
+            downloadAssets(services_key, function () {
+              console.log('in downloadAssets callback');
               loadFromLocal(services_key, update, callback);
             });
           }); // saveToLocal
@@ -180,7 +186,7 @@ var Landing = (function() {
             console.log("enumerators string length = " + this.result.length);
             if (this.result.length === 0) {
               console.error("enumerators.json empty");
-              alert("Internal app error: try clearing the cache");
+              navigator.notification.alert("Try clearing the cache !", function() { }, "Internal app error", "OK");
             }
             enumerators = JSON.parse(this.result);
           } else {
@@ -302,7 +308,7 @@ var Landing = (function() {
             console.log("types string length = " + this.result.length);
             if (this.result.length === 0) {
               console.error("types.json empty");
-              alert("Internal app error: try clearing the cache");
+              navigator.notification.alert("Try clearing the cache !", function() { }, "Internal app error", "OK");
             }
             types = JSON.parse(this.result);
           } else {
@@ -505,8 +511,9 @@ var Landing = (function() {
           details.dead = true;
           details.service_uuid = serviceData.service_uuid;
           details.url = serviceData.url;
+          details.info_url = '';
           details.name = "unknown";
-          details.description = "";
+          details.description = '';
           details.color = "#000000";
         } else {
           console.log("Adding service status: "+serviceData.status);
@@ -531,7 +538,7 @@ var Landing = (function() {
   } // detailDiscovery
 
   function saveToLocal(initial_services, services_key, callback) {
-    console.log('IN SAVE TO LOCAL FUNC');
+    console.log('saveToLocal with services_key = ' + services_key);
     try {
       localStorage.setItem(services_key, JSON.stringify(initial_services));
       service_undefined = true;
@@ -544,9 +551,14 @@ var Landing = (function() {
   }
 
   function downloadAssets(services_key, callback) {
-    console.log("IN DOWNLOAD ASSETS FUNC");
-    var services_json = localStorage.getItem(services_key);
-    services_json = JSON.parse(services_json);
+    console.log('downloadAssets for ' + services_key);
+    var services_string = localStorage.getItem(services_key);
+    if (!services_string) {
+      console.error('services key not found in local storage');
+      return;
+    }
+    console.log('services_string = ' + services_string);
+    var services_json = JSON.parse(services_string);
     services_json.services.forEach(function(service) {
       if (!service.dead) {
         toDownload += 5;
@@ -577,7 +589,8 @@ var Landing = (function() {
         });
       } // service is active
     }); // for each service  
-  } // downloadAssets
+    console.log("downloadAssets done");
+} // downloadAssets
 
   // http://stackoverflow.com/questions/8673928/adding-properties-to-the-view-model-created-by-using-the-knockout-js-mapping-plu
   var mappingServices = {
