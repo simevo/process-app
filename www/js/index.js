@@ -142,15 +142,6 @@ function removeService(service_uuid, name) {
     }, "Confirm removal of service " + name);
 } // removeService
 
-// TODO: delete
-// used for testing
-function pause(ms) {
-  "use strict";
-  ms += Date.now();
-  while (Date.now() < ms) {
-  }
-}
-
 // index-specific code
 function reset_local_storage() {
   "use strict";
