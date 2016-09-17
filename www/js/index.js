@@ -19,6 +19,10 @@ function init() {
   
   console.log("initting");
 
+  if (cordova.platformId == 'android') {
+    StatusBar.backgroundColorByHexString("#333");
+  }
+
   // import Landing module
   Landing.call(landing);
   
