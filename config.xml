@@ -13,7 +13,7 @@
   <plugin name="cordova-plugin-file-transfer" />
   <plugin name="cordova-plugin-splashscreen" />
   <plugin name="cordova-plugin-statusbar" />
-  <plugin name="cordova-sqlite-ext" />
+  <plugin name="cordova-sqlite-evcore-extbuild-free" />
   <plugin name="cordova-plugin-dialogs" />
   <plugin name="cordova-plugin-x-socialsharing" />
 
