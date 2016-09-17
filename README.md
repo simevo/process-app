@@ -1,4 +1,4 @@
-﻿simevo process app
+simevo process app
 ==================
 
 The **simevo process app** is a free, open source mobile app to access process simulations hosted in the cloud using **simevo process technology**.
@@ -118,6 +118,10 @@ You should have received a copy of the GNU General Public License along with thi
 #Testing
 
 The following assumes your layout has the repo process-app sitting next to the working directory process-app-local.
+
+Install the phonegap CLI:
+
+    sudo npm install -g phonegap@latest
 
 Create an empty phonegap app that we will use for the builds using the [CLI](http://docs.phonegap.com/references/phonegap-cli/create/):
 
@@ -265,6 +269,15 @@ Build once with phonegap CLI, then open the process-app-local/platforms/ios/proc
 It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in process-app-local/platforms/ios/CordovaLib/Classes/CDVViewController.m in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.
 
 ###Windows-specific bits:
+
+https://blog.vjrantal.net/2015/03/12/building-a-cordova-plugin-including-native-code-for-windows-platform/
+
+    // To run on Windows Phone 8.1 emulator
+    $ cordova run windows --emulator --archs="x86" -- -phone
+    // Running on Windows Phone 8.1 device
+    $ cordova run windows --device --archs="arm" -- -phone
+    // To run on desktop (current default is Windows 8.1 build)
+    $ cordova run windows --device --archs="x64" -- -win
 
 The build will succeed but loading to the emulator fails with this error:
 
