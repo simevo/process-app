@@ -4,3 +4,4 @@ platforms
 plugins
 hooks
 .cordova
+*.kate-swp
