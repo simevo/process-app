@@ -546,7 +546,7 @@ function show(thing, thing1) {
   var t1 = document.getElementById(thing1);
   t1.style.display = 'none';
   var t2 = document.getElementById('center');
-  t2.className = 'col-xs-2 col-sm-7 no-padding';
+  t2.className = 'col-xs-3 col-sm-7 no-padding';
   document.getElementById('image-container').style.zIndex = 0;
 }
 
