@@ -202,9 +202,9 @@ Looking at the filesystem:
 
            sudo apt-get install nodejs nodejs-legacy
 
-- update node packages just in case
+- update node packages just in case (https://docs.npmjs.com/cli/update):
 
-         sudo npm update [-g]
+         sudo npm update -g
 
 - special bit if your run on 32-bit linux: add these to ~/.profile and source ~/.profile:
 
@@ -223,10 +223,16 @@ Looking at the filesystem:
          sudo rmmod vboxnetflt
          sudo rmmod vboxdrv
 
-  if you wish to switch back to virtualbox:
+  then start the emulator like this:
+
+         emulator -avd NexusS_23 -qemu -enable-kvm
+
+- if you wish to switch back to virtualbox:
 
          sudo rmmod kvm_intel
          sudo rmmod kvm
+
+NOTE: The HAXM driver does not support emulating a 64 bit system image on Intel systems based on Core microarchitecture (Core, Core2 Duo etc.). All systems based on Nehalem and beyond are supported. (Corei3, Core i5 and Core i7 machines).
 
 ###Inspecting with Chrome / Chromium
 
