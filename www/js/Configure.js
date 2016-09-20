@@ -56,8 +56,25 @@ var Configure = (function() {
       console.log('clearing description');
       THIS.viewModel.configuration().instance_description('');
     };
+
+    if (cordova.platformId == 'android') {
+      // make sure the input fields are visible when the soft keyboard shows
+      var inputs = document.querySelectorAll('input');
+      var n = inputs.length;
+      for (var i = 0; i < n; i++) {
+        var input = inputs[i];
+        input.addEventListener('click', showMe, true);
+      }
+    } // android only
   }; // init
-  
+
+  function showMe(e) {
+    console.log('showMe');
+    setTimeout(function() {
+      e.target.scrollIntoView(true);
+    }, 500);
+  }
+
   this.configuration = function() {
     return THIS.viewModel.configuration();
   };
