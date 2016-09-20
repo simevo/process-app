@@ -104,7 +104,7 @@ var Landing = (function() {
     // var serviceUrl = "http://simevo.com/api/process-private.json";
     if (localStorage.getItem(services_key) === null) {
       console.log("need to discover the services");
-      getDataFromAPI(serviceUrl, function(data){
+      getData(serviceUrl, function(data){
         if (data===null) {
           console.error("No services to discover !");
           data = { "services" : [ ] };
@@ -136,7 +136,7 @@ var Landing = (function() {
             });
           }); // saveToLocal
         });  // detailDiscovery
-      }); // getDataFromAPI
+      }); // getData
     } // services key in localStorage was empty: first app launch 
     else {
       console.log("services already in local");
@@ -503,7 +503,7 @@ var Landing = (function() {
 
     data.services.forEach(function(serviceData){
       console.log("discovering " + JSON.stringify(serviceData));  
-      getDataFromAPI(serviceData.url,function(details){
+      getData(serviceData.url,function(details){
         if(details===null){
           console.error("impossible to discover " + serviceData.url + " !");
           details = { };
@@ -578,7 +578,7 @@ var Landing = (function() {
         downloadFile(backgroundUrl, service.service_uuid, 'background.jpg', callback);
 
         var assetsUrl = service.url + 'assets';
-        getDataFromAPI(assetsUrl, function(data) {
+        getData(assetsUrl, function(data) {
           toDownload += data.assets.length - 1;
           data.assets.forEach(
             function(svg) {

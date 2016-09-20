@@ -19,7 +19,7 @@ function downloadCaseAssets(url, handle, callback) {
   downloadFile(sqlUrl, handle, 'persistency.sql', callback);
 
   var assetsUrl = url + '/' + handle + '/assets';
-  getDataFromAPI(assetsUrl, function(data) {
+  getData(assetsUrl, function(data) {
     toDownload += data.assets.length - 1;
     data.assets.forEach(
       function(svg) {
@@ -93,38 +93,40 @@ function fail(e) {
   console.log(e);
 }
 
-function getDataFromAPI(url, callback) {
+function getData(url, callback) {
   "use strict";
-  console.log('IN GETDATAFROMAPI FUNC');
   // get data from given url
   console.log('connecting to: ' + url);
   try {
     var request = new XMLHttpRequest();
-    var dataFrom;
     request.onload = function() {
       if (request.status >= 200 && request.status < 400){
-        console.log("request success" + request.responseText);
-        dataFrom = JSON.parse(request.responseText);
-        callback(dataFrom);
+        console.log("request success: " + request.status);
+        if (request.responseText) {
+          var dataFrom = JSON.parse(request.responseText);
+          console.log('data received: ' + JSON.stringify(dataFrom));
+          callback(dataFrom);
+        } else {
+          callback(null);
+        }
       } else {
-        console.error('problem in the service: ' + url);
+        console.error('problem in the service: ' + url + ' code = ' + request.status + ' service message = ' + request.responseText);
         callback(null);
-      // We reached our target service, but it returned an error
       }
-    };
+    }; // onload
     request.onerror = function(e) {
-      console.error('connection error for URL: '+url + ', error status: ' + e.target.status);
+      console.error('connection error for URL: ' + url + ', error status: ' + e.target.status);
       callback(null);
     };
-    // request.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2005 00:00:00 GMT");
     var url_nocache = url + "?timestamp=" + new Date().getTime();
     request.open('GET', url_nocache, true);
+    request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    request.setRequestHeader("accept", "application/json");
     request.send();
-    console.log('LEAVING GETDATAFROMAPI FUNC');
   } catch(err){
     console.error('problem in the service: ' + err);
   }
-} // getDataFromAPI
+} // getData
 
 function getFileEntry(dirName, fileName, callback) {
   "use strict";
