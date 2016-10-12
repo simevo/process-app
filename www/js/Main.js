@@ -347,10 +347,6 @@ var Main = (function() {
 
   } // openSql
 
-  this.setVariable = function(id, val) {
-    viewModelInputsFiltered.inputs()[id].value(val);
-  }; // setVariable
-
   // update the db
   this.updateValue = function(target, newValue) {
     var updatedField = ko.mapping.toJS(target);

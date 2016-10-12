@@ -675,17 +675,15 @@ function toggleInputContainer(data, event) {
 
 function close(variabile) {
   "use strict";
+  var div = variabile.getElementsByTagName('div')[0];
   var ib = document.getElementById('input-box');
-  // ricopiare il valore dell'input-box nel view-model
-  var id = variabile.id;
-  // console.log("id = " + id);
-  main.setVariable(id, ib.getElementsByTagName('input')[0].value);
+  // ricopiare il valore dell'input-box nel view model
+  ko.dataFor(div.getElementsByTagName('span')[0]).display(ib.getElementsByTagName('input')[0].value);
   // nascondere input-box
   ib.style.display = 'none';
   // appiccicare input-box da qualche altra parte
   variabile.parentNode.appendChild(ib);
   // rivelare il div contenuto nella variabile
-  var div = variabile.getElementsByTagName('div')[0];
   div.style.display = 'block';
   // ripristino undo e redo e chiama updateUI
   updateUI();
@@ -696,18 +694,18 @@ function close(variabile) {
 
 function open1(variabile) {
   "use strict";
-  // nascondere il div contenuto nella variabile
   var div = variabile.getElementsByTagName('div')[0];
+  var ib = document.getElementById('input-box');
+  // nascondere il div contenuto nella variabile
   div.style.display = 'none';
   // rivelare input-box
-  var ib = document.getElementById('input-box');
   ib.style.display = 'block';
   // appiccicare input-box dentro a variabile
   variabile.appendChild(ib);
   // impostare il valore dell'input-box
   ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[0].innerHTML;
   // impostare l'unità di misura
-  ib.getElementsByTagName('span')[0].innerHTML = div.getElementsByTagName('span')[1].innerHTML;
+  ib.getElementsByTagName('span')[0].innerHTML = div.getElementsByTagName('select')[0].value;
   // impostare il range al 50%
   ib.getElementsByTagName('input')[1].value = 50;
   // disabilita undo e redo
