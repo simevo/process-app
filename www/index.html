@@ -143,18 +143,13 @@
               <!-- ko foreach: services.services -->
               <!-- ko ifnot: active -->
               <li class="clearfix" data-bind="attr: { id: service_uuid }, event: { click: switchService }">
-                <div data-bind="style: { backgroundColor: color }" class="service-thumb">
+                <div data-bind="style: { backgroundColor: dead() ? 'gray' : color() }" class="service-thumb">
                   <img alt="service thumbnail" data-bind="attr: { src: $root.prefix() + service_uuid()+'/icon.svg' }" src="data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=" class="service-thumb">
                 </div>
-                <div class="service-item list-item" data-bind="attr: { style: 'background-image: url('+$root.prefix() + service_uuid()+'/background.jpg); position: relative;'}, clickBubble: false">
-                  <div id="services-veiling"></div>
+                <div class="service-item list-item" data-bind="attr: { style: (dead() ? 'position: relative;' : 'background-image: url('+$root.prefix() + service_uuid()+'/background.jpg); position: relative;')}, clickBubble: false">
+                  <div id="services-veiling" data-bind="visible: !dead()"></div>
                   <div style="z-index: 100; position: relative;">
-                    <strong style="float: left;"><span data-bind="text: name"></span></strong>
-                    <!-- ko if: dead -->
-                    <div style="position: absolute; right: 0.5em; top: 3em; width: 44px; height: 39px; text-align: center; vertical-align: middle;">
-                      <span class="glyphicon glyphicon-warning-sign" style="color: red;"></span>
-                    </div>
-                    <!-- /ko -->
+                    <strong style="float: left;"><span data-bind="text: name, attr: { class: (dead() ? 'text-muted' : '') }"></span></strong>
                     <br />
                     <p class="secondary">
                       <span data-bind="text: description"></span>
@@ -170,10 +165,10 @@
                   <img alt="service thumbnail" src="images/logo.svg" class="service-thumb">
                 </div>
                 <div class="service-item list-item" style="background-color: #007878;">
-                  <strong>[ Your own service here ... ]</strong>
+                  <strong style="color: white;">[ Your models here ... ]</strong>
                   <br />
-                  <p class="secondary">
-                    To find out how please <a href="mailto:info@simevo.com">contact us</a>
+                  <p style="color: white;">
+                    To find out how please <a style="color: #00DDDD;" href="mailto:info@simevo.com?subject=I'd like to add my own models to the simevo process app">contact us</a>
                   </p>
                 </div>
               </li>
@@ -185,7 +180,6 @@
 
         </div>
         <!-- tab-container -->
-
       </div>
       <!-- landing -->
 

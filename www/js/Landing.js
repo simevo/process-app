@@ -92,6 +92,25 @@ var Landing = (function() {
   }; // type_property
   
   // private functions
+  function electActive(detailedServices) {
+    // logic to elect the active service among those that are alive
+    var len = detailedServices.services.length, i;
+    var foundActive = false;
+    var foundAlive = -1;
+    for ( i = 0; i < len; i++) {
+      if (detailedServices.services[i].active && !detailedServices.services[i].dead)
+        foundActive = true;
+      if (!detailedServices.services[i].dead)
+        foundAlive = i;
+    }
+    if (!foundActive) {
+      if (foundAlive == -1)
+        navigator.notification.alert("Discovery failed", function() { }, "Service error", "OK");
+      else
+        detailedServices.services[foundAlive].active = true;
+    }
+  } // electActive
+
   function updateServices(update, callback) {
     console.log('updateServices');
     // uncomment to force reloading each time
@@ -103,6 +122,7 @@ var Landing = (function() {
     // var serviceUrl = "http://192.168.0.1/process.json";
     // var serviceUrl = "http://simevo.com/api/process-private.json";
     if (localStorage.getItem(services_key) === null) {
+      // services key in localStorage was empty: first app launch
       console.log("need to discover the services");
       getData(serviceUrl, function(data){
         if (data===null) {
@@ -111,39 +131,66 @@ var Landing = (function() {
         }
         detailDiscovery(data, function(detailedServices) {
           console.log('detailed services = ' + JSON.stringify(detailedServices));
-          // TODO add logic to elect the active service among those that are alive
-          var len = detailedServices.services.length, i;
-          var foundActive = false;
-          var foundAlive = -1;
-          for ( i = 0; i < len; i++) {
-            if (detailedServices.services[i].active)
-              foundActive = true;
-            if (!detailedServices.services[i].dead)
-              foundAlive = i;
-          }
-          if (!foundActive) {
-            if (foundAlive == -1)
-              navigator.notification.alert("Discovery failed", function() { }, "Service error", "OK");
-            else
-              detailedServices.services[foundAlive].active = true;
-          }
-
+          electActive(detailedServices);
           saveToLocal(detailedServices, services_key, function() {
             console.log("calling download assets");
-            downloadAssets(services_key, function () {
+            downloadAssets(detailedServices.services, function () {
               console.log('in downloadAssets callback');
               loadFromLocal(services_key, update, callback);
             });
           }); // saveToLocal
         });  // detailDiscovery
       }); // getData
-    } // services key in localStorage was empty: first app launch 
-    else {
+    } else if (!update) {
+      console.log("services already in local: need to update them");
+      var services_string = localStorage.getItem(services_key);
+      var old_services = JSON.parse(services_string);
+      getData(serviceUrl, function(new_data){
+        if (new_data===null) {
+          console.error("No services to discover !");
+          new_data = { "services" : [ ] };
+        }
+        // mark as dead the old services that are not anymore in new_data, and delete from new_data the old ones
+        old_services.services.forEach(function(service) {
+          var len = new_data.services.length, i, found = -1;
+          for (i = 0; i < len; i++)
+            if (new_data.services[i].service_uuid == service.service_uuid)
+              found = i;
+          if (found >= 0) {
+            // known service is in new_data
+            if (new_data.services[found].status=="alive"){
+              service.dead = false;
+            } else {
+              service.dead = true;
+              service.active = false;
+            }
+            new_data.services.splice(found, 1);
+          } else {
+            service.dead = true;
+            service.active = false;
+          } // found
+        });
+        detailDiscovery(new_data, function(detailedNewServices) {
+          console.log('new detailed services = ' + JSON.stringify(detailedNewServices));
+          var detailedServices = {};
+          detailedServices.services = detailedNewServices.services.concat(old_services.services);
+          console.log('resulting detailed services = ' + JSON.stringify(detailedServices));
+          electActive(detailedServices);
+          saveToLocal(detailedServices, services_key, function() {
+            console.log("calling download assets");
+            downloadAssets(detailedNewServices.services, function () {
+              console.log('in downloadAssets callback');
+              loadFromLocal(services_key, update, callback);
+            });
+          }); // saveToLocal
+        });  // detailDiscovery
+      }); // getData
+    } else {
       console.log("services already in local");
       // make as if all files are already downloaded (actually they are!)
       downloaded = toDownload - 1;
       loadFromLocal(services_key, update, callback);
-    }
+    } // if services key present in localStorage or init
   } // updateServices
 
   ///////////////////////////// update enumerators ////////////////////////////
@@ -496,45 +543,48 @@ var Landing = (function() {
 
   // returns detailed service data
   function detailDiscovery(data, callback){
-    console.log("IN DETAIL_DISCOVERY FUNC");
-    var serviceArray = [];
-    var i = 0;
-    var len = data.services.length;
-
-    data.services.forEach(function(serviceData){
-      console.log("discovering " + JSON.stringify(serviceData));  
-      getData(serviceData.url,function(details){
-        if(details===null){
-          console.error("impossible to discover " + serviceData.url + " !");
-          details = { };
-          details.active = false;
-          details.dead = true;
-          details.service_uuid = serviceData.service_uuid;
-          details.url = serviceData.url;
-          details.info_url = '';
-          details.name = "unknown";
-          details.description = '';
-          details.color = "#000000";
-        } else {
-          console.log("Adding service status: "+serviceData.status);
-          if (serviceData.status=="alive"){
-            details.dead = false;
-            // candidate = i;
-          } else {
+    console.log("detailDiscovery: " + JSON.stringify(data));
+    if (data.services.length === 0) {
+      callback(data);
+    } else {
+      var serviceArray = [];
+      var i = 0;
+      var len = data.services.length;
+      data.services.forEach(function(serviceData){
+        console.log("discovering " + JSON.stringify(serviceData));
+        getData(serviceData.url,function(details){
+          if(details===null){
+            console.error("impossible to discover " + serviceData.url + " !");
+            details = { };
+            details.active = false;
             details.dead = true;
+            details.service_uuid = serviceData.service_uuid;
+            details.url = serviceData.url;
+            details.info_url = '';
+            details.name = "unknown";
+            details.description = '';
+            details.color = "#000000";
+          } else {
+            console.log("Adding service status: "+serviceData.status);
+            if (serviceData.status=="alive"){
+              details.dead = false;
+              // candidate = i;
+            } else {
+              details.dead = true;
+            }
           }
-        }
-        if (!details.active) {
-          details.active = false;
-        }
-        details.last_used = i;
-        serviceArray.push(details);
-        i++;
-        if(i>=len){
-          callback({"services" : serviceArray});
-        }
+          if (!details.active) {
+            details.active = false;
+          }
+          details.last_used = i;
+          serviceArray.push(details);
+          i++;
+          if(i>=len){
+            callback({"services" : serviceArray});
+          }
+        });
       });
-    });
+    } // if data services is empty
   } // detailDiscovery
 
   function saveToLocal(initial_services, services_key, callback) {
@@ -550,45 +600,43 @@ var Landing = (function() {
     callback();
   }
 
-  function downloadAssets(services_key, callback) {
-    console.log('downloadAssets for ' + services_key);
-    var services_string = localStorage.getItem(services_key);
-    if (!services_string) {
-      console.error('services key not found in local storage');
-      return;
-    }
-    console.log('services_string = ' + services_string);
-    var services_json = JSON.parse(services_string);
-    services_json.services.forEach(function(service) {
-      if (!service.dead) {
-        toDownload += 5;
-        
-        console.log('about to download for ' + service.service_uuid + ' toDownload = ' + toDownload);
+  function downloadAssets(services, callback) {
+    console.log('downloadAssets ' + JSON.stringify(services));
+    if (services.length === 0) {
+      toDownload = 1;
+      callback();
+    } else {
+      services.forEach(function(service) {
+        if (!service.dead) {
+          toDownload += 5;
 
-        var enumUrl = service.url + 'enumerators';
-        downloadFile(enumUrl, service.service_uuid, 'enumerators.json', callback);
+          console.log('about to download for ' + service.service_uuid + ' toDownload = ' + toDownload);
 
-        var typesUrl = service.url + 'types';
-        downloadFile(typesUrl, service.service_uuid, 'types.json', callback);
+          var enumUrl = service.url + 'enumerators';
+          downloadFile(enumUrl, service.service_uuid, 'enumerators.json', callback);
 
-        var iconUrl = service.url + 'icon';
-        downloadFile(iconUrl, service.service_uuid, 'icon.svg', callback); //icon
+          var typesUrl = service.url + 'types';
+          downloadFile(typesUrl, service.service_uuid, 'types.json', callback);
 
-        var backgroundUrl = service.url + 'background/' + Math.max(window.innerHeight, window.innerWidth);
-        downloadFile(backgroundUrl, service.service_uuid, 'background.jpg', callback);
+          var iconUrl = service.url + 'icon';
+          downloadFile(iconUrl, service.service_uuid, 'icon.svg', callback); //icon
 
-        var assetsUrl = service.url + 'assets';
-        getData(assetsUrl, function(data) {
-          toDownload += data.assets.length - 1;
-          data.assets.forEach(
-            function(svg) {
-              var filename = svg.substring(svg.lastIndexOf('/')+1);
-              downloadFile(svg, service.service_uuid, filename, callback);
-            }
-          );
-        });
-      } // service is active
-    }); // for each service  
+          var backgroundUrl = service.url + 'background/' + Math.max(window.innerHeight, window.innerWidth);
+          downloadFile(backgroundUrl, service.service_uuid, 'background.jpg', callback);
+
+          var assetsUrl = service.url + 'assets';
+          getData(assetsUrl, function(data) {
+            toDownload += data.assets.length - 1;
+            data.assets.forEach(
+              function(svg) {
+                var filename = svg.substring(svg.lastIndexOf('/')+1);
+                downloadFile(svg, service.service_uuid, filename, callback);
+              }
+            );
+          });
+        } // service is active
+      }); // for each service
+    } // if services is empty
     console.log("downloadAssets done");
 } // downloadAssets
 

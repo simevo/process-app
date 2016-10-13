@@ -153,6 +153,8 @@ function reset_local_storage() {
           navigator.app.clearCache();
         }
         localStorage.clear();
+        var landing_page = document.getElementById('landing-page');
+        landing.init();
         landing.update();
         sendClick(document.getElementsByClassName("tab")[1]);
       }
