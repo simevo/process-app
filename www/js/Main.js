@@ -502,7 +502,7 @@ var Main = (function() {
             "children" : childArray
           };
           ko.mapping.fromJS(children, mapping, viewModelChildren);
-          if (--todo === 0) unlockUI("children transaction in change_node");
+          if (--todo === 0) callback("children transaction in change_node");
           else console.log("todo = " + todo + " from: children transaction in change_node");
         }, null);
       });
@@ -519,7 +519,7 @@ var Main = (function() {
           var query = 'SELECT N.FULLTAG||\'.\'||Q.TAG AS FULLTAG, Q.VALUE, Q.UNIT, Q.DESCRIPTION, Q.ID, Q.DESCRIPTION FROM N JOIN Q ON N.ID = Q.NID WHERE N.ID =' + targetid + ' AND';
           fillInputs(tx, tag0Length, query + ' Q.INPUT=' + 1);
           fillOutputs(tx, tag0Length, query + ' Q.OUTPUT=' + 1);
-          if (--todo === 0) unlockUI("inputs / outputs transaction in change_node");
+          if (--todo === 0) callback("inputs / outputs transaction in change_node");
           else console.log("todo = " + todo + " from: inputs / outputs transaction in change_node");
         }, null);
 
@@ -534,7 +534,7 @@ var Main = (function() {
           } // for each row
           ko.mapping.fromJS(errorMessagesArray, mapping, THIS.viewModel.error_messages);
           ko.mapping.fromJS(warningMessagesArray, mapping, THIS.viewModel.warning_messages);
-          if (--todo === 0) unlockUI("messages transaction in change_node");
+          if (--todo === 0) callback("messages transaction in change_node");
           else console.log("todo = " + todo + " from: messages transaction in change_node");
         }, null);
       });
@@ -559,7 +559,7 @@ var Main = (function() {
           THIS.viewModel.Description(item.CurrDESCRIPTION);
           THIS.viewModel.Type(item.CurrTYPE);
           THIS.viewModel.typeDescription(type_property(item.CurrTYPE, "description", ""));
-          if (--todo === 0) unlockUI("main viewModel transaction in change_node");
+          if (--todo === 0) callback("main viewModel transaction in change_node");
           else console.log("todo = " + todo + " from: main viewModel transaction in change_node");
         }, null);
       });
@@ -570,7 +570,7 @@ var Main = (function() {
           if (targetid === 0) {
             THIS.viewModel.errors0(item.count);
           } // if node 0
-          if (--todo === 0) unlockUI("error count transaction in change_node");
+          if (--todo === 0) callback("error count transaction in change_node");
           else console.log("todo = " + todo + " from: error count transaction in change_node");
         }, null);
       });
@@ -581,7 +581,7 @@ var Main = (function() {
           if (targetid === 0) {
             THIS.viewModel.warnings0(item.count);
           } // if node 0
-          if (--todo === 0) unlockUI("warning count transaction in change_node");
+          if (--todo === 0) callback("warning count transaction in change_node");
           else console.log("todo = " + todo + " from: warning count transaction in change_node");
         }, null);
       });
@@ -608,7 +608,7 @@ var Main = (function() {
           "inputs" : inputsArray
         };
         ko.mapping.fromJS(inputs, mapping, viewModelInputs);
-        if (--todo === 0) unlockUI("fillInputs");
+        if (--todo === 0) callback("fillInputs");
         else console.log("todo = " + todo + " from: fillInputs");
       }, null);
     } // fillInputs
@@ -633,7 +633,7 @@ var Main = (function() {
           "outputs" : outputsArray
         };
         ko.mapping.fromJS(outputs, mapping, viewModelOutputs);
-        if (--todo === 0) unlockUI("fillOutputs");
+        if (--todo === 0) callback("fillOutputs");
         else console.log("todo = " + todo + " from: fillOutputs");
       }, null);
     } // fillOutputs
@@ -653,14 +653,19 @@ var Main = (function() {
             overrideXlinks();
           };
           reader.readAsText(file);
-          if (--todo === 0) unlockUI("change_svg");
+          if (--todo === 0) callback("change_svg");
           else console.log("todo = " + todo + " from: change_svg");
         }); // file
       }); // getFileEntry
     } // change_svg
 
-
     change_svg(targetid);
+
+    function callback(message) {
+      unlockUI(message);
+      var units = document.querySelectorAll('select.units');
+      [].forEach.call(units, function(unit) { unit.onclick = dummy; });
+    }
   }; // change_node
 
   function overrideXlinks() {
