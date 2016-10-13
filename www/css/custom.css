@@ -432,6 +432,7 @@ ul#service-list li {
 }
 #service-container {
   display: none;
+  padding-top: 5px;
 }
 input#range {
   margin-bottom: 20px;
