@@ -606,9 +606,11 @@ var Landing = (function() {
       toDownload = 1;
       callback();
     } else {
+      var done = false;
       services.forEach(function(service) {
         if (!service.dead) {
           toDownload += 5;
+          done = true;
 
           console.log('about to download for ' + service.service_uuid + ' toDownload = ' + toDownload);
 
@@ -636,6 +638,10 @@ var Landing = (function() {
           });
         } // service is active
       }); // for each service
+      if (!done) {
+        toDownload = 1;
+        callback();
+      }
     } // if services is empty
     console.log("downloadAssets done");
 } // downloadAssets
