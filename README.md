@@ -250,6 +250,10 @@ Just follow [this guide](https://developer.chrome.com/devtools/docs/remote-debug
 
 NOTE: To access the sandboxed filesystem in Chrome, go to chrome://flags and enable "Enable Developer Tools experiments", then go to the Settings panel, Experiments tab in Developer Tools and turn on "FileSystem Inspection"
 
+This is currently unavailanble (chromium 53) https://bugs.chromium.org/p/chromium/issues/detail?id=256067
+
+As a workaround you can use the "HTML5 FileSystem Explorer Extended" extension: https://chrome.google.com/webstore/detail/html5-filesystem-explorer/chkmbbajnboncdmkigkgpjdhppcjhlcc
+
 ##iOS
 
 Build once with phonegap CLI:
