@@ -476,7 +476,7 @@ function openMainPageFromConfigure() {
     dataTo.stringOptions[stringOptions[i].name()] = stringOptions[i].selected();
   }
   for (var j = 0, intlen = integerOptions.length; j < intlen; j++) {
-    dataTo.integerOptions[integerOptions[j].name()] = integerOptions[j].value();
+    dataTo.integerOptions[integerOptions[j].name()] = +integerOptions[j].value();
   }
 
   var url = landing.viewModel.services.activeService().url() + 'cases';
