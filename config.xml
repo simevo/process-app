@@ -3,75 +3,75 @@
     <name>simevo process app</name>
     <description>An open source mobile app to access process simulations hosted in the cloud using simevo process technology.</description>
     <author email="info@simevo.com" href="http://simevo.com">The simevo developers</author>
-    <access origin="*"/>
-    <allow-navigation href="*"/>
-    <allow-intent href="http://*/*"/>
-    <allow-intent href="https://*/*"/>
-    <plugin name="cordova-plugin-device"/>
-    <plugin name="cordova-plugin-whitelist"/>
-    <plugin name="cordova-plugin-file"/>
-    <plugin name="cordova-plugin-file-transfer"/>
-    <plugin name="cordova-plugin-splashscreen"/>
-    <plugin name="cordova-plugin-statusbar"/>
-    <plugin name="cordova-sqlite-evcore-extbuild-free"/>
-    <plugin name="cordova-plugin-dialogs"/>
-    <plugin name="cordova-plugin-x-socialsharing"/>
-    <plugin name="cordova-plugin-wkwebview-engine"/>
-    <preference name="AutoHideSplashScreen" value="false"/>
-    <preference name="DisallowOverscroll" value="true"/>
-    <preference name="orientation" value="default"/>
-    <preference name="ShowSplashScreenSpinner" value="false"/>
-    <preference name="target-device" value="universal"/>
-    <preference name="webviewbounce" value="false"/>
+    <access origin="*" />
+    <allow-navigation href="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <plugin name="cordova-plugin-device" />
+    <plugin name="cordova-plugin-whitelist" />
+    <plugin name="cordova-plugin-file" />
+    <plugin name="cordova-plugin-file-transfer" />
+    <plugin name="cordova-plugin-splashscreen" />
+    <plugin name="cordova-plugin-statusbar" />
+    <plugin name="cordova-sqlite-evcore-extbuild-free" />
+    <plugin name="cordova-plugin-dialogs" />
+    <plugin name="cordova-plugin-x-socialsharing" />
+    <plugin name="cordova-plugin-wkwebview-engine" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="orientation" value="default" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="target-device" value="universal" />
+    <preference name="webviewbounce" value="false" />
     <platform name="ios">
-      <feature name="CDVWKWebViewEngine">
-        <param name="ios-package" value="CDVWKWebViewEngine" />
-      </feature>
-      <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
-      <preference name="orientation" value="all"/>
-      <preference name="StatusBarOverlaysWebView" value="false"/>
-      <preference name="StatusBarBackgroundColor" value="black"/>
-      <preference name="StatusBarStyle" value="lightcontent"/>
-      <preference name="BackupWebStorage" value="local"/>
-      <preference name="iosPersistentFileLocation" value="Library"/>
-      <icon height="57" src="res/icon/ios/icon-57.png" width="57"/>
-      <icon height="72" src="res/icon/ios/icon-72.png" width="72"/>
-      <icon height="114" src="res/icon/ios/icon-57-2x.png" width="114"/>
-      <icon height="144" src="res/icon/ios/icon-72-2x.png" width="144"/>
-      <splash height="480" src="res/screen/ios/screen-iphone-portrait.png" width="320"/>
-      <splash height="960" src="res/screen/ios/screen-iphone-portrait-2x.png" width="640"/>
-      <splash height="1136" src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640"/>
-      <splash height="1024" src="res/screen/ios/screen-ipad-portrait.png" width="768"/>
-      <splash height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024"/>
+        <feature name="CDVWKWebViewEngine">
+            <param name="ios-package" value="CDVWKWebViewEngine" />
+        </feature>
+        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+        <preference name="orientation" value="all" />
+        <preference name="StatusBarOverlaysWebView" value="false" />
+        <preference name="StatusBarBackgroundColor" value="black" />
+        <preference name="StatusBarStyle" value="lightcontent" />
+        <preference name="BackupWebStorage" value="local" />
+        <preference name="iosPersistentFileLocation" value="Library" />
+        <icon height="57" src="res/icon/ios/icon-57.png" width="57" />
+        <icon height="72" src="res/icon/ios/icon-72.png" width="72" />
+        <icon height="114" src="res/icon/ios/icon-57-2x.png" width="114" />
+        <icon height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
+        <splash height="480" src="res/screen/ios/screen-iphone-portrait.png" width="320" />
+        <splash height="960" src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
+        <splash height="1136" src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
+        <splash height="1024" src="res/screen/ios/screen-ipad-portrait.png" width="768" />
+        <splash height="768" src="res/screen/ios/screen-ipad-landscape.png" width="1024" />
     </platform>
     <platform name="android">
-      <preference name="android-minSdkVersion" value="19"/>
-      <preference name="android-targetSdkVersion" value="19"/>
-      <preference name="SplashMaintainAspectRatio" value="false"/>
-      <preference name="InAppBrowserStorageEnabled" value="false"/>
-      <preference name="AndroidPersistentFileLocation" value="Internal"/>
-      <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize"/>
-      <icon qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png"/>
-      <icon qualifier="mdpi" src="res/icon/android/icon-48-mdpi.png"/>
-      <icon qualifier="hdpi" src="res/icon/android/icon-72-hdpi.png"/>
-      <icon qualifier="xhdpi" src="res/icon/android/icon-96-xhdpi.png"/>
-      <splash qualifier="port-ldpi" src="res/screen/android/screen-ldpi-portrait.9.png"/>
-      <splash qualifier="port-mdpi" src="res/screen/android/screen-mdpi-portrait.9.png"/>
-      <splash qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.9.png"/>
-      <splash qualifier="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.9.png"/>
-      <splash qualifier="land-ldpi" src="res/screen/android/screen-ldpi-landscape.9.png"/>
-      <splash qualifier="land-mdpi" src="res/screen/android/screen-mdpi-landscape.9.png"/>
-      <splash qualifier="land-hdpi" src="res/screen/android/screen-hdpi-landscape.9.png"/>
-      <splash qualifier="land-xhdpi" src="res/screen/android/screen-xhdpi-landscape.9.png"/>
+        <preference name="android-minSdkVersion" value="19" />
+        <preference name="android-targetSdkVersion" value="19" />
+        <preference name="SplashMaintainAspectRatio" value="false" />
+        <preference name="InAppBrowserStorageEnabled" value="false" />
+        <preference name="AndroidPersistentFileLocation" value="Internal" />
+        <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+        <icon qualifier="ldpi" src="res/icon/android/icon-36-ldpi.png" />
+        <icon qualifier="mdpi" src="res/icon/android/icon-48-mdpi.png" />
+        <icon qualifier="hdpi" src="res/icon/android/icon-72-hdpi.png" />
+        <icon qualifier="xhdpi" src="res/icon/android/icon-96-xhdpi.png" />
+        <splash qualifier="port-ldpi" src="res/screen/android/screen-ldpi-portrait.9.png" />
+        <splash qualifier="port-mdpi" src="res/screen/android/screen-mdpi-portrait.9.png" />
+        <splash qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.9.png" />
+        <splash qualifier="port-xhdpi" src="res/screen/android/screen-xhdpi-portrait.9.png" />
+        <splash qualifier="land-ldpi" src="res/screen/android/screen-ldpi-landscape.9.png" />
+        <splash qualifier="land-mdpi" src="res/screen/android/screen-mdpi-landscape.9.png" />
+        <splash qualifier="land-hdpi" src="res/screen/android/screen-hdpi-landscape.9.png" />
+        <splash qualifier="land-xhdpi" src="res/screen/android/screen-xhdpi-landscape.9.png" />
     </platform>
     <platform name="winphone">
-      <icon src="res/icon/windows-phone/icon-48.png"/>
-      <icon role="background" src="res/icon/windows-phone/icon-173.png"/>
-      <splash src="res/screen/windows-phone/screen-portrait.jpg"/>
-      <preference name="SplashScreenSpinnerColor" value="#242424"/>
+        <icon src="res/icon/windows-phone/icon-48.png" />
+        <icon role="background" src="res/icon/windows-phone/icon-173.png" />
+        <splash src="res/screen/windows-phone/screen-portrait.jpg" />
+        <preference name="SplashScreenSpinnerColor" value="#242424" />
      </platform>
     <platform name="browser">
-      <preference name="SplashScreen" value="res/screen/browser/splash.png"/>
-      <icon src="res/icon/browser/icon.png"/>
+        <preference name="SplashScreen" value="res/screen/browser/splash.png" />
+        <icon src="res/icon/browser/icon.png" />
     </platform>
 </widget>
