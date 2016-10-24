@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0" id="com.simevo.processapp" version="0.0.18">
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.simevo.processapp" version="0.0.18" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>simevo process app</name>
     <description>An open source mobile app to access process simulations hosted in the cloud using simevo process technology.</description>
     <author email="info@simevo.com" href="http://simevo.com">The simevo developers</author>
@@ -69,9 +69,10 @@
         <icon role="background" src="res/icon/windows-phone/icon-173.png" />
         <splash src="res/screen/windows-phone/screen-portrait.jpg" />
         <preference name="SplashScreenSpinnerColor" value="#242424" />
-     </platform>
+    </platform>
     <platform name="browser">
         <preference name="SplashScreen" value="res/screen/browser/splash.png" />
         <icon src="res/icon/browser/icon.png" />
     </platform>
+    <engine name="ios" spec="~4.1.1" />
 </widget>
