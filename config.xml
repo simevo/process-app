@@ -16,6 +16,7 @@
     <plugin name="cordova-sqlite-evcore-extbuild-free" />
     <plugin name="cordova-plugin-dialogs" />
     <plugin name="cordova-plugin-x-socialsharing" />
+    <plugin name="cordova-plugin-inappbrowser" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="default" />

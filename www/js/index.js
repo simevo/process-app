@@ -16,7 +16,7 @@ var main = { };
 
 function init() {
   "use strict";
-  
+
   console.log("initting");
 
   if (cordova.platformId == 'android') {
@@ -25,7 +25,7 @@ function init() {
 
   // import Landing module
   Landing.call(landing);
-  
+
   // import Configure module
   Configure.call(configure);
 
@@ -37,7 +37,7 @@ function init() {
 
   var configure_page = document.getElementById('configure-page');
   configure_page.style.display = 'none';
-  
+
   landing.init(function() {
     console.log("initted");
     navigator.splashscreen.hide();
@@ -105,7 +105,7 @@ function openService(service_uuid) {
   }
   services_json = JSON.stringify(services);
   localStorage.setItem(services_key, services_json);
-  
+
   // trick
   if (configure.initialized) {
     configure.viewModel.service_uuid(service_uuid);
@@ -214,7 +214,7 @@ function openLandingPageFromMain() {
 
   console.log('openLandingPageFromMain');
   hideAll();
-  
+
   // TODO rather than reset all uncommitted changes, persist them to local storage
   undoManager.undoAll();
 
@@ -231,7 +231,7 @@ function openLandingPageFromMain() {
 
 function openConfigurePageFromLanding(d, e) {
   "use strict";
-  
+
   console.log('openConfigurePageFromLanding(' + JSON.stringify(d) + ')');
 
   // update last_used field for the selected type so that it is pushed up in the new-list
@@ -242,7 +242,7 @@ function openConfigurePageFromLanding(d, e) {
 
   // initialize configure with the current service
   configure.init(landing.viewModel.services.activeService(), d);
-  
+
   // reveal the configure page
   var configure_page = document.getElementById('configure-page');
   configure_page.style.display = 'block';
@@ -871,23 +871,13 @@ function alphanumeric(codepoint) {
     return false;
 }
 
-// based on: http://stackoverflow.com/a/18919588
-function openUrl(url) {
-  "use strict";
-  if (device.platform === 'Android') {
-    navigator.app.loadUrl(url, {openExternal:true});
-  } else {
-    window.open(url, '_system');
-  }
-}
-
 // based on: http://jsfiddle.net/rniemeyer/p7kxw/
 ko.extenders.valid = function(target, validNonAlpha) {
   "use strict";
   // add some sub-observables to our observable
   target.isValid = ko.observable();
   target.validationMessage = ko.observable();
-  
+
   // define a function to do validation
   function validate(newValue) {
     if (!newValue) {
@@ -914,13 +904,13 @@ ko.extenders.valid = function(target, validNonAlpha) {
       target.validationMessage("");
     }
   }
-  
+
   // initial validation
   validate(target());
 
   // validate whenever the value changes
   target.subscribe(validate);
-  
+
   //return the original observable
   return target;
 };

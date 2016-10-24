@@ -138,6 +138,7 @@ then install the required plugins:
     phonegap plugin add cordova-sqlite-evcore-extbuild-free
     phonegap plugin add cordova-plugin-dialogs
     phonegap plugin add cordova-plugin-x-socialsharing
+    phonegap plugin add cordova-plugin-inappbrowser
 
 ##In the browser
 

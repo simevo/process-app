@@ -132,7 +132,7 @@
                       <span data-bind="text: services.activeService().description()">placeholder</span>
                     </p>
                     <p class="secondary">
-                      <a href="#" data-bind="click: function() { openUrl(services.activeService().info_url()); }" target="_blank">
+                      <a href="#" data-bind="click: function() { window.open(services.activeService().info_url(), '_system'); }">
                         <span data-bind="text: services.activeService().info_url()">placeholder</span>
                       </a>
                     </p>
@@ -244,7 +244,7 @@
               </div>
 
               <div class="secondary" style="margin: 0.5em; padding: 0.5em;" data-bind="visible: inputs().length == 0">No inputs for current object</div>
-  
+
               <ul data-bind="foreach: inputs" id="input-list" class="yscroll list">
 
                 <li data-bind="attr: { id: $index() }, event: { click: toggleInputContainer }" class="i">
@@ -443,7 +443,7 @@
                   </div>
                 </div>
                 <fieldset>
-                  <div class="form-group has-feedback" data-bind="attr: { 'class': instance_tag.isValid() ? 'form-group has-feedback' : 'form-group has-feedback has-error' }">                  
+                  <div class="form-group has-feedback" data-bind="attr: { 'class': instance_tag.isValid() ? 'form-group has-feedback' : 'form-group has-feedback has-error' }">
                     <div class="col-xs-12 col-sm-12">
                       <input data-bind="value: instance_tag" autofocus required id="tag" type="text" maxlength="50" placeholder="tag" class="form-control">
                       <span data-bind="visible: instance_tag().length > 0" id="tag-clearer" class="glyphicon glyphicon-remove form-control-feedback"></span>
