@@ -16,7 +16,6 @@
     <plugin name="cordova-sqlite-evcore-extbuild-free" />
     <plugin name="cordova-plugin-dialogs" />
     <plugin name="cordova-plugin-x-socialsharing" />
-    <plugin name="cordova-plugin-wkwebview-engine" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="orientation" value="default" />
@@ -24,10 +23,6 @@
     <preference name="target-device" value="universal" />
     <preference name="webviewbounce" value="false" />
     <platform name="ios">
-        <feature name="CDVWKWebViewEngine">
-            <param name="ios-package" value="CDVWKWebViewEngine" />
-        </feature>
-        <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
         <preference name="orientation" value="all" />
         <preference name="StatusBarOverlaysWebView" value="false" />
         <preference name="StatusBarBackgroundColor" value="black" />
