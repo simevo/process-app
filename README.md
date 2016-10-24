@@ -55,7 +55,7 @@ Contains code borrowed from:
 
   [https://github.com/stevesanderson/knockout-projections](https://github.com/stevesanderson/knockout-projections)
 
-- Bootstrap HTML, CSS, and JS framework 
+- Bootstrap HTML, CSS, and JS framework
 
   MIT License
 
@@ -99,7 +99,7 @@ Contains graphic elements and artwork from:
 
 - P8140170 by Philip Sheldrake
 
-  Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0) 
+  Creative Commons Attribution-ShareAlike 2.0 Generic (CC BY-SA 2.0)
 
   [https://www.flickr.com/photos/philip_sheldrake/109364052](https://www.flickr.com/photos/philip_sheldrake/109364052)
 
@@ -147,7 +147,7 @@ Build & serve:
     phonegap build browser
     phonegap serve
 
-Then open http://localhost:3000 in your favourite browser or with the PhoneGap Developer app.
+Then open http://localhost:3000 in your favorite browser or with the PhoneGap Developer app.
 
 NOTE: To debug issues related to knockout.js, as per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs), add this to your html:
 
@@ -155,7 +155,7 @@ NOTE: To debug issues related to knockout.js, as per [this stackoverflow thread]
       <pre data-bind="text: ko.toJSON($data, null, 2)"></pre>
     </div>
 
-##On emulated deviced
+##On emulated devices
 
 ##Android
 
@@ -236,13 +236,13 @@ NOTE: The HAXM driver does not support emulating a 64 bit system image on Intel 
 
 ###Inspecting with Chrome / Chromium
 
-On Android 4.4 (kitkat) and later it is possible to debug from the Chrome / Chromium inspector of the host the HTML / javascript contents of Android WebView of a Cordova hybrid application running inside the Android emulator or in the device. 
+On Android 4.4 (kitkat) and later it is possible to debug from the Chrome / Chromium inspector of the host the HTML / javascript contents of Android WebView of a Cordova hybrid application running inside the Android emulator or in the device.
 
 This should be enabled by default.
 
 Just follow [this guide](https://developer.chrome.com/devtools/docs/remote-debugging) but skipping the USB part:
 
-- open Chrome / Chromium in the host 
+- open Chrome / Chromium in the host
 
 - Go to chrome://inspect to get a list of debuggable WebViews
 
@@ -250,7 +250,7 @@ Just follow [this guide](https://developer.chrome.com/devtools/docs/remote-debug
 
 NOTE: To access the sandboxed filesystem in Chrome, go to chrome://flags and enable "Enable Developer Tools experiments", then go to the Settings panel, Experiments tab in Developer Tools and turn on "FileSystem Inspection"
 
-This is currently unavailanble (chromium 53) https://bugs.chromium.org/p/chromium/issues/detail?id=256067
+This is currently unavailable (chromium 53) https://bugs.chromium.org/p/chromium/issues/detail?id=256067
 
 As a workaround you can use the "HTML5 FileSystem Explorer Extended" extension: https://chrome.google.com/webstore/detail/html5-filesystem-explorer/chkmbbajnboncdmkigkgpjdhppcjhlcc
 
@@ -262,10 +262,10 @@ Build once with phonegap CLI:
     phonegap build ios
     phonegap run ios
 
-then open the process-app-local/platforms/ios/process app.xcodeproj with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap:
+then open the `platforms/ios/simevo process app.xcodeproj` project with XCode and follow the instructions here to debug the webview with Safari Remote Debugging: https://github.com/phonegap/phonegap/wiki/Debugging-in-PhoneGap:
 "If you are doing iOS PhoneGap debugging and have the Safari Develop Menu enabled, you can access the currently active session through the built-in Safari Web Inspector. To activate, go to Develop -> (iPad || iPhone) Simulator (normally, the third menu item) and click the active session you want to connect to. Voila!"
 
-It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in process-app-local/platforms/ios/CordovaLib/Classes/CDVViewController.m in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.
+It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in `platforms/ios/CordovaLib/Classes/Public/CDVViewController.m` in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.
 
 ##Windows
 
@@ -287,9 +287,9 @@ https://blog.vjrantal.net/2015/03/12/building-a-cordova-plugin-including-native-
 The build will succeed but loading to the emulator fails with this error:
 
     CordovaDeploy.exe not found, attempting to build CordovaDeploy.exe...
-    ..\process-app-local\platforms\windows\cordova\lib\deploy.js(96, 5) WshShell.Exec: The system cannot find the file specified.
+    platforms\windows\cordova\lib\deploy.js(96, 5) WshShell.Exec: The system cannot find the file specified.
 
-The solution: open the Visual Studio solution process-app-local\platforms\windows\simevo_process_app.sln then start the debugger in there.
+The solution: open the Visual Studio solution `platforms\windows\simevo_process_app.sln` then start the debugger in there.
 
 To watch files in the isolated storage, get [Windows Phone Power Tools](http://wptools.codeplex.com/).
 
