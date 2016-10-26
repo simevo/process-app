@@ -118,8 +118,7 @@ function getData(url, callback) {
       console.error('connection error for URL: ' + url + ', error status: ' + e.target.status);
       callback(null);
     };
-    var url_nocache = url + "?timestamp=" + new Date().getTime();
-    request.open('GET', url_nocache, true);
+    request.open('GET', url, true);
     request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
     request.setRequestHeader("accept", "application/json");
     request.send();
