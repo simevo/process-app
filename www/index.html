@@ -284,7 +284,18 @@
                   <dd>
                     <span data-bind="text: Type"></span><span class="secondary"> – </span><span class="secondary" data-bind="text: typeDescription"></span>
                   </dd>
-                  <dt>
+                  <!-- ko if: stringOptions().length + integerOptions().length > 0 -->
+                  <dt>Options:</dt>
+                  <dd>
+                    <!-- ko foreach: stringOptions -->
+                    <span data-bind="text: TAG"></span> (<small data-bind="text: DESCRIPTION" class="secondary"></small>): <span data-bind="text: VALUE"></span><br/>
+                    <!-- /ko -->
+                    <!-- ko foreach: integerOptions -->
+                    <span data-bind="text: TAG"></span> (<small data-bind="text: DESCRIPTION" class="secondary"></small>): <span data-bind="text: VALUE"></span><br/>
+                    <!-- /ko -->
+                  </dd>
+                  <!-- /ko -->
+                <dt>
                     Created:
                   </dt>
                   <dd>

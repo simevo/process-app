@@ -128,7 +128,9 @@ var Main = (function() {
           errors0: ko.observable(0), // errors of node 0
           warnings0: ko.observable(0), // warnings of node 0
           warning_messages: ko.observable(''),
-          error_messages: ko.observable('')
+          error_messages: ko.observable(''),
+          stringOptions: ko.observable(''),
+          integerOptions: ko.observable('')
         };
 
         // point to the node with database N.ID == 0 and load all data
@@ -460,11 +462,13 @@ var Main = (function() {
 
   this.change_node = function(targetid) {
     console.log("switching to node " + targetid);
-    var todo = 9;
+    var todo = 11;
     // update main list of children nodes, update toggle button
     var childArray = [];
     var warningMessagesArray = [];
     var errorMessagesArray = [];
+    var stringOptionsArray = [];
+    var integerOptionsArray = [];
     THIS.viewModel.currentId(targetid);
     if (db) {
       db.readTransaction(function(tx) {
@@ -536,6 +540,34 @@ var Main = (function() {
           ko.mapping.fromJS(warningMessagesArray, mapping, THIS.viewModel.warning_messages);
           if (--todo === 0) callback("messages transaction in change_node");
           else console.log("todo = " + todo + " from: messages transaction in change_node");
+        }, null);
+      });
+
+      // fill stringOptions
+      db.readTransaction(function(tx) {
+        tx.executeSql('SELECT tag, description, value FROM s WHERE nid=' + targetid, [], function(tx, results) {
+          var len = results.rows.length, i;
+          for ( i = 0; i < len; i++) {
+            var item = results.rows.item(i);
+            stringOptionsArray.push(item);
+          } // for each row
+          ko.mapping.fromJS(stringOptionsArray, mapping, THIS.viewModel.stringOptions);
+          if (--todo === 0) callback("stringOptionsArray transaction in change_node");
+          else console.log("todo = " + todo + " from: stringOptionsArray transaction in change_node");
+        }, null);
+      });
+
+      // fill integerOptions
+      db.readTransaction(function(tx) {
+        tx.executeSql('SELECT tag, description, value FROM i WHERE nid=' + targetid, [], function(tx, results) {
+          var len = results.rows.length, i;
+          for ( i = 0; i < len; i++) {
+            var item = results.rows.item(i);
+            integerOptionsArray.push(item);
+          } // for each row
+          ko.mapping.fromJS(integerOptionsArray, mapping, THIS.viewModel.integerOptions);
+          if (--todo === 0) callback("integerOptions transaction in change_node");
+          else console.log("todo = " + todo + " from: integerOptionsArray transaction in change_node");
         }, null);
       });
 
