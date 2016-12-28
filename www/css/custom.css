@@ -95,6 +95,7 @@ ul {
 div#center {
   height: 100%;
   z-index: 0;
+  padding-bottom: 0.5em;
 }
 
 div#children {
@@ -167,6 +168,8 @@ div#info-container {
   z-index: 3 !important;
   box-shadow: 1px 2px 10px 0px #000;
   word-wrap: break-word;
+  border-bottom-left-radius: 0.5em;
+  border-bottom-right-radius: 0.5em;
 }
 div#input-box {
   display: none;
