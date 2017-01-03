@@ -46,7 +46,7 @@ function conversionViewModel(params) {
   });
 }
 
-ko.components.register('conversion-widget-readonly', {
+ko.components.register('conversion-widget', {
   viewModel: conversionViewModel,
-  template: { element: 'conversion-widget-readonly-template' }
+  template: { element: 'conversion-widget-template' }
 });

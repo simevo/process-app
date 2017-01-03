@@ -33,7 +33,7 @@
 
   </head>
   <body>
-    <template id='conversion-widget-readonly-template'>
+    <template id='conversion-widget-template'>
       <div class="ro">
         <span data-bind="text: display"></span>
 <!-- ko if: Object.keys(unit_list()).length > 1 -->
@@ -253,7 +253,7 @@
 
                 <li data-bind="attr: { id: $index() }, event: { click: toggleInputContainer }" class="i">
                   <strong><span data-bind="text: fulltag"></span></strong><span class="secondary"> – </span><span class="secondary" data-bind="text: description"></span>
-                  <conversion-widget-readonly params="value: value, units: units"></conversion-widget-readonly>
+                  <conversion-widget params="value: value, units: units"></conversion-widget>
                 </li>
 
               </ul>
@@ -393,7 +393,7 @@
 
                 <li class="o">
                   <strong><span data-bind="text: fulltag"></span></strong><span class="secondary"> – </span><span class="secondary" data-bind="text: description"></span>
-                  <conversion-widget-readonly params="value: value, units: units"></conversion-widget-readonly>
+                  <conversion-widget params="value: value, units: units"></conversion-widget>
                 </li>
 
               </ul>
