@@ -127,18 +127,9 @@ Install the phonegap CLI:
 
     sudo npm install -g phonegap@latest
 
-then install the required plugins:
+then clean the working directory:
 
-    phonegap plugin add cordova-plugin-device
-    phonegap plugin add cordova-plugin-whitelist
-    phonegap plugin add cordova-plugin-file
-    phonegap plugin add cordova-plugin-file-transfer
-    phonegap plugin add cordova-plugin-splashscreen
-    phonegap plugin add cordova-plugin-statusbar
-    phonegap plugin add cordova-sqlite-evcore-extbuild-free
-    phonegap plugin add cordova-plugin-dialogs
-    phonegap plugin add cordova-plugin-x-socialsharing
-    phonegap plugin add cordova-plugin-inappbrowser
+    rm -rf platforms plugins
 
 ##In the browser
 
