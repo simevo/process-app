@@ -596,7 +596,7 @@ var Main = (function() {
         }, null);
       });
       db.readTransaction(function(tx) {
-        tx.executeSql('select count(*) as count from svv inner join sv on sv.id = svv.vid where sv.nid=' + targetid + ' and sv.tag=\'errors\';', [], function(tx, results) {
+        tx.executeSql('SELECT COUNT(*) AS count FROM svv INNER JOIN sv ON sv.id = svv.vid WHERE sv.nid=' + targetid + ' AND sv.tag=\'errors\';', [], function(tx, results) {
           var item = results.rows.item(0);
           THIS.viewModel.errors(item.count);
           if (targetid === 0) {
@@ -607,7 +607,7 @@ var Main = (function() {
         }, null);
       });
       db.readTransaction(function(tx) {
-        tx.executeSql('select count(*) as count from svv inner join sv on sv.id = svv.vid where sv.nid=' + targetid + ' and sv.tag=\'warnings\';', [], function(tx, results) {
+        tx.executeSql('SELECT COUNT(*) AS count FROM svv INNER JOIN sv ON sv.id = svv.vid WHERE sv.nid=' + targetid + ' AND sv.tag=\'warnings\';', [], function(tx, results) {
           var item = results.rows.item(0);
           THIS.viewModel.warnings(item.count);
           if (targetid === 0) {
