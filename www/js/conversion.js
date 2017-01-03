@@ -1,9 +1,9 @@
 // configuration for jshint
 /* jshint browser: true, devel: true, strict: true */
 /* global ko */
-"use strict";
 
 function unit_list(units) {
+  "use strict";
   var dimensions = [
     {"€": 1.0, "$": 0.7351, "£": 1.229, "¥": 7.226E-3},
     {"m": 1.0, "mm": 0.001, "cm": 0.01, "ft": 0.3048, "in": 0.0254, "yd": 0.9144, "mi": 1609.344, "km": 1000.0},
@@ -28,6 +28,7 @@ function unit_list(units) {
 }
 
 function conversionViewModel(params) {
+  "use strict";
   /* jshint validthis: true */
   this.unit_list = ko.observable(unit_list(params.units()));
   this.value = params.value;
