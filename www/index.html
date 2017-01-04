@@ -38,6 +38,7 @@
         <span data-bind="text: display"></span>
 <!-- ko if: Object.keys(unit_list()).length > 1 -->
         <select class="righty secondary units" data-bind="value: units, options: Object.keys(unit_list())"></select>
+        <span class="display-none" data-bind="text: units"></span>
 <!-- /ko -->
 <!-- ko ifnot: Object.keys(unit_list()).length > 1 -->
         <span class="righty secondary units" data-bind="text: units"></span>

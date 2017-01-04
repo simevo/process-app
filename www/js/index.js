@@ -707,7 +707,7 @@ function open1(variabile) {
   // impostare il valore dell'input-box
   ib.getElementsByTagName('input')[0].value = div.getElementsByTagName('span')[0].innerHTML;
   // impostare l'unità di misura
-  ib.getElementsByTagName('span')[0].innerHTML = div.getElementsByTagName('select')[0].value;
+  ib.getElementsByTagName('span')[0].innerHTML = div.getElementsByTagName('span')[1].innerHTML;
   // impostare il range al 50%
   ib.getElementsByTagName('input')[1].value = 50;
   // disabilita undo e redo
