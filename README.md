@@ -7,7 +7,7 @@ For more information visit: [http://simevo.com/process/app.html](http://simevo.c
 
 #License
 
-The simevo process app (C) Copyright 2014-2016 Paolo Greppi [simevo s.r.l.](http://simevo.com).
+The simevo process app (C) Copyright 2014-2017 Paolo Greppi [simevo s.r.l.](http://simevo.com).
 
 **GPLv3 License**:
 
@@ -123,7 +123,7 @@ Contains graphic elements and artwork from:
 
 #Testing
 
-Install the phonegap CLI:
+Install the [phonegap CLI](http://docs.phonegap.com/getting-started/1-install-phonegap/cli/):
 
     sudo npm install -g phonegap@latest
 
@@ -224,7 +224,7 @@ Looking at the filesystem:
          sudo rmmod kvm_intel
          sudo rmmod kvm
 
-NOTE: The HAXM driver does not support emulating a 64 bit system image on Intel systems based on Core microarchitecture (Core, Core2 Duo etc.). All systems based on Nehalem and beyond are supported. (Corei3, Core i5 and Core i7 machines).
+NOTE: The HAXM driver does not support emulating a 64 bit system image on Intel systems based on Core microarchitecture (Core, Core2 Duo etc.). All systems based on Nehalem and beyond are supported. (Core i3, Core i5 and Core i7 machines).
 
 ###Inspecting with Chrome / Chromium
 
