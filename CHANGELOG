@@ -1,0 +1,33 @@
+Changelog
+
+- Version 0.0.15, released 2015-05-21 on Android
+
+- Version 0.0.16, released 2015-06-02 on Android, 2015-06-20 on iOS
+
+  - Set the required android version to Android 4.4 KitKat (we need Chrome-based webviews)
+  - prevent unwanted caching
+  - correctly position trash icon
+  - make it easier to close input variables
+  - optimize SVG vector graphics files
+
+- Version 0.1.0, released 2017-06-08 on Android and iOS:
+
+  - EN:
+    - can convert units of measurement for inputs and results
+    - the app refreshes the services list at each start; in this way it's easier for us to push new simulation services
+    - Cordova / PhoneGap and JavaScript dependencies have been updated
+
+  - IT:
+    - si possono convertire le unità di misura per input e risultati
+    - l'app aggiorna l'elenco dei servizi ad ogni avvio; in questo modo è più facile per noi pubblicare nuovi servizi di simulazione
+    - Cordova/PhoneGap e le dipendenze JavaScript sono stati aggiornati
+
+  - FR:
+    - conversion des unités de mesure pour les données en entrée et les résultats
+    - l'application actualise la liste des services à chaque démarrage; de cette façon, il est plus facile pour nous de distribuer de nouveaux services de simulation
+    - les dépendances Cordova/PhoneGap et JavaScript ont été mises à jour
+
+  - DE:
+    - Maßeinheiten für Eingaben und Ergebnisse können umgewandelt werden
+    - die App aktualisiert die Liste der Dienste bei jedem Start; auf diese Weise ist es für uns einfacher, neue Simulations-Dienste zu verteilen
+    - Cordova/PhoneGap und JavaScript-Abhängigkeiten wurden aktualisiert
