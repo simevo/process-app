@@ -219,6 +219,10 @@ Looking at the filesystem:
 
          emulator -avd NexusS_23 -qemu -enable-kvm
 
+  or:
+
+         /opt/Android/Sdk/tools$ ANDROID_EMULATOR_USE_SYSTEM_LIBS=1 emulator -avd nougat -qemu -enable-kvm
+
 - if you wish to switch back to virtualbox:
 
          sudo rmmod kvm_intel
