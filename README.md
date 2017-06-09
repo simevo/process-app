@@ -121,6 +121,17 @@ Contains graphic elements and artwork from:
 
   (unspecified license)
 
+#Generate icons
+
+```
+grep ios config.xml  | grep icon | sed 's/ *<icon src="\([^"]*\)" platform="ios" width="\([^"]*\)".*/convert -sample \2x\2 icon.png \1/g' > q.sh
+grep android config.xml  | grep icon | sed 's/ *<icon qualifier=".*dpi" src="\(res.icon.android.icon-\)\([^-]*\)\(-.*dpi.png\)".*/convert -sample \2x\2 icon.png \1\2\3/g' >> q.sh
+chmod u+x q.sh
+mkdir -p res/icon/ios
+mkdir -p res/icon/android
+./q.sh
+```
+
 #Testing
 
 Install the [phonegap CLI](http://docs.phonegap.com/getting-started/1-install-phonegap/cli/):

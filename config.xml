@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.simevo.processapp" version="0.1.0" versionCode="58" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.simevo.processapp" version="0.1.1" versionCode="59" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>simevo process app</name>
     <description>An open source mobile app to access process simulations hosted in the cloud using simevo process technology.</description>
     <author email="info@simevo.com" href="http://simevo.com">The simevo developers</author>
@@ -30,10 +30,40 @@
         <preference name="StatusBarStyle" value="lightcontent" />
         <preference name="BackupWebStorage" value="local" />
         <preference name="iosPersistentFileLocation" value="Library" />
-        <icon height="57" src="res/icon/ios/icon-57.png" width="57" />
-        <icon height="72" src="res/icon/ios/icon-72.png" width="72" />
-        <icon height="114" src="res/icon/ios/icon-57-2x.png" width="114" />
-        <icon height="144" src="res/icon/ios/icon-72-2x.png" width="144" />
+
+        <!-- iOS 6.1 -->
+        <!-- iPhone / iPod Touch -->
+        <icon src="res/icon/ios/icon.png" platform="ios" width="57" height="57" />
+        <icon src="res/icon/ios/icon@2x.png" platform="ios" width="114" height="114" />
+        <!-- iPad -->
+        <icon src="res/icon/ios/icon-72.png" platform="ios" width="72" height="72" />
+        <icon src="res/icon/ios/icon-72@2x.png" platform="ios" width="144" height="144" />
+        <!-- iPhone Spotlight and Settings Icon -->
+        <icon src="res/icon/ios/icon-small.png" platform="ios" width="29" height="29" />
+        <icon src="res/icon/ios/icon-small@2x.png" platform="ios" width="58" height="58" />
+        <!-- iPad Spotlight and Settings Icon -->
+        <icon src="res/icon/ios/icon-50.png" platform="ios" width="50" height="50" />
+        <icon src="res/icon/ios/icon-50@2x.png" platform="ios" width="100" height="100" />
+
+        <!-- iOS 7.0+ -->
+        <!-- iPhone 6 / 6+ -->
+        <icon src="res/icon/ios/icon-60@3x.png" platform="ios" width="180" height="180" />
+        <!-- iPhone / iPod Touch  -->
+        <icon src="res/icon/ios/icon-60.png" platform="ios" width="60" height="60" />
+        <icon src="res/icon/ios/icon-60@2x.png" platform="ios" width="120" height="120" />
+        <!-- iPad -->
+        <icon src="res/icon/ios/icon-76.png" platform="ios" width="76" height="76" />
+        <icon src="res/icon/ios/icon-76@2x.png" platform="ios" width="152" height="152" />
+        <icon src="res/icon/ios/icon-83.5@2x.png" platform="ios" width="167" height="167" />
+        <!-- Settings Icon -->
+        <icon src="res/icon/ios/icon-small.png" platform="ios" width="29" height="29" />
+        <icon src="res/icon/ios/icon-small@2x.png" platform="ios" width="58" height="58" />
+        <icon src="res/icon/ios/icon-small@3x.png" platform="ios" width="87" height="87" />
+        <!-- Spotlight Icon -->
+        <icon src="res/icon/ios/icon-40.png" platform="ios" width="40" height="40" />
+        <icon src="res/icon/ios/icon-40@2x.png" platform="ios" width="80" height="80" />
+        <icon src="res/icon/ios/icon-40@3x.png" platform="ios" width="120" height="120" />
+
         <splash height="480" src="res/screen/ios/screen-iphone-portrait.png" width="320" />
         <splash height="960" src="res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
         <splash height="1136" src="res/screen/ios/screen-iphone-portrait-568h-2x.png" width="640" />
@@ -51,6 +81,8 @@
         <icon qualifier="mdpi" src="res/icon/android/icon-48-mdpi.png" />
         <icon qualifier="hdpi" src="res/icon/android/icon-72-hdpi.png" />
         <icon qualifier="xhdpi" src="res/icon/android/icon-96-xhdpi.png" />
+        <icon qualifier="xxhdpi" src="res/icon/android/icon-144-xxhdpi.png" />
+        <icon qualifier="xxxhdpi" src="res/icon/android/icon-192-xxxhdpi.png" />
         <splash qualifier="port-ldpi" src="res/screen/android/screen-ldpi-portrait.9.png" />
         <splash qualifier="port-mdpi" src="res/screen/android/screen-mdpi-portrait.9.png" />
         <splash qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.9.png" />
@@ -71,4 +103,6 @@
         <icon src="res/icon/browser/icon.png" />
     </platform>
     <engine name="ios" spec="~4.1.1" />
+    <icon src="icon.png" />
+    <splash src="splash.png" />
 </widget>
