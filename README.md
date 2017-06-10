@@ -121,7 +121,13 @@ Contains graphic elements and artwork from:
 
   (unspecified license)
 
-#Generate icons
+#Generate icons and splashes
+
+See:
+
+- http://docs.phonegap.com/phonegap-build/configuring/icons-and-splash/
+
+- https://github.com/apache/cordova-plugin-splashscreen
 
 ```
 grep ios config.xml  | grep icon | sed 's/ *<icon src="\([^"]*\)" platform="ios" width="\([^"]*\)".*/convert -sample \2x\2 icon.png \1/g' > q.sh
@@ -130,6 +136,22 @@ chmod u+x q.sh
 mkdir -p res/icon/ios
 mkdir -p res/icon/android
 ./q.sh
+
+mkdir -p res/screen/ios
+convert -sample 2732x2732 splash.png res/screen/ios/Default@2x~universal~anyany.png
+mkdir -p res/screen/android
+convert -sample 320x200 splash.png res/screen/android/splash-land-ldpi.png
+convert -sample 480x320 splash.png res/screen/android/splash-land-mdpi.png
+convert -sample 800x480 splash.png res/screen/android/splash-land-hdpi.png
+convert -sample 1280x720 splash.png res/screen/android/splash-land-xhdpi.png
+convert -sample 1600x960 splash.png res/screen/android/splash-land-xxhdpi.png
+convert -sample 1920x1280 splash.png res/screen/android/splash-land-xxxhdpi.png
+convert -sample 200x320 splash.png res/screen/android/splash-port-ldpi.png
+convert -sample 320x480 splash.png res/screen/android/splash-port-mdpi.png
+convert -sample 480x800 splash.png res/screen/android/splash-port-hdpi.png
+convert -sample 720x1280 splash.png res/screen/android/splash-port-xhdpi.png
+convert -sample 960x1600 splash.png res/screen/android/splash-port-xxhdpi.png
+convert -sample 1280x1920 splash.png res/screen/android/splash-port-xxxhdpi.png
 ```
 
 #Testing
