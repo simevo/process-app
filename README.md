@@ -7,7 +7,7 @@ For more information visit: [http://simevo.com/process/app.html](http://simevo.c
 
 #License
 
-The simevo process app (C) Copyright 2014-2017 Paolo Greppi [simevo s.r.l.](http://simevo.com).
+The simevo process app (C) Copyright 2014-2018 Paolo Greppi [simevo s.r.l.](http://simevo.com).
 
 **GPLv3 License**:
 
@@ -29,7 +29,7 @@ Contains code borrowed from:
 
   Apache License, Version 2.0
 
-  [http://phonegap.com/about/license/](http://phonegap.com/about/license/)
+  [https://phonegap.com/about/license/](https://phonegap.com/about/license/)
 
 - Knockout
 
@@ -37,7 +37,7 @@ Contains code borrowed from:
 
   Copyright (c) Steven Sanderson, the Knockout.js team, and other contributors
 
-  [http://knockoutjs.com/](http://knockoutjs.com/)
+  [https://knockoutjs.com/](https://knockoutjs.com/)
 
 - Knockout Mapping plugin
 
@@ -45,7 +45,7 @@ Contains code borrowed from:
 
   (c) 2013 Steven Sanderson, Roy Jacobs
 
-  [http://knockoutjs.com/documentation/plugins-mapping.html](http://knockoutjs.com/documentation/plugins-mapping.html)
+  [https://knockoutjs.com/documentation/plugins-mapping.html](https://knockoutjs.com/documentation/plugins-mapping.html)
 
 - knockout-projections plugin
 
@@ -59,9 +59,9 @@ Contains code borrowed from:
 
   MIT License
 
-  Copyright (c) 2011-2016 Twitter, Inc.
+  Copyright (c) 2011-2018 Twitter, Inc.
 
-  [http://getbootstrap.com/](http://getbootstrap.com/)
+  [https://getbootstrap.com/](https://getbootstrap.com/)
 
 - JavaScript Undo Manager
 
@@ -172,7 +172,7 @@ Build & serve:
     phonegap build browser
     phonegap serve
 
-Then open http://localhost:3000 in your favorite browser or with the PhoneGap Developer app.
+Then open http://192.168.1.179:3000 in your favorite browser or with the PhoneGap Developer app.
 
 NOTE: To debug issues related to knockout.js, as per [this stackoverflow thread](http://stackoverflow.com/questions/9261296/how-to-debug-template-binding-errors-for-knockoutjs), add this to your html:
 
@@ -211,7 +211,7 @@ Looking at the filesystem:
 
 ###Debian Android SDK setup
 
-- Set up Android Studio on Debian 7 (Wheezy) or 8 (Jessie) 64-bit: http://wp.libpf.com/?p=856
+- Set up Android Studio on Debian 10 (buster) 64-bit: http://wp.libpf.com/?p=856
 
 - make the Android SDK tools available:
 
@@ -219,47 +219,41 @@ Looking at the filesystem:
 
 - Install Node.js & NPM
 
-  - on Debian 7 (Wheezy) as per http://antler.co.za/2014/04/install-node-js-npm-on-debian-stable-wheezy-7/; in summary:
-
-           sudo apt-get -t wheezy-backports install nodejs nodejs-legacy
-
-  - on Debian 8 (Jessie):
-
-           sudo apt-get install nodejs nodejs-legacy
+        sudo apt-get install nodejs
 
 - update node packages just in case (https://docs.npmjs.com/cli/update):
 
-         sudo npm update -g
+        sudo npm update -g
 
 - special bit if your run on 32-bit linux: add these to ~/.profile and source ~/.profile:
 
-         export ANDROID_EMULATOR_FORCE_32BIT=true
+        export ANDROID_EMULATOR_FORCE_32BIT=true
 
 - enable hardware acceleration for the Android emulator:
 
-         sudo apt-get install qemu-kvm libvirt-bin
-         sudo adduser `id -un` libvirt
-         newgrp libvirt
+        sudo apt-get install qemu-kvm libvirt-bin
+        sudo adduser `id -un` libvirt
+        newgrp libvirt
 
-  switch to kvm:
+  in case you had previously used virtualbox, switch to kvm:
 
-         sudo rmmod vboxpci
-         sudo rmmod vboxnetadp
-         sudo rmmod vboxnetflt
-         sudo rmmod vboxdrv
+        sudo rmmod vboxpci
+        sudo rmmod vboxnetadp
+        sudo rmmod vboxnetflt
+        sudo rmmod vboxdrv
 
   then start the emulator like this:
 
-         emulator -avd NexusS_23 -qemu -enable-kvm
+        emulator -avd NexusS_23 -qemu -enable-kvm
 
   or:
 
-         /opt/Android/Sdk/tools$ ANDROID_EMULATOR_USE_SYSTEM_LIBS=1 emulator -avd nougat -qemu -enable-kvm
+        ANDROID_EMULATOR_USE_SYSTEM_LIBS=1 /opt/Android/Sdk/tools/emulator -avd nougat -qemu -enable-kvm
 
 - if you wish to switch back to virtualbox:
 
-         sudo rmmod kvm_intel
-         sudo rmmod kvm
+        sudo rmmod kvm_intel
+        sudo rmmod kvm
 
 NOTE: The HAXM driver does not support emulating a 64 bit system image on Intel systems based on Core microarchitecture (Core, Core2 Duo etc.). All systems based on Nehalem and beyond are supported. (Core i3, Core i5 and Core i7 machines).
 
@@ -295,46 +289,6 @@ then open the `platforms/ios/simevo process app.xcodeproj` project with XCode an
 "If you are doing iOS PhoneGap debugging and have the Safari Develop Menu enabled, you can access the currently active session through the built-in Safari Web Inspector. To activate, go to Develop -> (iPad || iPhone) Simulator (normally, the third menu item) and click the active session you want to connect to. Voila!"
 
 It is easy to loose the early console.log messages because the webkit session is not active and therefore not selectable in the Safari host before the debug session starts; to make sure you get everything, insert a breakpoint in `platforms/ios/CordovaLib/Classes/Public/CDVViewController.m` in the method webViewDidFinishLoad, then the webkit session is active, you can select it in the Safari host and the web inspector will capture the entire log.
-
-##Windows
-
-Build & run:
-
-    phonegap platform add windows
-    phonegap build windows
-    phonegap run windows
-
-https://blog.vjrantal.net/2015/03/12/building-a-cordova-plugin-including-native-code-for-windows-platform/
-
-    // To run on Windows Phone 8.1 emulator
-    $ cordova run windows --emulator --archs="x86" -- -phone
-    // Running on Windows Phone 8.1 device
-    $ cordova run windows --device --archs="arm" -- -phone
-    // To run on desktop (current default is Windows 8.1 build)
-    $ cordova run windows --device --archs="x64" -- -win
-
-The build will succeed but loading to the emulator fails with this error:
-
-    CordovaDeploy.exe not found, attempting to build CordovaDeploy.exe...
-    platforms\windows\cordova\lib\deploy.js(96, 5) WshShell.Exec: The system cannot find the file specified.
-
-The solution: open the Visual Studio solution `platforms\windows\simevo_process_app.sln` then start the debugger in there.
-
-To watch files in the isolated storage, get [Windows Phone Power Tools](http://wptools.codeplex.com/).
-
-To be able to inspect, install [weinre](http://people.apache.org/~pmuellr/weinre/docs/latest/Home.html) by issuing in an administrator command prompt:
-
-    npm -g install weinre
-
-Now start weinre:
-
-    weinre
-
-Then insert this line in index.html:
-
-    <script src="http://localhost:8080/target/target-script-min.js"></script>
-
-and rebuild, reload the app in the emulator. Finally open the address http://localhost:8080/client and select the 1st target then click on "Elements" in the toolbar.
 
 #Known issues
 
