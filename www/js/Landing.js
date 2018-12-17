@@ -117,7 +117,7 @@ var Landing = (function() {
     // localStorage.clear();
     var services_key = "services.json";
     // public services:
-    var serviceUrl = "http://simevo.com/api/process.json";
+    var serviceUrl = "https://simevo.com/api/process.json";
     // private services:
     // var serviceUrl = "http://192.168.0.1/process.json";
     // var serviceUrl = "http://simevo.com/api/process-private.json";
